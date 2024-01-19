@@ -44,7 +44,11 @@ export const useAuthUser= ()=>{
         fetchGetUserToken(code,redirectUri,clientId,codeVerifier)
         .then(data =>{
             console.log(data)
-            localStorage.setItem('access_token', data);
+            let access_token = localStorage.getItem('access_token');
+            if(!access_token){
+                localStorage.setItem('access_token', data);
+            }
+         
         })
     }
     const getUserId = ()=>{
