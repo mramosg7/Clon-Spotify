@@ -1,7 +1,7 @@
 import { Box } from "@chakra-ui/react"
 import { HeaderBody } from "./HeaderBody"
 
-export const Body = () => {
+export const Body = ({isLogged, user, logout}) => {
   return (
     <Box
       display='flex'
@@ -14,7 +14,7 @@ export const Body = () => {
       borderRadius='10px'
       marginLeft={2}
     >
-      <HeaderBody />
+      <HeaderBody isLogged={isLogged} user={user} logout={logout}/>
     </Box>
   )
 }

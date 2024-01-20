@@ -8,7 +8,7 @@ export const useAuthUser= ()=>{
     const [isLogged, setLogged] = useState(Boolean(localStorage.getItem("user")))
 
     const login = ()=>{
-        const result = getCodeVerifier().then((data)=>{
+        getCodeVerifier().then((data)=>{
             const {codeVerifier, codeChallenge} = data
             alert(codeVerifier, codeChallenge)
             window.localStorage.setItem('code_verifier', codeVerifier);
@@ -32,24 +32,26 @@ export const useAuthUser= ()=>{
         
         
     }
-
-    const getAccessToken = ()=>{
+  
+    const getAccessToken = async()=>{
         const urlParams = new URLSearchParams(window.location.search);
         const code = urlParams.get('code');
         
 
 
-        let codeVerifier = localStorage.getItem('code_verifier');
-
-        fetchGetUserToken(code,redirectUri,clientId,codeVerifier)
-        .then(data =>{
-            console.log(data)
-            let access_token = localStorage.getItem('access_token');
-            if(!access_token){
-                localStorage.setItem('access_token', data);
-            }
-         
-        })
+        const codeVerifier = localStorage.getItem('code_verifier');
+        console.log(redirectUri,clientId)
+        console.log(code)
+        console.log(codeVerifier)
+        const data = await fetchGetUserToken(code,redirectUri,clientId,codeVerifier)
+        
+        console.log(data)
+        const access_token = localStorage.getItem('access_token');
+        if(!access_token){
+            localStorage.setItem('access_token', data);
+        }
+        
+        
     }
     const getUserId = ()=>{
         const accessToken = localStorage.getItem('access_token');
@@ -73,6 +75,8 @@ export const useAuthUser= ()=>{
     }
     const logout = ()=>{
         localStorage.removeItem('user')
+        localStorage.removeItem('access_token')
+        localStorage.removeItem('code_verifier')
         setUser(null)
         setLogged(false)
     }

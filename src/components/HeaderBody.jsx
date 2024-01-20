@@ -1,11 +1,12 @@
 import { Box, Button, Link } from "@chakra-ui/react"
-import { useAuthUser } from "../hooks/auth/useAuthUser"
+import UserHeaderBody from "./UserHeaderBody";
 import { IoIosArrowBack } from "react-icons/io";
 import { IoIosArrowForward } from "react-icons/io";
+import LoginButton from "../components/LoginButton"
 
-export const HeaderBody = ({}) => {
+export const HeaderBody = ({isLogged, user, logout}) => {
 
-    const {isLogged, user, login, logout} = useAuthUser()
+ 
 
   return (
     <Box
@@ -25,19 +26,10 @@ export const HeaderBody = ({}) => {
         </Box>
 
       {
-        isLogged ? (
-            <h1>Se renderiza otro componente</h1>
+        !isLogged ? (
+            <LoginButton/>
         ) : (
-            <Button
-                onClick={login}
-                bg='#fff'
-                height='3em'
-                borderRadius='60px'
-                fontWeight='600'
-                p='0 30px'
-            >
-                Iniciar Sesión
-            </Button>
+            user && <UserHeaderBody user={user} logout={logout}/>
         )
       }
     </Box>
