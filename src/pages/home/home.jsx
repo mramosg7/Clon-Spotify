@@ -1,34 +1,34 @@
 import { useAuthUser } from '@/hooks/auth/useAuthUser.jsx'
 import{useAuthAPI} from '@/hooks/auth/useAuthAPI.jsx'
-import { useEffect } from 'react'
-
+import { useEffect, useState } from 'react'
+import { fetchFeaturedPlaylists } from '@spotify/playlistsService.js'
+import PlaylistsBody from '@/components/PlaylistsBody.jsx'
+import { Box,Heading } from '@chakra-ui/react'
 
 export default function Home (){
 
     // const {user, isLogged, getAccessToken, getUserId, login, logout} = useAuthUser()
-
+    const [isLoading, setLoading] = useState(true)
+    const [playlists, setPlaylists] = useState([])
     const {token, getToken} = useAuthAPI()
-    // useEffect(()=>{
-    //     if (!user){
-    //         let codeVerifier = localStorage.getItem('code_verifier');
-    //         let accessToken = localStorage.getItem('access_token');
-    //         if (codeVerifier && !accessToken){
-    //             getAccessToken()
-    //         }
-    //         if(accessToken){
-    //             getUserId()
-    //             console.log(user)
-    //         }
-    //     }
-        
-    // },[])
+    useEffect(()=>{
+        if(!token){
+            getToken()
+        }
+        fetchFeaturedPlaylists(token).then(data =>{
+            setPlaylists(data.playlists.items)
+        })
+        .finally(setLoading(false))
 
+    },[])
 
     return(
-        <>
-            {/* {!isLogged && <button onClick={login}>Logearte</button>}
-            {isLogged && <img src={user.images[0]['url']}/>} */}
-            <button onClick={()=>getToken()}>token</button>
-        </>
+        <Box
+            padding='20px'
+            overflow='auto'
+        >
+            <Heading color='white' fontSize='30px' marginBottom='10px'>Playlists que lo estan petando.</Heading>
+            {!isLoading && <PlaylistsBody playlists = {playlists}/>}
+        </Box>
     )
 }

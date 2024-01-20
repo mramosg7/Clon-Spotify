@@ -1,11 +1,12 @@
 import { Box } from '@chakra-ui/react'
 import { HerramientasUsuario } from './components/HerramientasUsuario'
-// import Home from './pages/home/home'
+
 import { Biblioteca } from './components/Biblioteca'
 import { Body } from './components/Body'
 
 import { useEffect } from 'react'
 import { useAuthUser } from './hooks/auth/useAuthUser'
+
 
 
 function App() {
@@ -25,7 +26,7 @@ function App() {
         p='10px'
         bg='#000'
         w='100%'
-        h='100vh'
+        minH='100vh'
         overflow='hidden'
         display='flex'
       >
@@ -35,6 +36,8 @@ function App() {
           <Biblioteca />
         </div>
         <Body isLogged={isLogged} user={user} logout={logout}/>
+       
+        
       </Box>
   )
 }
