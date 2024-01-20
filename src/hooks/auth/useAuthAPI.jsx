@@ -5,10 +5,11 @@ export const useAuthAPI = ()=>{
     const [token, setToken] = useState(localStorage.getItem('token'))
 
     const getToken = ()=>{
-        getApiToken(clientId,clientSecret).then(data =>{
+        return getApiToken(clientId,clientSecret).then(data =>{
             localStorage.setItem("token",data.access_token)
             setToken(data.access_token)
-            localStorage.setItem("tokenExpiration", Date.now() + data.expiresIn * 1000)
+            localStorage.setItem("tokenExpiration", Date.now() + data.expires_in * 1000)
+            return data.access_token
         })
     }
     return{
