@@ -1,7 +1,8 @@
 import { Box } from '@chakra-ui/react'
 import { HerramientasUsuario } from './components/HerramientasUsuario'
-import Home from './pages/home/home'
+// import Home from './pages/home/home'
 import { Biblioteca } from './components/Biblioteca'
+import { Body } from './components/Body'
 
 
 function App() {
@@ -13,11 +14,16 @@ function App() {
         w='100%'
         h='100vh'
         overflow='hidden'
+        display='flex'
       >
-        <HerramientasUsuario />
-        <Biblioteca />
+        <div>
+          <HerramientasUsuario />
+          <Biblioteca />
+        </div>
+        <Body />
       </Box>
   )
 }
 
 export default App
+
