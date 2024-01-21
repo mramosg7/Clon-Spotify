@@ -3,6 +3,9 @@ import { HeaderBody } from "./HeaderBody"
 import { Routes, Route } from 'react-router-dom'
 import Home from '@/pages/home/home'
 import '../Styles/scroll.css'
+import Playlist from "../pages/playlist/Playlist"
+
+
 export const Body = ({isLogged, user, logout}) => {
   return (
     <Box
@@ -21,7 +24,7 @@ export const Body = ({isLogged, user, logout}) => {
       <Routes>
           <Route path='/' element={<Home/>}/>
           <Route path='/section/:id' element={<h1>Hola 2</h1>}/>
-          <Route path='/playlist/:id' element={<h1>Hola 2</h1>}/>
+          <Route path='/playlist/:id' element={<Playlist/>}/>
       </Routes>
     </Box>
   )
