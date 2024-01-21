@@ -13,8 +13,7 @@ export default function Home (){
     const {token, getToken} = useAuthAPI()
     useEffect(()=>{
         const tokenExpiration = localStorage.getItem('tokenExpiration')
-        
-        if(!token || Date().now > tokenExpiration){
+        if(!token || Date.now() > tokenExpiration){
             getToken().then((tk)=>{
                 fetchFeaturedPlaylists(tk).then(data =>{
                     setPlaylists(data.playlists.items)
