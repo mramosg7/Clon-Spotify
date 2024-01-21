@@ -35,7 +35,7 @@ export default function Home (){
             padding='20px'
             overflow='auto'
         >
-            <Heading color='white' fontSize='30px' marginBottom='10px'>Playlists que lo estan petando.</Heading>
+            <Heading color='white' fontSize='30px' marginBottom='10px'>PlayLists que lo están petando.</Heading>
             {!isLoading && <PlaylistsBody playlists = {playlists}/>}
         </Box>
     )

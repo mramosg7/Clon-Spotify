@@ -20,7 +20,7 @@ export default function LoginButton(){
                 
             Registrarse</Button>
             <Button 
-                borderRadius="20px"
+                borderRadius="30px"
                 bg="white"
                 size='lg'
                 fontSize='15px'
@@ -32,7 +32,7 @@ export default function LoginButton(){
                 }}
                 onClick={()=>login()}
                 >
-            Iniciar sesion</Button>
+            Iniciar Sesión</Button>
         </div>
     )
 }
