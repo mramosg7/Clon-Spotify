@@ -3,16 +3,16 @@ import UserHeaderBody from "./UserHeaderBody";
 import { IoIosArrowBack } from "react-icons/io";
 import { IoIosArrowForward } from "react-icons/io";
 import LoginButton from "../components/LoginButton"
-import {  useHistory } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
 export const HeaderBody = ({isLogged, user, logout}) => {
-  const history = useHistory()
+  const navigate = useNavigate();
   const navegarHaciaAtras = () => {
-    history.goBack();
+    navigate(-1);
   };
 
   const navegarHaciaAdelante = () => {
-    history.goForward();
+    navigate(1);
   };
 
   return (
