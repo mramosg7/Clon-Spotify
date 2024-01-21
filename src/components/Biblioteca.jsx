@@ -1,54 +1,11 @@
 import { Box, Button, Flex, Link } from "@chakra-ui/react"
 import { GoPlus } from "react-icons/go"
 import { IoLibrary } from "react-icons/io5"
-import { fetchNewPlaylist } from '@spotify/playlistsService.js'
-import { useEffect, useState } from "react"
-import{useAuthAPI} from '@/hooks/auth/useAuthAPI.jsx'
+import {useCreatePlaylist} from "../hooks/playlistHook/useCreatePlaylist"
 
 export const Biblioteca = () => {
 
-    // const [isCreating, setCreating] = useState(false)
-    // const [userPlaylists, setUserPlaylists] = useState([])
-    // const {token, getToken} = useAuthAPI()
-    // useEffect(()=>{
-    //     const tokenExpiration = localStorage.getItem('tokenExpiration')
-    //     const userString = localStorage.getItem('user')
-    //     const user = JSON.parse(userString)
-    //     const userId = user.id
-        
-    //     const fetchPlaylists = async () => {
-    //         try {
-    //             setCreating(true)
-    //             const newPlaylistData = await fetchNewPlaylist(token, userId)
-    //             setUserPlaylists(newPlaylistData.playlists.items)
-    //         } catch (error) {
-    //             console.error('Error al crear la playlist:', error)
-    //         } finally {
-    //             setCreating(false)
-    //         }
-    //     }
-
-    //     if (!token || Date.now() > tokenExpiration) {
-    //         getToken().then(fetchPlaylists)
-    //     } else {
-    //         fetchPlaylists()
-    //     }
-    // }, [])
-
-    // const handleCreatePlaylist = async () => {
-    //     try {
-    //         setCreating(true)
-    //         const defaultPlaylistData = {
-                
-    //         }
-    //         const newPlaylistData = await fetchNewPlaylist(token, userId, defaultPlaylistData)
-    //         setUserPlaylists(newPlaylistData.playlists.items)
-    //     } catch (error) {
-    //         console.error('Error al crear la playlist:', error)
-    //     } finally {
-    //         setCreating(false)
-    //     }
-    // }
+    const { handleCreatePlaylist, isCreating, userPlaylists } = useCreatePlaylist()
 
   return (
     <>
@@ -79,7 +36,29 @@ export const Biblioteca = () => {
                 </Link>
                 <GoPlus style={{ width: '23px', height: '23px'}}/>
             </Flex>
-            <Box
+                {
+                    userPlaylists.map(playlist => (
+                        <Box
+                            w='100%'
+                            bg='#111111'
+                            color='#fff'
+                            p='15px 18px'
+                            borderRadius='8px'
+                            marginTop='14px'
+                            cursor='pointer'
+                            _hover={{
+                                bg: '#1B1B1B'
+                            }}
+                            key={playlist.id}
+                        >
+                            
+                            <p style={{ fontSize: '16px', fontWeight: 'bold' }}>{playlist.name}</p>
+                            <p style={{ fontSize: '13px', color: '#919191' }}>Lista • {playlist.owner.display_name}</p>
+                        </Box>
+                    ))
+                }
+            {!userPlaylists || (
+                <Box
                 width='100%'
                 p='15px 18px'
                 bg='#242424'
@@ -88,6 +67,8 @@ export const Biblioteca = () => {
                 borderRadius='8px'
                 textAlign='left'
                 fontWeight='bold'
+                onClick={handleCreatePlaylist}
+                disabled={isCreating}
             >
                 <h2>Crea tu primera lista</h2>
                 <p style={{fontWeight: '400', marginTop: '5px', fontSize: '14px'}}>
@@ -99,9 +80,10 @@ export const Biblioteca = () => {
                     borderRadius='20px'
                     fontWeight='600'
                 >
-                     Crear lista
+                    {isCreating ? 'Creando...' : 'Crear lista'}
                 </Button>
             </Box>
+            )}
         </Box>
     </>
   )

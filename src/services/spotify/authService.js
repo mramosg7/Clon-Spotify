@@ -24,7 +24,6 @@ export const fetchIdUser = async(accessToken)=>{
 
 
 
-
 export const fetchGetUserToken = async(code, redirectUri, clientId, codeVerifier)=> {
     const payload = {
         method: 'POST',

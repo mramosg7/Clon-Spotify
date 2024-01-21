@@ -45,9 +45,7 @@ export const useAuthUser= ()=>{
         const access_token = localStorage.getItem('access_token');
         if(!access_token){
             localStorage.setItem('access_token', data);
-        }
-        
-        
+        }        
     }
     const getUserId = ()=>{
         const accessToken = localStorage.getItem('access_token');
@@ -69,6 +67,8 @@ export const useAuthUser= ()=>{
           console.error('No se encontró un token de acceso en el localStorage.');
         }
     }
+    
+
     const logout = ()=>{
         localStorage.removeItem('user')
         localStorage.removeItem('access_token')

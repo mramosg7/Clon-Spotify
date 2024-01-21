@@ -41,12 +41,22 @@ export const fetchNewPlaylist = async(token, user_id) => {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`
-            }
+            },
+            body: JSON.stringify({
+                name: "Nueva Playlist",
+                description: "Descripción de la nueva playlist",
+                public: true,
+            })
         })
-        if(!response.ok) throw new Error('Error al crear la playlist')
+    
         const data = await response.json()
+        console.log("Response data:", data)
+
+        if(!response.ok) throw new Error('Error al crear la playlist')
+
         return data
     } catch(error) {
+        console.error("Error en fetchNewPlaylist:", error);
         console.error(error)
     }
 }
