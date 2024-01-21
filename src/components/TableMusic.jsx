@@ -53,7 +53,13 @@ export default function TableMusic({tracks}){
                     color='#A9A9A9'
                 >
                     {tracks.map((track, index)=>(
-                        <Tr key={track.track.id}>
+                        <Tr key={track.track.id} 
+                            height='10px'
+                            _hover={{
+                                bg:'rgb(255, 255, 255, 0.2)'
+                            }}
+                            
+                        >
                             <Td>{index + 1}</Td>
                             <Td color='white' display='flex' gap='20px' alignItems='center'>
                                 <Image
