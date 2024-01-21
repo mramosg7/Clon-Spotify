@@ -10,7 +10,6 @@ export const useAuthUser= ()=>{
     const login = ()=>{
         getCodeVerifier().then((data)=>{
             const {codeVerifier, codeChallenge} = data
-            alert(codeVerifier, codeChallenge)
             window.localStorage.setItem('code_verifier', codeVerifier);
 
             
@@ -40,12 +39,9 @@ export const useAuthUser= ()=>{
 
 
         const codeVerifier = localStorage.getItem('code_verifier');
-        console.log(redirectUri,clientId)
-        console.log(code)
-        console.log(codeVerifier)
         const data = await fetchGetUserToken(code,redirectUri,clientId,codeVerifier)
         
-        console.log(data)
+
         const access_token = localStorage.getItem('access_token');
         if(!access_token){
             localStorage.setItem('access_token', data);
@@ -55,7 +51,7 @@ export const useAuthUser= ()=>{
     }
     const getUserId = ()=>{
         const accessToken = localStorage.getItem('access_token');
-        alert(accessToken)
+
         // Verifica si el token de acceso existe
         if (accessToken) {
             setLogged(false)

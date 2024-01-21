@@ -55,7 +55,6 @@ export default function TableMusic({tracks}){
                     {tracks.map((track, index)=>(
                         <Tr key={track.track.id} 
                             height='10px'
-                            
                             _hover={{
                                 bg:'rgb(255, 255, 255, 0.2)',
                                 color: 'white'

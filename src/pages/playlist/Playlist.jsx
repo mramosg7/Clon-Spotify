@@ -5,7 +5,7 @@ import { fetchDetailsPlaylist } from '@spotify/playlistsService.js'
 import { Box, Image,Heading } from '@chakra-ui/react'
 import TableMusic from "../../components/TableMusic";
 
-export default function Playlist(props){
+export default function Playlist(){
     const {id} = useParams()
     const [playlist, setPlaylist] = useState()
     const [isLoading, setLoading] = useState(true)
