@@ -4,6 +4,7 @@ import { Routes, Route } from 'react-router-dom'
 import Home from '@/pages/home/home'
 import '../Styles/scroll.css'
 import Playlist from "../pages/playlist/Playlist"
+import Artist from '../pages/Artist/Artist'
 
 
 export const Body = ({isLogged, user, logout}) => {
@@ -25,6 +26,7 @@ export const Body = ({isLogged, user, logout}) => {
           <Route path='/' element={<Home/>}/>
           <Route path='/section/:id' element={<h1>Hola 2</h1>}/>
           <Route path='/playlist/:id' element={<Playlist/>}/>
+          <Route path='/artist/:id' element={<Artist/>}/>
       </Routes>
     </Box>
   )

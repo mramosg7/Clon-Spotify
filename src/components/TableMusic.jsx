@@ -9,11 +9,13 @@ import {
     TableCaption,
     TableContainer,
     Image,
-    Divider,
+    Box,
+    Text
   } from '@chakra-ui/react'
 import { MdOutlineAccessTime } from "react-icons/md";
 import { format } from "date-fns";
 import esLocale from 'date-fns/locale/es';
+import { Link } from 'react-router-dom';
 
 export default function TableMusic({tracks}){
 
@@ -38,7 +40,7 @@ export default function TableMusic({tracks}){
 
     return(
         <TableContainer>
-            <Table variant='none'>
+            <Table size='sm' variant='none'>
                 <Thead >
                     <Tr >
                         <Th borderBottom="1px" borderBottomColor="#434343" color='#A9A9A9'>#</Th>
@@ -61,18 +63,38 @@ export default function TableMusic({tracks}){
                             }}
                             
                         >
-                            <Td>{index + 1}</Td>
+                            <Td borderTopLeftRadius="md" borderBottomLeftRadius="md">{index + 1}</Td>
                             <Td color='white' display='flex' gap='10px' alignItems='center'>
                                 <Image
                                     src={track.track.album.images[2].url}
                                     borderRadius='5px'
                                     w='50px'
-                                /> {track.track.name}
+                                />
+                                <div>
+                                    <h4>{track.track.name}</h4>
+                                    <Box
+                                        display='flex'
+                                    >
+                                        {track.track.artists.map((a, index)=>(
+                                            <Link to={`/artist/${a.id}`} key={a.id}>
+                                                <Text 
+                                                    color='#A9A9A9'
+                                                    _hover={{
+                                                        color:'white',
+                                                        textDecoration:'underline'
+                                                    }}
+                                                >{index != 0 ? ', ' : ''}{a.name}</Text>
+                                            </Link>
+                                        ))}
+                                    </Box>
+                                </div> 
+                                
+                                
                             </Td>
                             <Td> {track.track.album.name}
                             </Td>
                             <Td>{formatearFecha(track.added_at)}</Td>
-                            <Td>{convertirAMinutosYSegundos(track.track.duration_ms)}</Td>
+                            <Td borderTopRightRadius="md" borderBottomRightRadius="md">{convertirAMinutosYSegundos(track.track.duration_ms)}</Td>
                         </Tr>
                     ))}
                 </Tbody>

@@ -3,10 +3,17 @@ import UserHeaderBody from "./UserHeaderBody";
 import { IoIosArrowBack } from "react-icons/io";
 import { IoIosArrowForward } from "react-icons/io";
 import LoginButton from "../components/LoginButton"
+import {  useHistory } from "react-router-dom";
 
 export const HeaderBody = ({isLogged, user, logout}) => {
+  const history = useHistory()
+  const navegarHaciaAtras = () => {
+    history.goBack();
+  };
 
- 
+  const navegarHaciaAdelante = () => {
+    history.goForward();
+  };
 
   return (
     <Box
@@ -21,8 +28,12 @@ export const HeaderBody = ({isLogged, user, logout}) => {
             display='flex'
             alignItems='center'
         >
-            <Link><IoIosArrowBack style={{padding: '5px', backgroundColor: '#000000', color: '#fff', width: '30px', height: '30px', marginRight: '10px', borderRadius: '100%'}}/></Link>
-            <Link><IoIosArrowForward style={{padding: '5px', backgroundColor: '#000000', color: '#fff', width: '30px', height: '30px', borderRadius: '100%'}}/></Link>
+          <Link onClick={()=>{navegarHaciaAtras()}}>
+            <IoIosArrowBack style={{padding: '5px', backgroundColor: '#000000', color: '#fff', width: '30px', height: '30px', marginRight: '10px', borderRadius: '100%'}}/>
+          </Link>
+          <Link onClick={()=>{navegarHaciaAdelante()}}>
+            <IoIosArrowForward style={{padding: '5px', backgroundColor: '#000000', color: '#fff', width: '30px', height: '30px', borderRadius: '100%'}}/>
+          </Link>
         </Box>
 
       {
