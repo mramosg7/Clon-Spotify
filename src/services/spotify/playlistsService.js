@@ -34,3 +34,19 @@ export const fetchDetailsPlaylist = async(token, id)=>{
         console.error(error)
     }
 }
+
+export const fetchNewPlaylist = async(token, user_id) => {
+    try {
+        const response = await fetch(`https://api.spotify.com/v1/users/${user_id}/playlists`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        if(!response.ok) throw new Error('Error al crear la playlist')
+        const data = await response.json()
+        return data
+    } catch(error) {
+        console.error(error)
+    }
+}

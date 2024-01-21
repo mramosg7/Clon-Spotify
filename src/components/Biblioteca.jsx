@@ -1,9 +1,55 @@
 import { Box, Button, Flex, Link } from "@chakra-ui/react"
-import { GoPlus } from "react-icons/go";
-import { IoLibrary } from "react-icons/io5";
-
+import { GoPlus } from "react-icons/go"
+import { IoLibrary } from "react-icons/io5"
+import { fetchNewPlaylist } from '@spotify/playlistsService.js'
+import { useEffect, useState } from "react"
+import{useAuthAPI} from '@/hooks/auth/useAuthAPI.jsx'
 
 export const Biblioteca = () => {
+
+    // const [isCreating, setCreating] = useState(false)
+    // const [userPlaylists, setUserPlaylists] = useState([])
+    // const {token, getToken} = useAuthAPI()
+    // useEffect(()=>{
+    //     const tokenExpiration = localStorage.getItem('tokenExpiration')
+    //     const userString = localStorage.getItem('user')
+    //     const user = JSON.parse(userString)
+    //     const userId = user.id
+        
+    //     const fetchPlaylists = async () => {
+    //         try {
+    //             setCreating(true)
+    //             const newPlaylistData = await fetchNewPlaylist(token, userId)
+    //             setUserPlaylists(newPlaylistData.playlists.items)
+    //         } catch (error) {
+    //             console.error('Error al crear la playlist:', error)
+    //         } finally {
+    //             setCreating(false)
+    //         }
+    //     }
+
+    //     if (!token || Date.now() > tokenExpiration) {
+    //         getToken().then(fetchPlaylists)
+    //     } else {
+    //         fetchPlaylists()
+    //     }
+    // }, [])
+
+    // const handleCreatePlaylist = async () => {
+    //     try {
+    //         setCreating(true)
+    //         const defaultPlaylistData = {
+                
+    //         }
+    //         const newPlaylistData = await fetchNewPlaylist(token, userId, defaultPlaylistData)
+    //         setUserPlaylists(newPlaylistData.playlists.items)
+    //     } catch (error) {
+    //         console.error('Error al crear la playlist:', error)
+    //     } finally {
+    //         setCreating(false)
+    //     }
+    // }
+
   return (
     <>
         <Box
@@ -53,7 +99,7 @@ export const Biblioteca = () => {
                     borderRadius='20px'
                     fontWeight='600'
                 >
-                    Crear lista
+                     Crear lista
                 </Button>
             </Box>
         </Box>

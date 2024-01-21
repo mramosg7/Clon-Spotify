@@ -34,28 +34,34 @@ export default function Playlist(props){
 
     return(
         <>
-            {!isLoading && playlist&& (
+            {!isLoading && playlist && (
                 <Box
                     overflow='auto'
                 >
                     <header>
                         <Box
                             display='flex'
-                            flexDirection='column'
-                            bgImg={`url(${playlist.images[0].url})`}
-                            bgPosition='center'
-                            bgSize='cover'
-                            bgRepeat='no-repeat'
-                            backgroundAttachment='fixed'
                             color='white'
                             width='100%'
                             height='35vh'
-                            justifyContent='end'
+                            justifyContent='start'
+                            alignItems='end'
+                            p='20px 40px'
                         >
-                            <p>lista</p>
-                            <Heading>{playlist.name}</Heading>
-                            <p>{playlist.description}</p>
-                            <p>{playlist.followers.total} me gusta | {playlist.tracks.total} canciones</p>
+
+                            <Box
+                                w='270px'
+                                marginRight={10}
+                                boxShadow='0 0 25px black'
+                            >
+                                <img style={{borderRadius: '5px'}} src={playlist.images[0].url} alt="Imagen PlayList"></img>
+                            </Box>
+                            <div>
+                                <p>Lista</p>
+                                <Heading fontSize='6em'>{playlist.name}</Heading>
+                                <p>{playlist.description}</p>
+                                <p style={{fontWeight: 'bold', marginTop: '10px'}}>{playlist.owner.display_name} • {playlist.followers.total} me gusta • {playlist.tracks.total} canciones</p>
+                            </div>
                         </Box>
                     </header>
                     <section style={{padding: '20px'}}>

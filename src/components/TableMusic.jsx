@@ -41,11 +41,11 @@ export default function TableMusic({tracks}){
             <Table variant='none'>
                 <Thead >
                     <Tr >
-                        <Th borderBottom="1px" borderBottomColor="gray.300" color='#A9A9A9'>#</Th>
-                        <Th borderBottom="1px" borderBottomColor="gray.300" color='#A9A9A9'>Título</Th>
-                        <Th borderBottom="1px" borderBottomColor="gray.300" color='#A9A9A9'>Álbum</Th>
-                        <Th borderBottom="1px" borderBottomColor="gray.300" color='#A9A9A9'>Fecha en la que se añadió</Th>
-                        <Th borderBottom="1px" borderBottomColor="gray.300" color='#A9A9A9' fontSize='20px'><MdOutlineAccessTime /></Th>
+                        <Th borderBottom="1px" borderBottomColor="#434343" color='#A9A9A9'>#</Th>
+                        <Th borderBottom="1px" borderBottomColor="#434343" color='#A9A9A9'>Título</Th>
+                        <Th borderBottom="1px" borderBottomColor="#434343" color='#A9A9A9'>Álbum</Th>
+                        <Th borderBottom="1px" borderBottomColor="#434343" color='#A9A9A9'>Fecha en la que se añadió</Th>
+                        <Th borderBottom="1px" borderBottomColor="#434343" color='#A9A9A9' fontSize='20px'><MdOutlineAccessTime /></Th>
                     </Tr>
                 </Thead>
                
@@ -55,16 +55,19 @@ export default function TableMusic({tracks}){
                     {tracks.map((track, index)=>(
                         <Tr key={track.track.id} 
                             height='10px'
+                            
                             _hover={{
-                                bg:'rgb(255, 255, 255, 0.2)'
+                                bg:'rgb(255, 255, 255, 0.2)',
+                                color: 'white'
                             }}
                             
                         >
                             <Td>{index + 1}</Td>
-                            <Td color='white' display='flex' gap='20px' alignItems='center'>
+                            <Td color='white' display='flex' gap='10px' alignItems='center'>
                                 <Image
                                     src={track.track.album.images[2].url}
                                     borderRadius='5px'
+                                    w='50px'
                                 /> {track.track.name}
                             </Td>
                             <Td> {track.track.album.name}

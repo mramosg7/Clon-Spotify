@@ -7,7 +7,6 @@ import { Box,Heading } from '@chakra-ui/react'
 
 export default function Home (){
 
-    // const {user, isLogged, getAccessToken, getUserId, login, logout} = useAuthUser()
     const [isLoading, setLoading] = useState(true)
     const [playlists, setPlaylists] = useState([])
     const {token, getToken} = useAuthAPI()
