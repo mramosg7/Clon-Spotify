@@ -21,6 +21,7 @@ export const Body = ({isLogged, user, logout}) => {
       <Routes>
           <Route path='/' element={<Home/>}/>
           <Route path='/section/:id' element={<h1>Hola 2</h1>}/>
+          <Route path='/playlist/:id' element={<h1>Hola 2</h1>}/>
       </Routes>
     </Box>
   )
