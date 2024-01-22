@@ -83,6 +83,7 @@ export default function Artist(){
                 
             >
                 {topTracks && <TopTracks tracks={topTracks.tracks}/>}
+                <Heading color="white" marginBottom='30px' marginTop="10px"> Discografía</Heading>
                 {albums && <ArtistAlbums albums={albums.items}/>}
             </Box>
             
