@@ -50,7 +50,6 @@ export const fetchNewPlaylist = async(token, user_id) => {
         })
     
         const data = await response.json()
-        console.log("Response data:", data)
 
         if(!response.ok) throw new Error('Error al crear la playlist')
 

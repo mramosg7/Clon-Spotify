@@ -2,6 +2,7 @@ import { useState } from "react";
 import { fetchIdUser, fetchGetUserToken } from "@spotify/authService.js"
 import { getCodeVerifier } from "@spotify/codeVerifier";
 import { clientId, redirectUri } from "../../variiables";
+import { Biblioteca } from "../../components/Biblioteca";
 
 export const useAuthUser= ()=>{
     const [user, setUser] = useState(localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null)
@@ -13,7 +14,7 @@ export const useAuthUser= ()=>{
             window.localStorage.setItem('code_verifier', codeVerifier);
 
             
-            const scope = 'user-read-private user-read-email playlist-modify-private playlist-modify-public';
+            const scope = 'user-read-private user-read-email playlist-modify-private playlist-modify-public ugc-image-upload';
             const authUrl = new URL("https://accounts.spotify.com/authorize");
 
             const params = {
@@ -73,8 +74,11 @@ export const useAuthUser= ()=>{
         localStorage.removeItem('user')
         localStorage.removeItem('access_token')
         localStorage.removeItem('code_verifier')
+        localStorage.removeItem('userPlaylists')
         setUser(null)
         setLogged(false)
+        window.location.reload()
+        window.location.href = '/'
     }
 
     return{

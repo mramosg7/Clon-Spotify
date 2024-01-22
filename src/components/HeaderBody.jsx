@@ -1,4 +1,4 @@
-import { Box, Button, Link } from "@chakra-ui/react"
+import { Box, Link } from "@chakra-ui/react"
 import UserHeaderBody from "./UserHeaderBody";
 import { IoIosArrowBack } from "react-icons/io";
 import { IoIosArrowForward } from "react-icons/io";

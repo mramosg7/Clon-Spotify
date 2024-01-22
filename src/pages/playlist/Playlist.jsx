@@ -4,6 +4,7 @@ import{useAuthAPI} from '@/hooks/auth/useAuthAPI.jsx'
 import { fetchDetailsPlaylist } from '@spotify/playlistsService.js'
 import { Box, Image,Heading } from '@chakra-ui/react'
 import TableMusic from "../../components/TableMusic";
+import DefaultImage from '../../assets/PlaylistDefault.png'
 
 export default function Playlist(){
     const {id} = useParams()
@@ -13,7 +14,6 @@ export default function Playlist(){
 
     useEffect(()=>{
         const tokenExpiration = localStorage.getItem('tokenExpiration')
-        console.log(id)
         if(!token || Date.now() > tokenExpiration){
             getToken().then((tk)=>{
                 fetchDetailsPlaylist(tk,id).then(data =>{
@@ -24,7 +24,6 @@ export default function Playlist(){
         }else{
             fetchDetailsPlaylist(token,id).then(data =>{
                 setPlaylist(data)
-                console.log(data)
             }).finally(setLoading(false))
           
         }
@@ -54,7 +53,11 @@ export default function Playlist(){
                                 marginRight={10}
                                 boxShadow='0 0 25px black'
                             >
-                                <img style={{borderRadius: '5px'}} src={playlist.images[0].url} alt="Imagen PlayList"></img>
+                                {
+                                    playlist.images && playlist.images.length > 0 && playlist.images[0].url
+                                        ? (<img style={{borderRadius: '5px'}} src={playlist.images[0].url} alt="Imagen PlayList"></img>) 
+                                        : (<img style={{ width: '270px'}} src={DefaultImage} alt="Imagen Default PlayList"></img>)
+                                }
                             </Box>
                             <div>
                                 <p>Lista</p>
