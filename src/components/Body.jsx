@@ -6,6 +6,7 @@ import '../Styles/scroll.css'
 import Playlist from "../pages/playlist/Playlist"
 import Artist from '../pages/Artist/Artist'
 import { FormPlaylistDetails } from "./FormPlaylistDetails"
+import Album from "../pages/album/Album"
 
 
 export const Body = ({isLogged, user, logout}) => {
@@ -29,6 +30,7 @@ export const Body = ({isLogged, user, logout}) => {
           <Route path='/playlist/:id' element={<Playlist/>}/>
           <Route path='/artist/:id' element={<Artist/>}/>
           <Route path='/editar/:id' element={<FormPlaylistDetails/>}/>
+          <Route path='/album/:id' element={<Album/>}/>
       </Routes>
     </Box>
   )

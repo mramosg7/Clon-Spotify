@@ -5,7 +5,7 @@ export default function ArtistAlbums({albums}){
     console.log(albums)
     return(
         <>
-            <Heading color="white" marginBottom='30px' marginTop="10px"> Discografía</Heading>
+            
             <Box
                 display='flex'
                 flexDirection='row'
