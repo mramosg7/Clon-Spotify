@@ -7,40 +7,27 @@ import {
   Menu,
   MenuItem,
   MenuList,
+  useDisclosure,
 } from "@chakra-ui/react"
 import { GoPlus } from "react-icons/go"
 import { IoLibrary } from "react-icons/io5"
 import { HiOutlinePencil } from "react-icons/hi2"
 import { TiDeleteOutline } from "react-icons/ti"
-import { useCreatePlaylist } from "../hooks/playlistHook/useCreatePlaylist"
+import { usePlaylist } from "../hooks/playlistHook/usePlaylist"
 import { Link } from "react-router-dom"
 import DefaultImage from "../assets/PlaylistDefault.png"
-import { useState } from "react"
+import { useRef, useState } from "react"
+import { FormPlaylistDetails } from "./FormPlaylistDetails"
 
 export const Biblioteca = () => {
 
-    const { handleCreatePlaylist, isCreating, userPlaylists } = useCreatePlaylist()
-  const [contextMenuState, setContextMenuState] = useState({
-    isOpen: false,
-    position: { x: 0, y: 0 },
-  })
+    const { handleCreatePlaylist, isCreating, userPlaylists, openMenu, closeMenu, contextMenuState } = usePlaylist()
 
-  const openMenu = (e, playlistId) => {
-    e.preventDefault()
-    setContextMenuState({
-      isOpen: true,
-      position: { x: e.clientX, y: e.clientY },
-      playlistId: playlistId,
-    })
-  }
+    const [isFormOpen, setIsFormOpen] = useState(false)
 
-  const closeMenu = () => {
-    setContextMenuState({
-      isOpen: false,
-      position: { x: 0, y: 0 },
-      playlistId: null,
-    })
-  }
+    const openForm = () => {
+        setIsFormOpen(true)
+    }
 
   return (
     <>
@@ -81,6 +68,7 @@ export const Biblioteca = () => {
         </Flex>
         <Grid gap={2} templateColumns="repeat(3, 1fr)">
           {userPlaylists.map((playlist) => (
+            <>
             <Link to={`/playlist/${playlist.id}`} key={playlist.id}>
               <GridItem
                 w="100%"
@@ -112,13 +100,14 @@ export const Biblioteca = () => {
                     Lista • {playlist.owner.display_name}
                   </p>
                 </div>
-                <Menu
+                </GridItem>
+            </Link>
+            <Menu
                   isOpen={
                     contextMenuState.isOpen &&
                     contextMenuState.playlistId === playlist.id
                   }
                   onClose={closeMenu}
-                  position="absolute"
                   left={contextMenuState.position.x}
                   top={contextMenuState.position.y}
                 >
@@ -131,15 +120,23 @@ export const Biblioteca = () => {
                     <MenuItem
                         bg='transparent'
                         color='#fff'
-                    ><HiOutlinePencil style={{marginRight: '5px'}} /> Editar Datos</MenuItem>
+                        _hover={{
+                            bg: '#242424'
+                        }}
+                    >
+                    <HiOutlinePencil style={{marginRight: '5px', cursor: 'pointer'}} onClick={() => openForm(playlist.id)}/> Editar Datos
+                    {isFormOpen && <FormPlaylistDetails />}
+                    </MenuItem>
                     <MenuItem
                         bg='transparent'
                         color='#fff'
+                        _hover={{
+                            bg: '#242424'
+                        }}
                     ><TiDeleteOutline style={{marginRight: '5px'}}/> Eliminar</MenuItem>
                   </MenuList>
                 </Menu>
-              </GridItem>
-            </Link>
+            </>
           ))}
         </Grid>
         {userPlaylists.length === 0 && (

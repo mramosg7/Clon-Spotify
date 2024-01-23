@@ -1,8 +1,10 @@
 
+const BASE_URL = 'https://api.spotify.com/v1'
 
+// Obtener las playlists
 export const fetchFeaturedPlaylists = async(token)=>{
     try{
-        const response = await fetch("https://api.spotify.com/v1/browse/featured-playlists",{
+        const response = await fetch(`${BASE_URL}/browse/featured-playlists`,{
             method: 'GET',
             headers:{
                 'Authorization': `Bearer ${token}`
@@ -19,9 +21,10 @@ export const fetchFeaturedPlaylists = async(token)=>{
     }
 }
 
+// Obtener los detalles de una playlist
 export const fetchDetailsPlaylist = async(token, id)=>{
     try{
-        const response = await fetch(`https://api.spotify.com/v1/playlists/${id}`,{
+        const response = await fetch(`${BASE_URL}/playlists/${id}`,{
             method: 'GET',
             headers:{
                 'Authorization': `Bearer ${token}`
@@ -35,9 +38,10 @@ export const fetchDetailsPlaylist = async(token, id)=>{
     }
 }
 
+// Crear playlist
 export const fetchNewPlaylist = async(token, user_id) => {
     try {
-        const response = await fetch(`https://api.spotify.com/v1/users/${user_id}/playlists`, {
+        const response = await fetch(`${BASE_URL}/users/${user_id}/playlists`, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`
@@ -56,6 +60,29 @@ export const fetchNewPlaylist = async(token, user_id) => {
         return data
     } catch(error) {
         console.error("Error en fetchNewPlaylist:", error);
-        console.error(error)
+    }
+}
+
+// Editar datos de una playlist
+export const fetchUpdatePlaylist = async (token, playlist_id, name, description) => {
+    try {
+        const response = await fetch(`${BASE_URL}/playlists/${playlist_id}`, {
+            method: 'PUT',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({
+                name,
+                description,
+            })
+        })
+
+        const data = await response.json()
+        console.log(data)
+        if(!response.ok) throw new Error('Error al actualizar la playlist')
+
+        return data
+    } catch(error) {
+        console.error("Error en fetchUpdatePlaylist: ", error)
     }
 }

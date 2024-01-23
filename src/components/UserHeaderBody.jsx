@@ -27,7 +27,7 @@ export default function UserHeaderBody({user, logout}){
                 _hover={{
                     transform: "scale(1.02)"
                 }}
-            ><TfiDownload />Instalar app</Button>
+            ><TfiDownload style={{marginRight: '10px'}} />Instalar app</Button>
             <Button
                bg="black" 
                color="white"

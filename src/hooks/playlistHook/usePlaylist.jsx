@@ -1,9 +1,31 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { fetchNewPlaylist } from "@spotify/playlistsService.js"
 
-export const useCreatePlaylist = () => {
+export const usePlaylist = () => {
   const [isCreating, setCreating] = useState(false)
   const [userPlaylists, setUserPlaylists] = useState(JSON.parse(localStorage.getItem('userPlaylists')) || [])
+  const [contextMenuState, setContextMenuState] = useState({
+    isOpen: false,
+    position: { x: 0, y: 0 },
+  })
+
+  const openMenu = (e, playlistId) => {
+    e.preventDefault()
+    setContextMenuState({
+      isOpen: true,
+      position: { x: e.clientX, y: e.clientY },
+      playlistId: playlistId,
+    })
+  }
+
+  const closeMenu = () => {
+    setContextMenuState({
+      isOpen: false,
+      position: { x: 0, y: 0 },
+      playlistId: null,
+    })
+  }
+
 
   const access_token = localStorage.getItem("access_token")
 
@@ -23,9 +45,14 @@ export const useCreatePlaylist = () => {
       setCreating(false)
     }
   }
+
+  
   return {
     isCreating,
     handleCreatePlaylist,
-    userPlaylists
+    userPlaylists,
+    contextMenuState,
+    openMenu,
+    closeMenu
   }
 }
