@@ -5,8 +5,8 @@ import Home from '@/pages/home/home'
 import '../Styles/scroll.css'
 import Playlist from "../pages/playlist/Playlist"
 import Artist from '../pages/Artist/Artist'
-import { FormPlaylistDetails } from "./FormPlaylistDetails"
 import Album from "../pages/album/Album"
+import { EditarPL } from "../pages/playlist/EditarPL"
 
 
 export const Body = ({isLogged, user, logout}) => {
@@ -29,7 +29,7 @@ export const Body = ({isLogged, user, logout}) => {
           <Route path='/section/:id' element={<h1>Hola 2</h1>}/>
           <Route path='/playlist/:id' element={<Playlist/>}/>
           <Route path='/artist/:id' element={<Artist/>}/>
-          <Route path='/editar/:id' element={<FormPlaylistDetails/>}/>
+          <Route path='/editar/:id' element={<EditarPL/>}/>
           <Route path='/album/:id' element={<Album/>}/>
       </Routes>
     </Box>

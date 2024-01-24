@@ -56,7 +56,6 @@ export const useAuthUser= ()=>{
             setLogged(false)
             fetchIdUser(accessToken)
             .then(data => {
-                console.log(data)
                 localStorage.setItem('user', JSON.stringify(data))
                 setUser(data)
             })

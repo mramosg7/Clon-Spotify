@@ -1,6 +1,7 @@
 
 const BASE_URL = 'https://api.spotify.com/v1'
 
+
 // Obtener las playlists
 export const fetchFeaturedPlaylists = async(token)=>{
     try{
@@ -64,24 +65,20 @@ export const fetchNewPlaylist = async(token, user_id) => {
 }
 
 // Editar datos de una playlist
-export const fetchUpdatePlaylist = async (token, playlist_id, name, description) => {
+export const fetchUpdatePlaylist = async (token, playlist_id, dataForm) => {
     try {
         const response = await fetch(`${BASE_URL}/playlists/${playlist_id}`, {
             method: 'PUT',
             headers: {
                 'Authorization': `Bearer ${token}`
             },
-            body: JSON.stringify({
-                name,
-                description,
-            })
+            body: dataForm,
         })
 
-        const data = await response.json()
-        console.log(data)
         if(!response.ok) throw new Error('Error al actualizar la playlist')
 
-        return data
+        const updatedPlaylistData = await response.json()
+        return updatedPlaylistData
     } catch(error) {
         console.error("Error en fetchUpdatePlaylist: ", error)
     }
