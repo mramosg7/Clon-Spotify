@@ -30,7 +30,7 @@ export const Body = ({isLogged, user, logout}) => {
           <Route path='/section/:id' element={<h1>Hola 2</h1>}/>
           <Route path='/playlist/:id' element={<Playlist/>}/>
           <Route path='/artist/:id' element={<Artist/>}/>
-          <Route path='/editar/:id' element={<FormPlaylistDetails/>}/>
+          <Route path='/playlist/editar/:id' element={<FormPlaylistDetails/>}/>
           <Route path='/album/:id' element={<Album/>}/>
       </Routes>
     </Box>
