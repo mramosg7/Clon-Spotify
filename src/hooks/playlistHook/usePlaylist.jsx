@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { fetchNewPlaylist } from "@spotify/playlistsService.js"
-import { fetchUpdatePlaylist } from "../../services/spotify/playlistsService"
+import { fetchUpdatePlaylist, fetchUpdateImage } from "../../services/spotify/playlistsService"
 
 export const usePlaylist = () => {
 
@@ -9,7 +9,6 @@ export const usePlaylist = () => {
   // Estados de carga
   const [isCreating, setCreating] = useState(false)
   const [isUpdating, setUpdating] = useState(false)
-  const [updatingPlaylist, setUpdatingPlaylist] = useState(null)
   // Estado para las playlists del ususario
   const [userPlaylists, setUserPlaylists] = useState(JSON.parse(localStorage.getItem('userPlaylists')) || [])
   // Datos del formulario para actualizar los datos de la playlist
@@ -18,41 +17,6 @@ export const usePlaylist = () => {
     description: '',
     image: null
   })
-
-  // Estado para cuando se comience a editar una PL
-  const startEditing = (playlist) => {
-    setUpdatingPlaylist(playlist)
-    setUpdating(true)
-  }
-
-  // Estado para cuando finalice la edicion
-  const finishEdit = () => {
-    setUpdatingPlaylist(null)
-    setUpdating(false)
-  }
-
-  // Manejar cuando el input cambie (cuando se escriba)
-  const handleInputChange = (e) => {
-    // Desestructuramos los campos 'name' y 'value' de los inputs
-    const { name, value } = e.target
-    // Setear los datos del formulario
-    setUpdatedFormData({
-      ...updatedFormData,
-      // Nombre del campo: valor
-      [name]: value
-    })
-  }
-  
-  // Manejar cuando la imagen se cambie
-  const handleImageChange = (e) => {
-    // Obtiene el primer elemento subido al input de tipo 'file'
-    const imageFile = e.target.files[0]
-    setUpdatedFormData({
-      ...updatedFormData,
-      // Atribuir la imagen al campo image
-      image: imageFile
-    })
-  }
 
   // Crear playlist y almacenarla en el localstorage
   const handleCreatePlaylist = async () => {
@@ -75,30 +39,24 @@ export const usePlaylist = () => {
   }
 
   // Actualizar la lista
-  const handleUpdatePlaylist = async (playlistId) => {
+  const handleUpdatePlaylist = async (playlistId, name, description) => {
     try {
-      const formData = new FormData()
-      formData.append('name', updatedFormData.name)
-      formData.append('description', updatedFormData.description)
-      if(updatedFormData.image) {
-        formData.append('image', updatedFormData.image)
-      }
-
-      const updatedPlaylists = fetchUpdatePlaylist(access_token, playlistId, formData)
-      setUserPlaylists(updatedPlaylists)
+      setUpdating(true)
+      const updatePlaylistData = await fetchUpdatePlaylist(access_token, playlistId, name, description)
+      return updatePlaylistData
     } catch(error) {
-      console.error("Error al actualizar la playlist: ", error)
-    } 
+      console.error("Error al intentar actualizar la playlist (handleUpdatePlaylist): ", error)
+    } finally {
+      setUpdating(false)
+    }
   }
+
 
   return {
     isCreating,
+    isUpdating,
     handleCreatePlaylist,
     userPlaylists,
-    startEditing,
-    finishEdit,
-    handleInputChange,
-    handleImageChange,
     handleUpdatePlaylist,
     updatedFormData
   }

@@ -1,6 +1,7 @@
 import { Button, Grid, GridItem } from "@chakra-ui/react"
 import { Link } from "react-router-dom"
 import DefaultImage from "../assets/PlaylistDefault.png"
+import React from "react"
 
 export const PlaylistGrid = ({ userPlaylists }) => {
 
@@ -8,8 +9,8 @@ export const PlaylistGrid = ({ userPlaylists }) => {
     <>
       <Grid gap={2} templateColumns="repeat(3, 1fr)">
           {userPlaylists.map((playlist) => (
-            <>
-            <Link to={`/playlist/${playlist.id}`} key={playlist.id}>
+            <React.Fragment key={playlist.id}>
+            <Link to={`/playlist/${playlist.id}`} >
               <GridItem
                 w="100%"
                 bg="#111111"
@@ -41,7 +42,10 @@ export const PlaylistGrid = ({ userPlaylists }) => {
                 </div>
                 </GridItem>
             </Link>
-            </>
+            <Link to={`/editar/${playlist.id}`} key={playlist.id}>
+                  Editar
+            </Link>
+            </React.Fragment>
           ))}
         </Grid>
     </>

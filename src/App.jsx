@@ -6,6 +6,7 @@ import { Body } from './components/Body'
 
 import { useEffect } from 'react'
 import { useAuthUser } from './hooks/auth/useAuthUser'
+import { FormPlaylistDetails } from './components/FormPlaylistDetails'
 
 
 
