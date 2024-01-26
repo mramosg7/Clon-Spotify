@@ -11,12 +11,7 @@ export const usePlaylist = () => {
   const [isUpdating, setUpdating] = useState(false)
   // Estado para las playlists del ususario
   const [userPlaylists, setUserPlaylists] = useState(JSON.parse(localStorage.getItem('userPlaylists')) || [])
-  // Datos del formulario para actualizar los datos de la playlist
-  const [updatedFormData, setUpdatedFormData] = useState({
-    name: '',
-    description: '',
-    image: null
-  })
+
 
   // Crear playlist y almacenarla en el localstorage
   const handleCreatePlaylist = async () => {
@@ -39,7 +34,7 @@ export const usePlaylist = () => {
   }
 
   // Actualizar la lista
-  const handleUpdatePlaylist = async (playlistId, name, description) => {
+  const handleUpdatePlaylist = async ({playlistId, name, description}) => {
     try {
       setUpdating(true)
       const updatePlaylistData = await fetchUpdatePlaylist(access_token, playlistId, name, description)
@@ -57,7 +52,6 @@ export const usePlaylist = () => {
     isUpdating,
     handleCreatePlaylist,
     userPlaylists,
-    handleUpdatePlaylist,
-    updatedFormData
+    handleUpdatePlaylist
   }
 }

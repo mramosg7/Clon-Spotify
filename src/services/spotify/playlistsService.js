@@ -70,7 +70,8 @@ export const fetchUpdatePlaylist = async (token, playlist_id, name, description)
         const response = await fetch(`${BASE_URL}/playlists/${playlist_id}`, {
             method: 'PUT',
             headers: {
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({
                 name: name,
@@ -81,9 +82,6 @@ export const fetchUpdatePlaylist = async (token, playlist_id, name, description)
 
         if (!response.ok) throw new Error('Error al actualizar la playlist')
 
-        const updatedPlaylistData = await response.json()
-        console.log(updatedPlaylistData)
-        return updatedPlaylistData
     } catch (error) {
         console.error("Error en fetchUpdatePlaylist: ", error)
     }
