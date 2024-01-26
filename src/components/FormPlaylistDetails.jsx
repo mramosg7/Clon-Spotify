@@ -1,6 +1,6 @@
 import { Button, FormControl, FormLabel, Input, Textarea } from "@chakra-ui/react"
 import { usePlaylist } from "../hooks/playlistHook/usePlaylist"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { useParams } from "react-router-dom"
 
 
@@ -10,7 +10,7 @@ export const FormPlaylistDetails = () => {
   const { handleUpdatePlaylist } = usePlaylist()
   const { id } = useParams()
   const [initialData, setInitialData] = useState({
-    id,
+    playlistId: id,
     name: '',
     description: ''
   })
@@ -30,7 +30,8 @@ export const FormPlaylistDetails = () => {
 
   return (
     <>
-       <FormControl onSubmit={onSubmit}>
+    <form onSubmit={onSubmit}>
+       <FormControl>
         <FormLabel>Nombre</FormLabel>
         <Input
           type="text"
@@ -48,6 +49,7 @@ export const FormPlaylistDetails = () => {
         />
         <Button type="submit">Actualizar Playlist</Button>
       </FormControl>
+      </form>
     </>
   )
 }

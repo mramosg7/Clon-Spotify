@@ -1,9 +1,15 @@
 import { Button, Grid, GridItem } from "@chakra-ui/react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import DefaultImage from "../assets/PlaylistDefault.png"
 import React from "react"
 
 export const PlaylistGrid = ({ userPlaylists }) => {
+
+  const navigate = useNavigate()
+
+  const editar = (id) => {
+    navigate(`/editar/${id}`)
+  }
 
   return (
     <>
@@ -39,11 +45,11 @@ export const PlaylistGrid = ({ userPlaylists }) => {
                   <p style={{ fontSize: "13px", color: "#919191" }}>
                     Lista • {playlist.owner.display_name}
                   </p>
+                  <Button onClick={() => editar(playlist.id)}>
+                    Editar
+                  </Button>
                 </div>
                 </GridItem>
-            </Link>
-            <Link to={`/editar/${playlist.id}`} key={playlist.id}>
-                  Editar
             </Link>
             </React.Fragment>
           ))}
