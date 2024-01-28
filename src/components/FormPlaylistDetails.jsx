@@ -14,10 +14,17 @@ export const FormPlaylistDetails = () => {
     name: '',
     description: ''
   })
+  const [image, setImage] = useState(null)
   const navigate = useNavigate()
 
   const onClose = () => {
     navigate(-1) // Vuelve a la pagina anterior
+  }
+
+  const onImageChange = (e) => {
+    if(e.target.files && e.target.files[0]){
+      setImage(e.target.files[0])
+    }
   }
 
   const onChange = (e) => {
@@ -30,7 +37,13 @@ export const FormPlaylistDetails = () => {
 
   const onSubmit = (e) => {
     e.preventDefault()
-    handleUpdatePlaylist(initialData)
+    const formData = new FormData()
+    formData.append('name', initialData.name)
+    formData.append('description', initialData.description)
+    if (image) {
+        formData.append('image', image)
+    }
+    handleUpdatePlaylist(initialData.playlistId, formData)
   }
 
   return (
@@ -41,6 +54,11 @@ export const FormPlaylistDetails = () => {
     <ModalHeader>Editar Información</ModalHeader>
     <ModalBody>
     <form onSubmit={onSubmit}>
+       <Input 
+        type="file"
+        name="image"
+        onChange={onImageChange}
+       />
        <FormControl>
         <FormLabel>Nombre</FormLabel>
         <Input

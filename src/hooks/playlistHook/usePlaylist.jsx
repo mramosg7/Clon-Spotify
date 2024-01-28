@@ -34,11 +34,17 @@ export const usePlaylist = () => {
   }
 
   // Actualizar la lista
-  const handleUpdatePlaylist = async ({playlistId, name, description}) => {
+  const handleUpdatePlaylist = async (playlistId, formData) => {
     try {
       setUpdating(true)
-      const updatePlaylistData = await fetchUpdatePlaylist(access_token, playlistId, name, description)
-      return updatePlaylistData
+      const name = formData.get('name')
+      const description = formData.get('description')
+      const image = formData.get('image')
+
+      await fetchUpdatePlaylist(access_token, playlistId, name, description)
+      if(image) {
+        await fetchUpdateImage(access_token, playlistId, image)
+      }
     } catch(error) {
       console.error("Error al intentar actualizar la playlist (handleUpdatePlaylist): ", error)
     } finally {

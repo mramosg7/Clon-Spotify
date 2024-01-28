@@ -22,6 +22,11 @@ export const fetchFeaturedPlaylists = async (token) => {
     }
 }
 
+// Obtener las playlists de un usuario
+export const fetchGetUserPlaylist = () => {
+
+}
+
 // Obtener los detalles de una playlist
 export const fetchDetailsPlaylist = async (token, id) => {
     try {
@@ -80,7 +85,7 @@ export const fetchUpdatePlaylist = async (token, playlist_id, name, description)
             })
         })
 
-        if (!response.ok) throw new Error('Error al actualizar la playlist')
+        if (!response.ok) throw new Error(`Error al actualizar la playlist ${playlist_id}`)
 
     } catch (error) {
         console.error("Error en fetchUpdatePlaylist: ", error)
@@ -90,21 +95,19 @@ export const fetchUpdatePlaylist = async (token, playlist_id, name, description)
 // Editar imagen de una playlist
 export const fetchUpdateImage = async (token, playlist_id, image) => {
     try {
+        const formData = new FormData();
+        formData.append('image', image);
+
         const response = await fetch(`${BASE_URL}/playlists/${playlist_id}/images`, {
             method: 'PUT',
             headers: {
                 'Authorization': `Bearer ${token}`,
-                'Content-Type': 'image/jpeg'
             },
-            body: JSON.stringify({
-                image
-            })
+            body: formData
         })
 
         if (!response.ok) throw new Error('Error al actualizar la imagen')
 
-        const updateImage = await response.json()
-        return updateImage
     } catch (error) {
         console.error("Error en fetchUpdateImage: ", error)
     }
