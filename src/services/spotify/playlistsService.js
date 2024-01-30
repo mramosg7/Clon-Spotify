@@ -92,21 +92,43 @@ export const fetchUpdatePlaylist = async (token, playlist_id, name, description)
     }
 }
 
+// Convertir a base64 una imagen
+
+function convertToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader()
+
+    reader.onload = () => {
+      resolve(reader.result)
+    }
+
+    reader.onerror = error => {
+      reject(error)
+    }
+
+    reader.readAsDataURL(file)
+  })
+}
+
 // Editar imagen de una playlist
 export const fetchUpdateImage = async (token, playlist_id, image) => {
     try {
-        const formData = new FormData();
-        formData.append('image', image);
+        let imagen64 = await convertToBase64(image)
+
+        const base64Data = imagen64.split(',')[1]
 
         const response = await fetch(`${BASE_URL}/playlists/${playlist_id}/images`, {
             method: 'PUT',
             headers: {
                 'Authorization': `Bearer ${token}`,
+                'Content-Type': 'image/jpeg'
             },
-            body: formData
+            body: base64Data
         })
 
-        if (!response.ok) throw new Error('Error al actualizar la imagen')
+        if (!response.ok) {
+            throw new Error('Error al actualizar la imagen')
+        } 
 
     } catch (error) {
         console.error("Error en fetchUpdateImage: ", error)
