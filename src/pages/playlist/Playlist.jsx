@@ -11,8 +11,9 @@ export default function Playlist(){
     const [playlist, setPlaylist] = useState()
     const [isLoading, setLoading] = useState(true)
     const {token, getToken} = useAuthAPI()
-
+    
     useEffect(()=>{
+        
         const tokenExpiration = localStorage.getItem('tokenExpiration')
         if(!token || Date.now() > tokenExpiration){
             getToken().then((tk)=>{
@@ -29,7 +30,7 @@ export default function Playlist(){
         }
         
 
-    },[])
+    },[id])
 
     return(
         <>

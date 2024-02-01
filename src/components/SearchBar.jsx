@@ -2,12 +2,12 @@ import { useState } from "react"
 import { IoSearch } from "react-icons/io5";
 import { Input,InputGroup,InputLeftAddon,InputRightAddon } from '@chakra-ui/react'
 
-export default function SearchBar({search}){
+export default function SearchBar({setSearch, token}){
 
-    const [q,setQ] = useState('')
+    const [key,setKey] = useState('')
 
     const handleChange = (e)=>{
-        setQ(e.target.value)
+        setKey(e.target.value)
     }
 
     return(
@@ -16,7 +16,7 @@ export default function SearchBar({search}){
                 <InputLeftAddon>
                     <IoSearch />
                 </InputLeftAddon>
-                <Input placeholder='¿Qué te apetece escuchar?' value={q} onChange={(e)=>{handleChange(e)}}/>
+                <Input placeholder='¿Qué te apetece escuchar?' value={key} onChange={(e)=>{handleChange(e)}}/>
                 <InputRightAddon>
                     .com
                 </InputRightAddon>
