@@ -97,6 +97,8 @@ export const fetchUpdatePlaylist = async (token, playlist_id, name, description)
             })
         })
 
+        if(response.ok) return true
+
         if (!response.ok) throw new Error(`Error al actualizar la playlist ${playlist_id}`)
 
     } catch (error) {
@@ -137,6 +139,8 @@ export const fetchUpdateImage = async (token, playlist_id, image) => {
             },
             body: base64Data
         })
+
+        if(response.ok) return true
 
         if (!response.ok) {
             throw new Error('Error al actualizar la imagen')

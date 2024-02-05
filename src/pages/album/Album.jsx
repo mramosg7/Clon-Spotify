@@ -37,7 +37,7 @@ export default function Album(){
                 })
             }).finally(()=>setLoading(false))
         }
-    },[])
+    },[id])
 
     return(
 
