@@ -6,7 +6,7 @@ import { useNavigate, useParams } from "react-router-dom"
 
 export const FormPlaylistDetails = () => {
 
-  const { handleUpdatePlaylist } = usePlaylist()
+  const { handleUpdatePlaylist, handleGetUserPlaylists } = usePlaylist()
   const { id } = useParams()
   const isOpen = !!id // El modal esta abierto si hay un ID
   const [initialData, setInitialData] = useState({
@@ -44,6 +44,8 @@ export const FormPlaylistDetails = () => {
         formData.append('image', image)
     }
     handleUpdatePlaylist(initialData.playlistId, formData)
+    onClose()
+    handleGetUserPlaylists()
   }
 
   return (

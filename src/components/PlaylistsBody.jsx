@@ -1,8 +1,9 @@
 import { Card, CardHeader, CardBody, CardFooter, Image,Heading, Stack,Text, Box } from '@chakra-ui/react'
+import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
 export default function PlaylistBody({playlists}){
-    const newPlaylists = playlists.slice(5)
+
     return(
         <>
             

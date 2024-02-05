@@ -7,11 +7,13 @@ import { IoLibrary } from "react-icons/io5"
 import { usePlaylist } from "../hooks/playlistHook/usePlaylist"
 import { PlaylistGrid } from "./PlaylistGrid"
 import { FirstPlaylist } from "./FirstPlaylist"
+import { useEffect } from "react"
 
 
 export const Biblioteca = () => {
 
-  const { handleCreatePlaylist, isCreating, userPlaylists } = usePlaylist()
+  const { handleGetUserPlaylists, handleCreatePlaylist, isCreating, userPlaylists } = usePlaylist()
+
 
   return (
     <>
@@ -23,6 +25,7 @@ export const Biblioteca = () => {
         borderRadius="7px"
         marginTop="10px"
         boxSizing="border-box"
+        overflow="scroll"
       >
         <Flex
           color="#b3b3b3"
@@ -52,6 +55,7 @@ export const Biblioteca = () => {
         </Flex>
         <PlaylistGrid 
           userPlaylists={userPlaylists}
+          handleGetUserPlaylists={handleGetUserPlaylists}
         />
         <FirstPlaylist 
           handleCreatePlaylist={handleCreatePlaylist}

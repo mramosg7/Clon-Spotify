@@ -1,11 +1,16 @@
-import { Button, Grid, GridItem, useDisclosure } from "@chakra-ui/react"
+import { Button, Grid, GridItem } from "@chakra-ui/react"
 import { Link, useNavigate } from "react-router-dom"
 import DefaultImage from "../assets/PlaylistDefault.png"
-import React from "react"
+import React, { useEffect } from "react"
 
-export const PlaylistGrid = ({ userPlaylists }) => {
+export const PlaylistGrid = ({ handleGetUserPlaylists, userPlaylists }) => {
 
   const navigate = useNavigate()
+
+  useEffect(() => {
+    handleGetUserPlaylists()
+  }, [])
+
 
   const editar = (id) => {
     navigate(`/playlist/editar/${id}`)
@@ -36,7 +41,7 @@ export const PlaylistGrid = ({ userPlaylists }) => {
                     width: "150px",
                     marginBottom: "10px",
                   }}
-                  src={DefaultImage}
+                  src={playlist.images.length > 0 ? playlist.images[0].url : DefaultImage}
                 ></img>
                 <div>
                   <p style={{ fontSize: "13px", fontWeight: "bold" }}>

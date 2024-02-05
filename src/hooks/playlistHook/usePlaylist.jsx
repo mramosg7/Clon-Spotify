@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { fetchNewPlaylist } from "@spotify/playlistsService.js"
-import { fetchUpdatePlaylist, fetchUpdateImage } from "../../services/spotify/playlistsService"
+import { fetchUpdatePlaylist, fetchUpdateImage, fetchGetUserPlaylist } from "../../services/spotify/playlistsService"
 
 export const usePlaylist = () => {
 
@@ -23,13 +23,29 @@ export const usePlaylist = () => {
       const userId = user.id
 
       // Fetch
-      const newPlaylistData = await fetchNewPlaylist(access_token, userId)
-      setUserPlaylists(prevUserPlaylists => [...prevUserPlaylists, newPlaylistData])
-      localStorage.setItem('userPlaylists', JSON.stringify([...userPlaylists, newPlaylistData]))
+      const newPlaylist = await fetchNewPlaylist(access_token, userId)
+      if(newPlaylist) {
+        handleGetUserPlaylists()
+      }
     } catch (error) {
       console.error("Error al crear la playlist:", error)
     } finally {
       setCreating(false)
+    }
+  }
+
+  const handleGetUserPlaylists = async () => {
+    try {
+      const userString = localStorage.getItem('user')
+      const user = JSON.parse(userString)
+      const userId = user.id
+
+      const playlists = await fetchGetUserPlaylist(access_token, userId)
+      if(playlists && playlists.items) {
+        setUserPlaylists(playlists.items)
+      }
+    } catch(error) {
+      console.error("Error al obtener las playlists: ", error)
     }
   }
 
@@ -57,6 +73,7 @@ export const usePlaylist = () => {
     isCreating,
     isUpdating,
     handleCreatePlaylist,
+    handleGetUserPlaylists,
     userPlaylists,
     handleUpdatePlaylist
   }

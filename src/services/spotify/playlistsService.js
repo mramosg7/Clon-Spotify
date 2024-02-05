@@ -2,7 +2,7 @@
 const BASE_URL = 'https://api.spotify.com/v1'
 
 
-// Obtener las playlists
+// Obtener las playlists de spotify
 export const fetchFeaturedPlaylists = async (token) => {
     try {
         const response = await fetch(`${BASE_URL}/browse/featured-playlists`, {
@@ -23,8 +23,20 @@ export const fetchFeaturedPlaylists = async (token) => {
 }
 
 // Obtener las playlists de un usuario
-export const fetchGetUserPlaylist = () => {
-
+export const fetchGetUserPlaylist = async (token, userId) => {
+    try {
+        const response = await fetch(`${BASE_URL}/users/${userId}/playlists`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        if(!response.ok) throw new Error('Error al obtener las playlists del usuario')
+        const data = await response.json()
+        return data 
+    } catch(error) {
+        console.error(error)
+    }
 }
 
 // Obtener los detalles de una playlist
