@@ -51,7 +51,7 @@ export default function Artist(){
         }
         
 
-    },[])
+    },[id])
 
 
     return(
