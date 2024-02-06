@@ -3,18 +3,28 @@ import UserHeaderBody from "./UserHeaderBody";
 import { IoIosArrowBack } from "react-icons/io";
 import { IoIosArrowForward } from "react-icons/io";
 import LoginButton from "../components/LoginButton"
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
+import SearchBar from "./SearchBar";
 
 export const HeaderBody = ({isLogged, user, logout}) => {
   const navigate = useNavigate();
+  const location = useLocation();
+
+
+  
+  const isSearchPage = location.pathname.startsWith('/search');
   const navegarHaciaAtras = () => {
     navigate(-1);
   };
+
 
   const navegarHaciaAdelante = () => {
     navigate(1);
   };
 
+  const search=(key)=>{
+    navigate(`/search/${key}`);
+  }
   return (
     <Box
         display='flex'
@@ -35,6 +45,7 @@ export const HeaderBody = ({isLogged, user, logout}) => {
             <IoIosArrowForward style={{padding: '5px', backgroundColor: '#000000', color: '#fff', width: '30px', height: '30px', borderRadius: '100%'}}/>
           </Link>
         </Box>
+        {isSearchPage && <SearchBar search={search}/>}
 
       {
         !isLogged ? (

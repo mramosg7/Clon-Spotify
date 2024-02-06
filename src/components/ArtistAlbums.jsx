@@ -13,7 +13,7 @@ export default function ArtistAlbums({albums}){
                 flexWrap='wrap'
             >
                 {albums.map((album) =>(
-                    
+                        
                         <Card 
                             width='200px' 
                             key={album.id}

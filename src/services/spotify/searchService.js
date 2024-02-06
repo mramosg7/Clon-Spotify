@@ -7,6 +7,7 @@ export const fetchSearch=async(key,token)=>{
                 'Authorization': `Bearer ${token}`
             }
         });
+    
         if(!response.ok) throw new Error("No se ha podido haceder a la busqueda")
         const data = await response.json()
         return data;
