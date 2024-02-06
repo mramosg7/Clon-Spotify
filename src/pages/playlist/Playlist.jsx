@@ -56,7 +56,7 @@ export default function Playlist(){
                             >
                                 {
                                     playlist.images && playlist.images.length > 0 && playlist.images[0].url
-                                        ? (<img style={{borderRadius: '5px'}} src={playlist.images[0].url} alt={playlist.title}></img>) 
+                                        ? (<img style={{borderRadius: '5px'}} src={playlist.images[0].url} alt={playlist.name}></img>) 
                                         : (<img style={{ width: '270px'}} src={DefaultImage} alt="Imagen Default PlayList"></img>)
                                 }
                             </Box>

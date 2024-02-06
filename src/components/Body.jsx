@@ -7,7 +7,6 @@ import Playlist from "../pages/playlist/Playlist"
 import Artist from '../pages/Artist/Artist'
 import Album from "../pages/album/Album"
 import Search from "../pages/search/Search"
-import { EditarPL } from "../pages/playlist/EditarPL"
 import { FormPlaylistDetails } from "./FormPlaylistDetails"
 
 

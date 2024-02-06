@@ -7,13 +7,11 @@ import { IoLibrary } from "react-icons/io5"
 import { usePlaylist } from "../hooks/playlistHook/usePlaylist"
 import { PlaylistGrid } from "./PlaylistGrid"
 import { FirstPlaylist } from "./FirstPlaylist"
-import { useEffect } from "react"
 
 
 export const Biblioteca = () => {
 
   const { handleGetUserPlaylists, handleCreatePlaylist, isCreating, userPlaylists } = usePlaylist()
-
 
   return (
     <>

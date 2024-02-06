@@ -6,7 +6,7 @@ import { useNavigate, useParams } from "react-router-dom"
 
 export const FormPlaylistDetails = () => {
 
-  const { handleUpdatePlaylist, handleGetUserPlaylists } = usePlaylist()
+  const { handleUpdatePlaylist } = usePlaylist()
   const { id } = useParams()
   const isOpen = !!id // El modal esta abierto si hay un ID
   const [initialData, setInitialData] = useState({
@@ -45,7 +45,6 @@ export const FormPlaylistDetails = () => {
     }
     handleUpdatePlaylist(initialData.playlistId, formData)
     onClose()
-    handleGetUserPlaylists()
   }
 
   return (
@@ -69,6 +68,7 @@ export const FormPlaylistDetails = () => {
           value={initialData.name}
           placeholder="Nombre"
           onChange={onChange}
+          required
         />
         <FormLabel>Descripción</FormLabel>
         <Textarea
@@ -76,6 +76,7 @@ export const FormPlaylistDetails = () => {
           value={initialData.description}
           placeholder="Descripcion"
           onChange={onChange}
+          required
         />
         <ModalFooter>
               <Button type="submit">Actualizar Playlist</Button>
