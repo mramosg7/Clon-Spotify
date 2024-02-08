@@ -16,7 +16,7 @@ function App() {
   useEffect(()=>{
     const codeV = localStorage.getItem('code_verifier')
     if(!user && codeV){
-      getAccessToken().then(()=>{
+       getAccessToken().then(()=>{
         getUserId()
       })
     }

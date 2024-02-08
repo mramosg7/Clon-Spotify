@@ -14,7 +14,7 @@ export const useAuthUser= ()=>{
             window.localStorage.setItem('code_verifier', codeVerifier);
 
             
-            const scope = 'user-read-private user-read-email playlist-modify-private playlist-modify-public ugc-image-upload playlist-read-private playlist-read-collaborative';
+            const scope = 'user-read-private user-read-email playlist-modify-private playlist-modify-public ugc-image-upload playlist-read-private playlist-read-collaborative user-read-playback-state';
             const authUrl = new URL("https://accounts.spotify.com/authorize");
 
             const params = {
@@ -37,9 +37,10 @@ export const useAuthUser= ()=>{
         const urlParams = new URLSearchParams(window.location.search);
         const code = urlParams.get('code');
         
-
+      
 
         const codeVerifier = localStorage.getItem('code_verifier');
+        
         const data = await fetchGetUserToken(code,redirectUri,clientId,codeVerifier)
         
 
