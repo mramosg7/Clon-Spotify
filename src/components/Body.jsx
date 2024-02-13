@@ -8,7 +8,7 @@ import Artist from '../pages/Artist/Artist'
 import Album from "../pages/album/Album"
 import Search from "../pages/search/Search"
 import { FormPlaylistDetails } from "./FormPlaylistDetails"
-import Player from "./Player"
+
 
 
 export const Body = ({isLogged, user, logout}) => {
@@ -36,7 +36,7 @@ export const Body = ({isLogged, user, logout}) => {
           <Route path='/search/:q' element={<Search/>}/>
           
       </Routes>
-      <Player/>
+      
     </Box>
   )
 }

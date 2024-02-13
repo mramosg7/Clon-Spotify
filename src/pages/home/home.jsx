@@ -11,19 +11,26 @@ export default function Home (){
     const [playlists, setPlaylists] = useState([])
     const {token, getToken} = useAuthAPI()
     useEffect(()=>{
+        setLoading(true)
         const tokenExpiration = localStorage.getItem('tokenExpiration')
         if(!token || Date.now() > tokenExpiration){
             getToken().then((tk)=>{
                 fetchFeaturedPlaylists(tk).then(data =>{
                     setPlaylists(data.playlists.items)
                 })
-                .finally(setLoading(false))
+                .finally(()=>{
+                    setInterval(()=>{setLoading(false)},500)
+                    
+                })
             })
         }else{
             fetchFeaturedPlaylists(token).then(data =>{
                 setPlaylists(data.playlists.items)
             })
-            .finally(setLoading(false))
+            .finally(()=>{
+                setInterval(()=>{setLoading(false)},500)
+                
+            })
         }
         
 
@@ -35,7 +42,7 @@ export default function Home (){
             overflow='auto'
         >
             <Heading color='white' fontSize='30px' marginBottom='10px'>PlayLists que lo están petando.</Heading>
-            {!isLoading && <PlaylistsBody playlists = {playlists}/>}
+            <PlaylistsBody playlists = {playlists} isLoaded={!isLoading}/>
         </Box>
     )
 }

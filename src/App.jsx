@@ -8,6 +8,8 @@ import { useEffect } from 'react'
 import { useAuthUser } from './hooks/auth/useAuthUser'
 import { FormPlaylistDetails } from './components/FormPlaylistDetails'
 
+import Player from "./components/Player"
+
 
 
 function App() {
@@ -23,6 +25,7 @@ function App() {
   },[])
 
   return (
+    <>
       <Box
         p='10px'
         bg='#000'
@@ -37,9 +40,12 @@ function App() {
           <Biblioteca />
         </div>
         <Body isLogged={isLogged} user={user} logout={logout}/>
-       
+
+        
         
       </Box>
+      <Player/>
+    </>
   )
 }
 
