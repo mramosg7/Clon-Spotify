@@ -8,7 +8,7 @@ export const usePlaylist = () => {
   const access_token = localStorage.getItem("access_token")
   // Estados de carga
   const [isCreating, setCreating] = useState(false)
-  const [isUpdating, setUpdating] = useState(false)
+  const [isUpdated, setUpdated] = useState(false)
   // Estado para las playlists del ususario
   const [userPlaylists, setUserPlaylists] = useState([])
 
@@ -53,31 +53,31 @@ export const usePlaylist = () => {
   // Actualizar playlists
   const handleUpdatePlaylist = async (playlistId, formData) => {
     try {
-      setUpdating(true)
       const name = formData.get('name')
       const description = formData.get('description')
       const image = formData.get('image')
 
-      await fetchUpdatePlaylist(access_token, playlistId, name, description)
+      const respuestaActualizacion = await fetchUpdatePlaylist(access_token, playlistId, name, description)
+      let respuestaActualizacionImg
       if(image) {
-        await fetchUpdateImage(access_token, playlistId, image)
+        respuestaActualizacionImg = await fetchUpdateImage(access_token, playlistId, image)
       }
 
-      await handleGetUserPlaylists()
+      console.log('Actualizacion: ', respuestaActualizacion)
+      console.log('Actualizacion Img: ', respuestaActualizacionImg)
+
+      if(respuestaActualizacion || respuestaActualizacionImg) setUpdated(true)
 
     } catch(error) {
       console.error("Error al intentar actualizar la playlist (handleUpdatePlaylist): ", error)
-      actualizacionExitosa = false
-    } finally {
-      setUpdating(false)
-    }
+    } 
   }
 
 
   return {
     isCreating,
-    isUpdating,
     userPlaylists,
+    isUpdated,
     handleCreatePlaylist,
     handleGetUserPlaylists,
     handleUpdatePlaylist

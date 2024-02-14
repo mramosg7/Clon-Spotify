@@ -1,13 +1,15 @@
 import {
+  Box,
   Grid,
   GridItem,
+  Text,
 } from "@chakra-ui/react"
 import { GoPencil } from "react-icons/go"
 import { Link, useNavigate } from "react-router-dom"
 import DefaultImage from "../assets/PlaylistDefault.png"
 import React, { useEffect, useState } from "react"
 
-export const PlaylistGrid = ({ isLogged, handleGetUserPlaylists, userPlaylists }) => {
+export const PlaylistGrid = ({ userPlaylists }) => {
   const navigate = useNavigate()
   // Menu para editar
   const [contextMenu, setContextMenu] = useState({
@@ -19,10 +21,6 @@ export const PlaylistGrid = ({ isLogged, handleGetUserPlaylists, userPlaylists }
     },
     playlistId: null, // ID de la playlist que se va a editar
   })
-
-  useEffect(() => {
-    if(isLogged) handleGetUserPlaylists()
-  }, [isLogged])
 
   const onRightClickPlaylist = (event, playlistId) => {
     // Eliminar que se pueda sacar el menu del click derecho por defecto
@@ -72,6 +70,7 @@ export const PlaylistGrid = ({ isLogged, handleGetUserPlaylists, userPlaylists }
               marginTop="14px"
               cursor="pointer"
               position="relative"
+              overflow='hidden'
               _hover={{
                 bg: "#1B1B1B",
               }}
@@ -80,7 +79,8 @@ export const PlaylistGrid = ({ isLogged, handleGetUserPlaylists, userPlaylists }
                 <img
                   style={{
                     borderRadius: "7px",
-                    width: "150px",
+                    width: "100%",
+                    height: '90px',
                     marginBottom: "10px",
                   }}
                   src={
@@ -89,15 +89,15 @@ export const PlaylistGrid = ({ isLogged, handleGetUserPlaylists, userPlaylists }
                       : DefaultImage
                   }
                   alt={playlist.name}
-                ></img>
-                <div>
-                  <p style={{ fontSize: "13px", fontWeight: "bold" }}>
+                />
+                <Box>
+                  <Text fontSize='13px' fontWeight='bold' textOverflow="ellipsis" whiteSpace="nowrap" overflow="hidden">
                     {playlist.name}
-                  </p>
-                  <p style={{ fontSize: "13px", color: "#919191" }}>
+                  </Text>
+                  <Text fontSize='13px' fontWeight='600' textOverflow="ellipsis" whiteSpace="nowrap" overflow="hidden" color="#919191">
                     Lista • {playlist.owner.display_name}
-                  </p>
-                </div>
+                  </Text>
+                </Box>
               </Link>
             </GridItem>
           </React.Fragment>

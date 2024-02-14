@@ -65,8 +65,8 @@ export const fetchNewPlaylist = async (token, user_id) => {
                 'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify({
-                name: "Nueva Playlist",
-                description: "Descripción de la nueva playlist",
+                name: "Mi Lista",
+                description: "",
                 public: true,
             })
         })
@@ -97,9 +97,9 @@ export const fetchUpdatePlaylist = async (token, playlist_id, name, description)
             })
         })
 
-        if(response.ok) fetchGetUserPlaylist()
-
         if (!response.ok) throw new Error(`Error al actualizar la playlist ${playlist_id}`)
+
+        if(response.ok) return response.ok
 
     } catch (error) {
         console.error("Error en fetchUpdatePlaylist: ", error)
@@ -140,11 +140,11 @@ export const fetchUpdateImage = async (token, playlist_id, image) => {
             body: base64Data
         })
 
-        if(response.ok) fetchGetUserPlaylist()
-
         if (!response.ok) {
             throw new Error('Error al actualizar la imagen')
         } 
+
+        if(response.ok) return response.ok
 
     } catch (error) {
         console.error("Error en fetchUpdateImage: ", error)

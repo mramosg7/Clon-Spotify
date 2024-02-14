@@ -13,12 +13,17 @@ import { useEffect } from "react"
 
 export const Biblioteca = () => {
 
-  const { handleGetUserPlaylists, handleCreatePlaylist, isCreating, userPlaylists } = usePlaylist()
+  const { handleGetUserPlaylists, handleCreatePlaylist, isCreating, userPlaylists, isUpdated } = usePlaylist()
   const { isLogged } = useAuthUser()
 
   useEffect(() => {
     if(isLogged)  handleGetUserPlaylists()
   }, [isLogged])
+
+  useEffect(() => {
+    if(isUpdated) handleGetUserPlaylists()
+    console.log(isUpdated)
+  }, [isUpdated])
 
   return (
     <>
@@ -62,8 +67,6 @@ export const Biblioteca = () => {
           userPlaylists.length > 0 ? (
           <PlaylistGrid 
             userPlaylists={userPlaylists}
-            handleGetUserPlaylists={handleGetUserPlaylists}
-            isLogged={isLogged}
           />
         ) : (
           <FirstPlaylist 
