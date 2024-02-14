@@ -9,8 +9,9 @@ export default function Player(){
 
     const {contextPlayer, getContextPlayer, player} = usePlayer()
     const [errorNoLog, setErrorNoLog] = useState(false)
+    const [Loading, setLoading] = useState(true)
     const token = localStorage.getItem("access_token")
-   
+
 
 
     useEffect(()=>{
@@ -21,8 +22,10 @@ export default function Player(){
              if(e.code === 403){
                  setErrorNoLog(true)
              }
-      
+             setErrorNoLog(true)
              console.log(e.code)
+         }finally{
+            setLoading(false)
          }
         
         
@@ -31,7 +34,7 @@ export default function Player(){
 
     return(
         <>
-            {errorNoLog && 
+            {(errorNoLog || Loading)&&  
                 <Box
                     marginY="-20px"
                     padding="5px 40px"
@@ -51,7 +54,7 @@ export default function Player(){
                     </div>
                     <Button>Inicia sesión</Button>
                 </Box>}
-                 {!errorNoLog &&  
+                 {!errorNoLog && !Loading &&
             
             <Box
                    marginY="-20px"
