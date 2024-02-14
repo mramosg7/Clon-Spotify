@@ -1,12 +1,16 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { fetchIdUser, fetchGetUserToken } from "@spotify/authService.js"
 import { getCodeVerifier } from "@spotify/codeVerifier";
 import { clientId, redirectUri } from "../../variiables";
-import { Biblioteca } from "../../components/Biblioteca";
 
 export const useAuthUser= ()=>{
     const [user, setUser] = useState(localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null)
     const [isLogged, setLogged] = useState(Boolean(localStorage.getItem("user")))
+    const userLocal = localStorage.getItem("user")
+
+    useEffect(() => {
+        if(userLocal)  setLogged(true)
+    }, [userLocal])
 
     const login = ()=>{
         getCodeVerifier().then((data)=>{
@@ -41,29 +45,30 @@ export const useAuthUser= ()=>{
 
         const codeVerifier = localStorage.getItem('code_verifier');
         
-        const data = await fetchGetUserToken(code,redirectUri,clientId,codeVerifier)
-        
+        const data = await fetchGetUserToken(code,redirectUri,clientId,codeVerifier)        
 
         const access_token = localStorage.getItem('access_token');
-        if(!access_token){
+        if(data){
             localStorage.setItem('access_token', data);
-        }        
+            setLogged(true)
+        }
     }
+    
     const getUserId = ()=>{
         const accessToken = localStorage.getItem('access_token');
 
         // Verifica si el token de acceso existe
         if (accessToken) {
-            setLogged(false)
             fetchIdUser(accessToken)
             .then(data => {
                 localStorage.setItem('user', JSON.stringify(data))
                 setUser(data)
-            })
-            .catch(error => console.error('Error al obtener información del usuario:', error))
-            .finally(
                 setLogged(true)
-            )
+            })
+            .catch(error => {
+                console.error('Error al obtener información del usuario:', error)
+                setLogged(false)
+            })
         } else {
           console.error('No se encontró un token de acceso en el localStorage.');
         }
@@ -77,7 +82,6 @@ export const useAuthUser= ()=>{
         localStorage.removeItem('userPlaylists')
         setUser(null)
         setLogged(false)
-        window.location.reload()
         window.location.href = '/'
     }
 

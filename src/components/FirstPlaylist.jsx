@@ -1,11 +1,10 @@
 import { Box, Button } from "@chakra-ui/react"
 
-export const FirstPlaylist = ({ handleCreatePlaylist, isCreating, userPlaylists }) => {
+export const FirstPlaylist = ({ handleCreatePlaylist, isCreating }) => {
 
 
   return (
     <>
-       {userPlaylists.length === 0 && (
           <Box
             width="100%"
             p="15px 18px"
@@ -34,7 +33,6 @@ export const FirstPlaylist = ({ handleCreatePlaylist, isCreating, userPlaylists 
               {isCreating ? "Creando..." : "Crear lista"}
             </Button>
           </Box>
-        )}
     </>
   )
 }

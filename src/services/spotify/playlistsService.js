@@ -150,3 +150,4 @@ export const fetchUpdateImage = async (token, playlist_id, image) => {
         console.error("Error en fetchUpdateImage: ", error)
     }
 }
+

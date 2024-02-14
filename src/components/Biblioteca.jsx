@@ -7,11 +7,18 @@ import { IoLibrary } from "react-icons/io5"
 import { usePlaylist } from "../hooks/playlistHook/usePlaylist"
 import { PlaylistGrid } from "./PlaylistGrid"
 import { FirstPlaylist } from "./FirstPlaylist"
+import { useAuthUser } from "../hooks/auth/useAuthUser"
+import { useEffect } from "react"
 
 
 export const Biblioteca = () => {
 
   const { handleGetUserPlaylists, handleCreatePlaylist, isCreating, userPlaylists } = usePlaylist()
+  const { isLogged } = useAuthUser()
+
+  useEffect(() => {
+    if(isLogged)  handleGetUserPlaylists()
+  }, [isLogged])
 
   return (
     <>
@@ -51,15 +58,25 @@ export const Biblioteca = () => {
             onClick={handleCreatePlaylist}
           />
         </Flex>
-        <PlaylistGrid 
-          userPlaylists={userPlaylists}
-          handleGetUserPlaylists={handleGetUserPlaylists}
-        />
+        {isLogged ? (
+          userPlaylists.length > 0 ? (
+          <PlaylistGrid 
+            userPlaylists={userPlaylists}
+            handleGetUserPlaylists={handleGetUserPlaylists}
+            isLogged={isLogged}
+          />
+        ) : (
+          <FirstPlaylist 
+            handleCreatePlaylist={handleCreatePlaylist}
+            isCreating={isCreating}
+          />
+        )
+      ) : (
         <FirstPlaylist 
-          handleCreatePlaylist={handleCreatePlaylist}
-          isCreating={isCreating}
-          userPlaylists={userPlaylists}
+            handleCreatePlaylist={handleCreatePlaylist}
+            isCreating={isCreating}
         />
+      )}
       </Box>
     </>
   )

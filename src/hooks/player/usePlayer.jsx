@@ -13,7 +13,7 @@ export const usePlayer = ()=>{
    
 
     const getContextPlayer = ()=>{
-        try{
+        try {
            
             if(!token){
                 const miError = new Error("No estas logeado");
@@ -28,7 +28,7 @@ export const usePlayer = ()=>{
                 }
                
             })
-        }catch(e){
+        } catch(e){
             throw e
         }
         

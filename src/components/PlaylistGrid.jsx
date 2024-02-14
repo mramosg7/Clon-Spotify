@@ -1,14 +1,14 @@
 import {
   Grid,
   GridItem,
-} from "@chakra-ui/react";
-import { GoPencil } from "react-icons/go";
-import { Link, useNavigate } from "react-router-dom";
-import DefaultImage from "../assets/PlaylistDefault.png";
-import React, { useEffect, useState } from "react";
+} from "@chakra-ui/react"
+import { GoPencil } from "react-icons/go"
+import { Link, useNavigate } from "react-router-dom"
+import DefaultImage from "../assets/PlaylistDefault.png"
+import React, { useEffect, useState } from "react"
 
-export const PlaylistGrid = ({ handleGetUserPlaylists, userPlaylists }) => {
-  const navigate = useNavigate();
+export const PlaylistGrid = ({ isLogged, handleGetUserPlaylists, userPlaylists }) => {
+  const navigate = useNavigate()
   // Menu para editar
   const [contextMenu, setContextMenu] = useState({
     isVisible: false, // Visibilidad
@@ -18,15 +18,15 @@ export const PlaylistGrid = ({ handleGetUserPlaylists, userPlaylists }) => {
       y: 0,
     },
     playlistId: null, // ID de la playlist que se va a editar
-  });
+  })
 
   useEffect(() => {
-    handleGetUserPlaylists();
-  }, []);
+    if(isLogged) handleGetUserPlaylists()
+  }, [isLogged])
 
-  // Eliminar que se pueda sacar el menu del click derecho
   const onRightClickPlaylist = (event, playlistId) => {
-    event.preventDefault();
+    // Eliminar que se pueda sacar el menu del click derecho por defecto
+    event.preventDefault()
     setContextMenu({
       isVisible: true,
       position: {
@@ -34,8 +34,8 @@ export const PlaylistGrid = ({ handleGetUserPlaylists, userPlaylists }) => {
         y: event.pageY,
       },
       playlistId,
-    });
-  };
+    })
+  }
 
   useEffect(() => {
     const handleClick = () =>
@@ -46,13 +46,16 @@ export const PlaylistGrid = ({ handleGetUserPlaylists, userPlaylists }) => {
           y: 0,
         },
         playlistId: null,
-      });
-    document.addEventListener("click", handleClick);
-  }, []);
+      })
+    document.addEventListener("click", handleClick)
+
+    // Limpirar listener
+    return () => document.removeEventListener("click", handleClick)
+  }, [])
 
   const editar = (id) => {
-    navigate(`/playlist/editar/${id}`);
-  };
+    navigate(`/playlist/editar/${id}`)
+  }
 
   return (
     <>
@@ -122,5 +125,5 @@ export const PlaylistGrid = ({ handleGetUserPlaylists, userPlaylists }) => {
        </div>
         )}
     </>
-  );
-};
+  )
+}

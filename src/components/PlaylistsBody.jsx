@@ -1,5 +1,4 @@
-import { Card, CardHeader, CardBody, CardFooter, Image,Heading, Stack,Text, Box, Skeleton } from '@chakra-ui/react'
-import { useEffect } from 'react'
+import { Card, CardBody, Image,Heading, Stack,Text, Box, Skeleton } from '@chakra-ui/react'
 import { Link } from 'react-router-dom'
 
 export default function PlaylistBody({playlists, isLoaded}){
