@@ -8,6 +8,8 @@ import { fetchGetContext, fetchTransferPlayback } from "../../services/spotify/p
 export const usePlayer = ()=>{
     const [contextPlayer, setContextPlayer] = useState(localStorage.getItem("contextPlayer") ? JSON.parse(localStorage.getItem("contextPlayer")): null);
     const [player, setPlayer] = useState(null);
+    const [position, setPosition] = useState(0);
+    const [paused, setPaused] = useState(true);
     const token = localStorage.getItem("access_token")
 
    useEffect(()=>{
@@ -39,11 +41,19 @@ export const usePlayer = ()=>{
                 console.e
                 })
             player.addListener('player_state_changed', (context) => {
-                getContextPlayer()
-                });
+                    try{
+                        console.log(context)
+                        setPaused(context.paused)
+                        getContextPlayer()
+                        
+                    }catch(e){
+                        console.error(e)
+                    }
+            });
             player.connect();
             console.log(player)
             setPlayer(player)
+
             
         }
         return () => {
@@ -80,6 +90,7 @@ export const usePlayer = ()=>{
     return {
         contextPlayer,
         getContextPlayer,
-        player
+        player,
+        paused
     }
 }

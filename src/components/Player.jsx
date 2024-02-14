@@ -7,7 +7,7 @@ import ControllersPlayer from "./ControllersPlayer"
 
 export default function Player(){
 
-    const {contextPlayer, getContextPlayer, player} = usePlayer()
+    const {contextPlayer, getContextPlayer, player, paused} = usePlayer()
     const [errorNoLog, setErrorNoLog] = useState(false)
     const [Loading, setLoading] = useState(true)
     const token = localStorage.getItem("access_token")
@@ -69,7 +69,7 @@ export default function Player(){
                >
    
                     <InfoPlayer info={contextPlayer.item}/>
-                    <ControllersPlayer player={player} contextPlayer={contextPlayer}/>
+                    <ControllersPlayer paused={paused} player={player} contextPlayer={contextPlayer}/>
                     <h1>hola</h1>
                
             </Box>
