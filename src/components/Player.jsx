@@ -7,24 +7,25 @@ import ControllersPlayer from "./ControllersPlayer"
 
 export default function Player(){
 
-    const {contextPlayer, getContextPlayer} = usePlayer()
+    const {contextPlayer, getContextPlayer, player} = usePlayer()
     const [errorNoLog, setErrorNoLog] = useState(false)
     const token = localStorage.getItem("access_token")
    
 
 
     useEffect(()=>{
-        try{
-   
-            getContextPlayer()
-         
-        }catch(e){
-            if(e.code === 403){
-                setErrorNoLog(true)
-            }
-            
-            console.log(e.code)
-        }
+         try{
+             getContextPlayer()
+                console.log(contextPlayer)
+         }catch(e){
+             if(e.code === 403){
+                 setErrorNoLog(true)
+             }
+      
+             console.log(e.code)
+         }
+        
+        
         
     },[])
 
@@ -50,29 +51,27 @@ export default function Player(){
                     </div>
                     <Button>Inicia sesión</Button>
                 </Box>}
-            {!errorNoLog &&  
+                 {!errorNoLog &&  
             
-                <Box
-                       marginY="-20px"
-                       background="black"
-                       position="absolute"
-                       color="white"
-                       display="flex"
-                       justifyContent="space-between"
-                       width="100%"
-                       height={75}
-                       padding="20px"
-                   >
-       
-                        <InfoPlayer info={contextPlayer.item}/>
-                        <ControllersPlayer/>
-                        <h1>hola</h1>
-                   {/* 
-    
-                   <OptionsPlayer/> */}
-                </Box>
+            <Box
+                   marginY="-20px"
+                   background="black"
+                   position="absolute"
+                   color="white"
+                   display="flex"
+                   justifyContent="space-between"
+                   width="100%"
+                   height={75}
+                   padding="20px"
+               >
+   
+                    <InfoPlayer info={contextPlayer.item}/>
+                    <ControllersPlayer player={player} contextPlayer={contextPlayer}/>
+                    <h1>hola</h1>
                
-            }
+            </Box>
+           
+        } 
             
         </>
         

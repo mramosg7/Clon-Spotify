@@ -15,3 +15,25 @@ export const fetchGetContext= async(token)=>{
         console.error(error)
     }
 }
+
+export const fetchTransferPlayback = async(token, device_id)=>{
+    try{
+        const response = await fetch(urlBase,{
+            method:'PUT',
+            headers:{
+                'Authorization': `Bearer ${token}`,
+                'Content-Type' : 'application/json'
+            },
+            body: JSON.stringify({
+                "device_ids": [
+                    device_id
+                ]
+            })
+        })
+        if(!response.ok) throw new Error("Error al transferir el playback")
+        const data = await response.json()
+        return data
+    }catch(e){
+        console.error(e)
+    }
+}
