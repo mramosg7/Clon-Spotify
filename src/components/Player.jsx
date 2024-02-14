@@ -1,26 +1,36 @@
 import { useEffect, useState } from "react"
 import { usePlayer } from "../hooks/player/usePlayer"
 import { Box, Button } from "@chakra-ui/react"
+import InfoPlayer from "../components/InfoPlayer"
+import ControllersPlayer from "./ControllersPlayer"
+
 
 export default function Player(){
 
     const {contextPlayer, getContextPlayer} = usePlayer()
-    const [error, setError] = useState(null)
+    const [errorNoLog, setErrorNoLog] = useState(false)
+    const token = localStorage.getItem("access_token")
+   
+
 
     useEffect(()=>{
         try{
-         getContextPlayer()
+   
+            getContextPlayer()
          
         }catch(e){
-            setError(e)
-            console.log(e)
+            if(e.code === 403){
+                setErrorNoLog(true)
+            }
+            
+            console.log(e.code)
         }
         
     },[])
 
     return(
         <>
-            {error && 
+            {errorNoLog && 
                 <Box
                     marginY="-20px"
                     padding="5px 40px"
@@ -40,22 +50,28 @@ export default function Player(){
                     </div>
                     <Button>Inicia sesión</Button>
                 </Box>}
-            {!error &&  
-                //  <Box
-                //         marginY="-20px"
-                //         background="black"
-                //         position="absolute"
-                //         color="white"
-                //         display="flex"
-                //         justifyContent="space-between"
-                //         width="100%"
-                //         height={75}
-                //     >
-                //     <InfoPlayer info={info}/>
-                //     <ControllersPlayer/>
-                //     <OptionsPlayer/>
-                // </Box>
-                <h1>Hola</h1>
+            {!errorNoLog &&  
+            
+                <Box
+                       marginY="-20px"
+                       background="black"
+                       position="absolute"
+                       color="white"
+                       display="flex"
+                       justifyContent="space-between"
+                       width="100%"
+                       height={75}
+                       padding="20px"
+                   >
+       
+                        <InfoPlayer info={contextPlayer.item}/>
+                        <ControllersPlayer/>
+                        <h1>hola</h1>
+                   {/* 
+    
+                   <OptionsPlayer/> */}
+                </Box>
+               
             }
             
         </>
