@@ -43,7 +43,7 @@ function App() {
         
         
       </Box>
-      {/* <Player/> */}
+      <Player/>
     </>
   )
 }
