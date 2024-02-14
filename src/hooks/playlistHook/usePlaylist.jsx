@@ -38,7 +38,8 @@ export const usePlaylist = () => {
     try {
       const userString = localStorage.getItem('user')
       const user = JSON.parse(userString)
-      const userId = user.id
+      let userId = null
+      if(user) userId = user.id
 
       const playlists = await fetchGetUserPlaylist(access_token, userId)
       if(playlists && playlists.items) {
