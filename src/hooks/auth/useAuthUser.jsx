@@ -88,12 +88,15 @@ export const useAuthUser= ()=>{
         window.location.href = '/'
     }
 
-    const refresh = ()=>{
+    const refresh = async()=>{
         const token = localStorage.getItem('refreshToken')
-        fetchRefresh(token,clientId).then((data)=>{
-            localStorage.setItem('expirationAccessToken',Date.now() + data.expires_in * 1000)
-            localStorage.setItem('refreshToken', data.refresh_token)
-        })
+        if (!token){
+            return
+        }
+        const data = await fetchRefresh(token,clientId)
+        localStorage.setItem('expirationAccessToken',Date.now() + data.expires_in * 1000)
+        localStorage.setItem('refreshToken', data.refresh_token)
+      
     }
 
     return{

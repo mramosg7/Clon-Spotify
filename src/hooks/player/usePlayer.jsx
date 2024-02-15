@@ -14,13 +14,6 @@ export const usePlayer = ()=>{
     let token = localStorage.getItem("access_token")
 
    useEffect(()=>{
-    // const expire = localStorage.getItem('expirationAccessToken')
-    // if(token && Date.now()> expire){
-    //     refresh().then(
-    //         token = localStorage.getItem("access_token")
-    //     )
-        
-    // }
     if(token){
         window.onSpotifyWebPlaybackSDKReady = () => {
             const player = new Spotify.Player({
@@ -73,7 +66,7 @@ export const usePlayer = ()=>{
     
    },[])
 
-    const getContextPlayer = ()=>{
+    const getContextPlayer = async()=>{
         try {
            
             if(!token){
@@ -81,13 +74,15 @@ export const usePlayer = ()=>{
                 miError.code = 403;
                 throw miError
             }
-            fetchGetContext(token).then((data)=>{
+            const data = await fetchGetContext(token)
+            
+            
                 if(data!== undefined){
                     localStorage.setItem("contextPlayer",JSON.stringify(data))
                     console.log(data)
                     setContextPlayer(data)
                 }
-            })
+            
             
                
             
