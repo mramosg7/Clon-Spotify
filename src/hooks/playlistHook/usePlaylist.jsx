@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { fetchNewPlaylist } from "@spotify/playlistsService.js"
-import { fetchUpdatePlaylist, fetchUpdateImage, fetchGetUserPlaylist } from "../../services/spotify/playlistsService"
+import { fetchUpdatePlaylist, fetchUpdateImage, fetchGetUserPlaylist, fetchAddTrackToPlaylist } from "../../services/spotify/playlistsService"
 
 export const usePlaylist = () => {
 
@@ -8,7 +8,7 @@ export const usePlaylist = () => {
   const access_token = localStorage.getItem("access_token")
   // Estados de carga
   const [isCreating, setCreating] = useState(false)
-  const [isUpdated, setUpdated] = useState(false)
+  const [isAdding, setAdding] = useState(false)
   // Estado para las playlists del ususario
   const [userPlaylists, setUserPlaylists] = useState([])
 
@@ -57,27 +57,36 @@ export const usePlaylist = () => {
       const description = formData.get('description')
       const image = formData.get('image')
 
-      const respuestaActualizacion = await fetchUpdatePlaylist(access_token, playlistId, name, description)
-      let respuestaActualizacionImg
+      await fetchUpdatePlaylist(access_token, playlistId, name, description)
       if(image) {
-        respuestaActualizacionImg = await fetchUpdateImage(access_token, playlistId, image)
+        await fetchUpdateImage(access_token, playlistId, image)
       }
-
-      console.log('Actualizacion: ', respuestaActualizacion)
-      console.log('Actualizacion Img: ', respuestaActualizacionImg)
-
-      if(respuestaActualizacion || respuestaActualizacionImg) setUpdated(true)
 
     } catch(error) {
       console.error("Error al intentar actualizar la playlist (handleUpdatePlaylist): ", error)
     } 
   }
 
+  // Añadir cancion
+  const handleAddTrack = async (playlistId, trackUri) => {
+    try {
+
+      setAdding(true)
+      await fetchAddTrackToPlaylist(access_token, playlistId, trackUri)
+
+    } catch(error) {
+      console.error("Error al añadir la cancion a la playlist")
+    } finally {
+      setAdding(false)
+    }
+  }
+
 
   return {
     isCreating,
+    isAdding,
     userPlaylists,
-    isUpdated,
+    handleAddTrack,
     handleCreatePlaylist,
     handleGetUserPlaylists,
     handleUpdatePlaylist

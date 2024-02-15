@@ -13,17 +13,14 @@ import { useEffect } from "react"
 
 export const Biblioteca = () => {
 
-  const { handleGetUserPlaylists, handleCreatePlaylist, isCreating, userPlaylists, isUpdated } = usePlaylist()
+  const { handleGetUserPlaylists, handleCreatePlaylist, isCreating, userPlaylists } = usePlaylist()
   const { isLogged } = useAuthUser()
 
   useEffect(() => {
     if(isLogged)  handleGetUserPlaylists()
   }, [isLogged])
 
-  useEffect(() => {
-    if(isUpdated) handleGetUserPlaylists()
-    console.log(isUpdated)
-  }, [isUpdated])
+
 
   return (
     <>
@@ -35,7 +32,6 @@ export const Biblioteca = () => {
         borderRadius="7px"
         marginTop="10px"
         boxSizing="border-box"
-        overflow="scroll"
       >
         <Flex
           color="#b3b3b3"
@@ -63,6 +59,10 @@ export const Biblioteca = () => {
             onClick={handleCreatePlaylist}
           />
         </Flex>
+        <Box 
+          h='100%'
+          overflow='auto'
+        >
         {isLogged ? (
           userPlaylists.length > 0 ? (
           <PlaylistGrid 
@@ -80,6 +80,7 @@ export const Biblioteca = () => {
             isCreating={isCreating}
         />
       )}
+      </Box>
       </Box>
     </>
   )

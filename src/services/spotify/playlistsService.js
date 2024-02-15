@@ -151,3 +151,25 @@ export const fetchUpdateImage = async (token, playlist_id, image) => {
     }
 }
 
+// Añádir imagen a playlist
+export const fetchAddTrackToPlaylist = async (token, playlist_id, trackUri) => {
+    try {
+
+        const response = await fetch(`${BASE_URL}/playlists/${playlist_id}/tracks`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+                'uris': [
+                    trackUri
+                ],
+                'position': 0
+            })
+        })
+
+        if(!response.ok) throw new Error('Error al añadir la cancion')
+    } catch(error) {
+        console.error('Error en fetchAddTrackToPlaylist: ', error)
+    }
+}
