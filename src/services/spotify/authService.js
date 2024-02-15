@@ -1,3 +1,4 @@
+import { clientId } from "../../variiables";
 
 
 export const fetchIdUser = async(accessToken)=>{
@@ -41,7 +42,7 @@ export const fetchGetUserToken = async(code, redirectUri, clientId, codeVerifier
     
       const response = await fetch("https://accounts.spotify.com/api/token", payload);
       const data =await response.json();
-      return data.access_token;
+      return data;
 }
 
 export const getApiToken = async(clientId, clientSecret)=>{
@@ -55,4 +56,28 @@ export const getApiToken = async(clientId, clientSecret)=>{
     const response = await fetch("https://accounts.spotify.com/api/token", requestOptions)
     const data = await response.json()
     return data 
+}
+
+export const fetchRefresh = async(token, clientId)=>{
+    try{
+        const url = "https://accounts.spotify.com/api/token";
+        const payload = {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: new URLSearchParams({
+            grant_type: 'refresh_token',
+            refresh_token: refreshToken,
+            client_id: clientId
+            }),
+        }
+        const response = await fetch(url, payload);
+        if(!response) throw new Error("Error al refrescar el token")
+        const data= await body.json();
+
+        return data
+    }catch(e){
+        console.error(e)
+    }
 }

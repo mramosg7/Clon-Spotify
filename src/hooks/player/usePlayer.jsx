@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { fetchGetContext, fetchTransferPlayback } from "../../services/spotify/playerService";
-
+import { useAuthUser } from "../auth/useAuthUser";
 
 
 
@@ -10,10 +10,17 @@ export const usePlayer = ()=>{
     const [player, setPlayer] = useState(null);
     const [position, setPosition] = useState(0);
     const [paused, setPaused] = useState(true);
-    const token = localStorage.getItem("access_token")
+    const {refresh} = useAuthUser() 
+    let token = localStorage.getItem("access_token")
 
    useEffect(()=>{
-    
+    // const expire = localStorage.getItem('expirationAccessToken')
+    // if(token && Date.now()> expire){
+    //     refresh().then(
+    //         token = localStorage.getItem("access_token")
+    //     )
+        
+    // }
     if(token){
         window.onSpotifyWebPlaybackSDKReady = () => {
             const player = new Spotify.Player({
