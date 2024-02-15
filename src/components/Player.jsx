@@ -3,7 +3,7 @@ import { usePlayer } from "../hooks/player/usePlayer"
 import { Box, Button } from "@chakra-ui/react"
 import InfoPlayer from "../components/InfoPlayer"
 import ControllersPlayer from "./ControllersPlayer"
-
+import AdditionalsOptionsPlayer from "./AdditionalsOptionsPlayer"
 
 export default function Player(){
 
@@ -75,7 +75,7 @@ export default function Player(){
    
                     <InfoPlayer info={contextPlayer.item}/>
                     <ControllersPlayer paused={paused} player={player} contextPlayer={contextPlayer} position={position}/>
-                    <h1>hola</h1>
+                    <AdditionalsOptionsPlayer context={contextPlayer}/>
                
             </Box>
            

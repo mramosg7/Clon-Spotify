@@ -31,8 +31,7 @@ export const fetchTransferPlayback = async(token, device_id)=>{
             })
         })
         if(!response.ok) throw new Error("Error al transferir el playback")
-        const data = await response.json()
-        return data
+        
     }catch(e){
         console.error(e)
     }
@@ -49,7 +48,24 @@ export const fetchSeek=async(device, token, positionMs)=>{
             }
         })
         
-        
+        return
+    }catch(e){
+        console.error(e)
+    }
+}
+
+
+export const fetchSetVolume = async(device,token,volume)=>{
+    try{
+        const response = await fetch(`https://api.spotify.com/v1/me/player/volume?volume_percent=${volume}&device_id=${device}`,{
+            method:'PUT',
+            headers:{
+                "Authorization":`Bearer ${token}`
+            }
+        })
+        console.log(response)
+        if(!response.ok)throw new Error("Error al configurar el volumen")
+
     }catch(e){
         console.error(e)
     }

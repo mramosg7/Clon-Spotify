@@ -28,7 +28,7 @@ export default function Home (){
                 setPlaylists(data.playlists.items)
             })
             .finally(()=>{
-                setInterval(()=>{setLoading(false)},500)
+                setTimeout(()=>{setLoading(false)},500)
                 
             })
         }
