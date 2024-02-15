@@ -21,14 +21,13 @@ export const usePlayer = ()=>{
                 getOAuthToken: cb => { cb(token); },
                 volume: 0.2
             });  
-             // Ready
+           
             player.addListener('ready', ({ device_id }) => {
                 fetchTransferPlayback(token, device_id)
                 
-                
             });
     
-            // Not Ready
+            
             player.addListener('initialization_error', ({ message }) => {
             console.error(message);
             });
@@ -38,13 +37,15 @@ export const usePlayer = ()=>{
             });
     
             player.addListener('account_error', ({ message }) => {
-                console.e
-                })
-            player.addListener('player_state_changed', (context) => {
+                console.error(message);
+            })
+            player.addListener('player_state_changed',(context) => {
                     try{
-                        console.log(context)
+                        
                         setPaused(context.paused)
                         getContextPlayer()
+                        setPosition(context.position)
+                        console.log("changed",context.position)
                         
                     }catch(e){
                         console.error(e)
@@ -73,14 +74,16 @@ export const usePlayer = ()=>{
                 miError.code = 403;
                 throw miError
             }
-            fetchGetContext(token)
-            .then((data)=>{
+            fetchGetContext(token).then((data)=>{
                 if(data!== undefined){
                     localStorage.setItem("contextPlayer",JSON.stringify(data))
+                    console.log(data)
                     setContextPlayer(data)
                 }
-               
             })
+            
+               
+            
         } catch(e){
             throw e
         }
@@ -91,6 +94,8 @@ export const usePlayer = ()=>{
         contextPlayer,
         getContextPlayer,
         player,
-        paused
+        paused,
+        setPosition,
+        position
     }
 }

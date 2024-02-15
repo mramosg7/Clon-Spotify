@@ -25,25 +25,27 @@ function App() {
 
   return (
     <>
-      <Box
-        p='10px'
-        bg='#000'
-        w='100%'
-        minH='100vh'
-        overflow='hidden'
-        display='flex'
-      >
-        
-        <div>
-          <HerramientasUsuario />
-          <Biblioteca />
-        </div>
-        <Body isLogged={isLogged} user={user} logout={logout}/>
-
-        
-        
+      <Box>
+        <Box
+          p='10px'
+          bg='#000'
+          w='100%'
+          h='90vh'
+          overflow='hidden'
+          display='flex'
+        >
+          
+          <div>
+            <HerramientasUsuario />
+            <Biblioteca />
+          </div>
+          <Body isLogged={isLogged} user={user} logout={logout}/>
+          
+          
+          
+        </Box>
+        <Player/>
       </Box>
-      <Player/>
     </>
   )
 }

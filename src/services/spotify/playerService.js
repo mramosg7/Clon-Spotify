@@ -37,3 +37,20 @@ export const fetchTransferPlayback = async(token, device_id)=>{
         console.error(e)
     }
 }
+
+
+export const fetchSeek=async(device, token, positionMs)=>{
+    console.log(positionMs, device)
+    try{
+        await fetch(`${urlBase}/seek?position_ms=${positionMs}&device_id=${device}`,{
+            method:"PUT",
+            headers:{
+                "Authorization":`Bearer ${token}`
+            }
+        })
+        
+        
+    }catch(e){
+        console.error(e)
+    }
+}

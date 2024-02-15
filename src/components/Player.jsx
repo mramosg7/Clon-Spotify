@@ -7,7 +7,7 @@ import ControllersPlayer from "./ControllersPlayer"
 
 export default function Player(){
 
-    const {contextPlayer, getContextPlayer, player, paused} = usePlayer()
+    const {contextPlayer, getContextPlayer, player, paused, position, setPosition} = usePlayer()
     const [errorNoLog, setErrorNoLog] = useState(false)
     const [Loading, setLoading] = useState(true)
     const token = localStorage.getItem("access_token")
@@ -15,18 +15,23 @@ export default function Player(){
 
 
     useEffect(()=>{
-         try{
-             getContextPlayer()
+            
+            try{
+                getContextPlayer().then(()=>{
+                    setPosition(contextPlayer.progress_ms)
+                })
                 console.log(contextPlayer)
-         }catch(e){
-             if(e.code === 403){
-                 setErrorNoLog(true)
-             }
-             setErrorNoLog(true)
-             console.log(e.code)
-         }finally{
+            }catch(e){
+                if(e.code === 403){
+                    setErrorNoLog(true)
+                }
+                
+                console.log(e.code)
+            }finally{
             setLoading(false)
-         }
+            }
+        
+         
         
         
         
@@ -57,19 +62,19 @@ export default function Player(){
                  {!errorNoLog && !Loading &&
             
             <Box
-                   marginY="-20px"
+                  
                    background="black"
-                   position="absolute"
+                   
                    color="white"
                    display="flex"
                    justifyContent="space-between"
                    width="100%"
-                   height={75}
+                   height="10vh"
                    padding="20px"
                >
    
                     <InfoPlayer info={contextPlayer.item}/>
-                    <ControllersPlayer paused={paused} player={player} contextPlayer={contextPlayer}/>
+                    <ControllersPlayer paused={paused} player={player} contextPlayer={contextPlayer} position={position}/>
                     <h1>hola</h1>
                
             </Box>
