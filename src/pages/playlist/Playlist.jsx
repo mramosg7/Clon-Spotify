@@ -26,6 +26,7 @@ export default function Playlist(){
         }else{
             fetchDetailsPlaylist(token,id).then(data =>{
                 setPlaylist(data)
+                
             }).finally(setLoading(false))
           
         }
@@ -70,7 +71,7 @@ export default function Playlist(){
                         </Box>
                     </header>
                     <section style={{padding: '20px'}}>
-                        <TableMusic tracks={playlist.tracks.items}></TableMusic>
+                        <TableMusic tracks={playlist.tracks.items} uri={playlist.uri}></TableMusic>
                     </section>
                 </Box>
             )}

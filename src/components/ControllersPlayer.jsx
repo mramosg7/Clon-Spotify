@@ -13,10 +13,11 @@ import { useEffect, useState } from "react";
 
 import { fetchSeek } from "../services/spotify/playerService";
 
-export default function ControllersPlayer({paused, player, contextPlayer, position}){
+export default function ControllersPlayer({ player, paused, position, contextPlayer }){
    
     
-   const [timePercentage, setTimePercentage] = useState(MillisecondsToPercentage(position, contextPlayer.item.duration_ms))
+    console.log(player)
+    const [timePercentage, setTimePercentage] = useState(MillisecondsToPercentage(position, contextPlayer.item.duration_ms))
     console.log("por", timePercentage)
 
    useEffect(()=>{

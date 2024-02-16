@@ -70,3 +70,28 @@ export const fetchSetVolume = async(device,token,volume)=>{
         console.error(e)
     }
 }
+
+
+export const fetchPlay = async(token, device, position, uri)=>{
+    try{
+        const response = await fetch(`${urlBase}/play?device_id=${device}`, {
+            method:'PUT',
+            headers:{
+                "Authorization":`Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                "context_uri": uri,
+                "offset": {
+                    "position": position
+                },
+                "position_ms": 0
+            })
+        })
+
+        if(!response.ok)throw new Error("No se ha podido reproduccir")
+        
+    }catch(e){
+        console.error(e)
+    }
+}

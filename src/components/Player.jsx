@@ -5,15 +5,15 @@ import InfoPlayer from "../components/InfoPlayer"
 import ControllersPlayer from "./ControllersPlayer"
 import AdditionalsOptionsPlayer from "./AdditionalsOptionsPlayer"
 import { useAuthUser } from "../hooks/auth/useAuthUser"
-
+import { usePlayerContext } from "../context/PlayerContext";
 export default function Player(){
 
-    const {contextPlayer, getContextPlayer, player, paused, position, setPosition} = usePlayer()
+    
     const [errorNoLog, setErrorNoLog] = useState(false)
     const [Loading, setLoading] = useState(true)
     const token = localStorage.getItem("access_token")
     const {refresh} = useAuthUser()
-
+    const { player, paused, position, contextPlayer, getContextPlayer, setPosition } = usePlayerContext();
 
     useEffect(()=>{
         
