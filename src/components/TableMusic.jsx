@@ -21,14 +21,18 @@ import { Link } from "react-router-dom";
 import { usePlaylist } from "../hooks/playlistHook/usePlaylist";
 import { useEffect, useRef, useState } from "react";
 
-import { useEffect, useState } from "react";
 import { fetchPlay } from "../services/spotify/playerService";
 
 import { useAuthUser } from "../hooks/auth/useAuthUser";
 import { usePlayerContext } from "../context/PlayerContext";
 import { IoIosStats } from "react-icons/io";
 
+export default function TableMusic({ tracks , uri}) {
+
   const { handleAddTrack, userPlaylists, handleGetUserPlaylists } = usePlaylist()
+  const [hoveredTd, setHoveredTd] = useState(null);
+  const {refresh} = useAuthUser
+  const {contextPlayer} = usePlayerContext()
   const [userOwnedPlaylists, setUserOwnedPlaylists] = useState([])
   const [showOptions, setShowOptions] = useState(false)
   const [contextMenu, setContextMenu] = useState({
@@ -47,21 +51,8 @@ import { IoIosStats } from "react-icons/io";
   let userId = null
   if(user) userId = user.id
 
-
-
-
-
-export default function TableMusic({ tracks , uri}) {
-  
-  const { handleAddTrack } = usePlaylist()
-  const { userPlaylists, handleGetUserPlaylists } = usePlaylist()
-  const [hoveredTd, setHoveredTd] = useState(null);
-  const {refresh} = useAuthUser
-  const {contextPlayer} = usePlayerContext()
-
   useEffect(() => {
     handleGetUserPlaylists()
-    
   }, [])
   
 
