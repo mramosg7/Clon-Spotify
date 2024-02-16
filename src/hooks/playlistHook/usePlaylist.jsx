@@ -8,10 +8,13 @@ export const usePlaylist = () => {
   const access_token = localStorage.getItem("access_token")
   // Estados de carga
   const [isCreating, setCreating] = useState(false)
-  const [isAdding, setAdding] = useState(false)
+  const [refreshCounter, setRefreshCounter] = useState(0)
   // Estado para las playlists del ususario
   const [userPlaylists, setUserPlaylists] = useState([])
 
+  const refreshPlaylists = () => {
+    setRefreshCounter(prevCounter => prevCounter + 1)
+  }
 
   // Crear playlist y obtener todas las del usuario
   const handleCreatePlaylist = async () => {
@@ -63,6 +66,8 @@ export const usePlaylist = () => {
         await fetchUpdateImage(access_token, playlistId, image)
       }
 
+      refreshPlaylists()
+      
     } catch(error) {
       console.error("Error al intentar actualizar la playlist (handleUpdatePlaylist): ", error)
     } 
@@ -72,21 +77,20 @@ export const usePlaylist = () => {
   const handleAddTrack = async (playlistId, trackUri) => {
     try {
 
-      setAdding(true)
       await fetchAddTrackToPlaylist(access_token, playlistId, trackUri)
+      
+      refreshPlaylists()
 
     } catch(error) {
       console.error("Error al añadir la cancion a la playlist")
-    } finally {
-      setAdding(false)
-    }
+    } 
   }
 
 
   return {
     isCreating,
-    isAdding,
     userPlaylists,
+    refreshCounter,
     handleAddTrack,
     handleCreatePlaylist,
     handleGetUserPlaylists,

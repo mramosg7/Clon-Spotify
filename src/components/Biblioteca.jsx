@@ -8,18 +8,22 @@ import { usePlaylist } from "../hooks/playlistHook/usePlaylist"
 import { PlaylistGrid } from "./PlaylistGrid"
 import { FirstPlaylist } from "./FirstPlaylist"
 import { useAuthUser } from "../hooks/auth/useAuthUser"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 
 
 export const Biblioteca = () => {
 
-  const { handleGetUserPlaylists, handleCreatePlaylist, isCreating, userPlaylists } = usePlaylist()
+  const { handleGetUserPlaylists, handleCreatePlaylist, refreshCounter, isCreating, userPlaylists } = usePlaylist()
   const { isLogged } = useAuthUser()
+  const [refreshPlaylistGrid, setRefreshPlaylistGrid] = useState(false)
 
   useEffect(() => {
     if(isLogged)  handleGetUserPlaylists()
-  }, [isLogged])
+  }, [isLogged, refreshCounter])
 
+  useEffect(() => {
+    setRefreshPlaylistGrid(prev => !prev)
+  }, [userPlaylists])
 
 
   return (
@@ -63,7 +67,7 @@ export const Biblioteca = () => {
           h='100%'
           overflow='auto'
         >
-        {isLogged ? (
+        {(isLogged || refreshPlaylistGrid)? (
           userPlaylists.length > 0 ? (
           <PlaylistGrid 
             userPlaylists={userPlaylists}

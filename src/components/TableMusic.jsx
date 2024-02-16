@@ -11,31 +11,73 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { MdOutlineAccessTime } from "react-icons/md";
+import { MdKeyboardArrowRight } from "react-icons/md";
 import { format } from "date-fns";
 import esLocale from "date-fns/locale/es";
 import { Link } from "react-router-dom";
 import { usePlaylist } from "../hooks/playlistHook/usePlaylist";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+
 
 export default function TableMusic({ tracks }) {
 
-  const { handleAddTrack } = usePlaylist()
-  const { userPlaylists, handleGetUserPlaylists } = usePlaylist()
+  const { handleAddTrack, userPlaylists, handleGetUserPlaylists } = usePlaylist()
+  const [userOwnedPlaylists, setUserOwnedPlaylists] = useState([])
+  const [showOptions, setShowOptions] = useState(false)
+  const [contextMenu, setContextMenu] = useState({
+    isVisible: false, 
+    position: {
+      x: 0,
+      y: 0,
+    },
+    trackUri: null
+  })
+  const contextMenuRef = useRef(null)
+
+  // Obtener usuario del localstorage
+  const userString = localStorage.getItem('user')
+  const user = JSON.parse(userString)
+  let userId = null
+  if(user) userId = user.id
+
+
+
+
 
   useEffect(() => {
     handleGetUserPlaylists()
   }, [])
 
-  const [contextMenu, setContextMenu] = useState({
-    isVisible: false,
-    position: {
-      x: 0,
-      y: 0,
-    },
-    trackId: null
-  })
+  useEffect(() => {
+    const ownedPlaylists = userPlaylists.filter(playlist => playlist.owner.id === userId)
+    setUserOwnedPlaylists(ownedPlaylists)
+  }, [userPlaylists, userId])
 
-  const onRightClickTrack = (event, trackId) => {
+  useEffect(() => {
+
+    // Cerrar el menu al hacer clic fuera
+    const handleClose = (event) => {
+      if(contextMenu.isVisible && !contextMenuRef.current.contains(event.target)) {
+        setContextMenu({
+          ...contextMenu,
+          isVisible: false
+        })
+      }
+    }
+
+    document.addEventListener("mousedown", handleClose)
+
+    return () => document.removeEventListener("mousedown", handleClose)
+    
+  }, [contextMenu])
+
+
+  const handleToggleOptions = () => {
+    setShowOptions(!showOptions)
+  }
+
+
+  const onRightClickTrack = (event, trackUri) => {
     // Eliminar que se pueda sacar el menu del click derecho por defecto
     event.preventDefault()
     setContextMenu({
@@ -44,25 +86,25 @@ export default function TableMusic({ tracks }) {
         x: event.pageX,
         y: event.pageY,
       },
-      trackId,
+      trackUri,
     })
   }
 
-  useEffect(() => {
-    const handleClick = () =>
+  const handleSelectPlaylist = (playlistId) => {
+    if(contextMenu.trackUri && playlistId) {
+      handleAddTrack(playlistId, contextMenu.trackUri)
       setContextMenu({
-        isVisible: false,
-        position: {
-          x: 0,
-          y: 0,
-        },
-        trackId: null,
+        ...contextMenu,
+        isVisible: false
       })
-    document.addEventListener("click", handleClick)
+    }
+  }
 
-    // Limpirar listener
-    return () => document.removeEventListener("click", handleClick)
-  }, [])
+  const handleMenuSelect = (playlistId) => {
+    handleSelectPlaylist(playlistId)
+    setContextMenu({ ...contextMenu, isVisible: false })
+  }
+
 
   const formatearFecha = (fecha) => {
     const date = new Date(fecha);
@@ -134,7 +176,7 @@ export default function TableMusic({ tracks }) {
           <Tbody color="#A9A9A9">
             {tracks.map((track, index) => (
               <Tr
-                onContextMenu={(e) => onRightClickTrack(e, track.track.id)}
+                onContextMenu={(e) => onRightClickTrack(e, track.track.uri)}
                 key={track.track.id}
                 height="10px"
                 _hover={{
@@ -183,26 +225,56 @@ export default function TableMusic({ tracks }) {
         </Table>
       </TableContainer>
       {contextMenu.isVisible && (
-        <select
-          style={{
-            position: "absolute",
-            top: contextMenu.position.y,
-            left: contextMenu.position.x,
-            zIndex: 10,
-            padding: "10px",
-            backgroundColor: "#292829",
-            boxShadow: "0px 0px 16px 5px rgba(0,0,0,0.4)",
-            color: "#e6e6e6",
-            display: "flex",
-            borderRadius: "3px",
-            alignItems: "center",
-            cursor: "pointer"
-          }}
-        >
-          {userPlaylists.map(playlist => (
-            <option>{playlist.name}</option>
-          ))}
-        </select>
+      <div
+        style={{
+          position: 'absolute',
+          top: contextMenu.position.y,
+          left: contextMenu.position.x,
+          zIndex: 1000,
+          padding: '10px',
+          backgroundColor: '#292928',
+          color: 'white',
+          cursor: 'pointer',
+          borderRadius: '3px',
+          boxShadow: '0px 8px 16px 0px rgba(0,0,0,0.2)',
+        }}
+        ref={contextMenuRef}
+      >
+        <div style={{
+          display: 'flex',
+          alignItems: 'center'
+        }} onClick={handleToggleOptions}>
+          Añadir a lista <MdKeyboardArrowRight />
+        </div>
+          {showOptions && (
+            <div
+              style={{
+                position: 'absolute',
+                left: '100%',
+                top: '0',
+                backgroundColor: '#292928',
+                borderRadius: '3px',
+                boxShadow: '0px 8px 16px 0px rgba(0,0,0,0.2)',
+                padding: '10px',
+                zIndex: 1000,
+                cursor: 'pointer',
+                width: '200px',
+                height: '200px',
+                textOverflow: 'ellipsis',
+                overflow: 'auto'
+              }}
+            >
+              {userOwnedPlaylists.map((playlist) => (
+                <div style={{
+                  padding: '5px',
+                  marginBottom: '2px'
+                }} key={playlist.id} onClick={() => handleMenuSelect(playlist.id)}>
+                  {playlist.name}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       )}
     </>
   );
