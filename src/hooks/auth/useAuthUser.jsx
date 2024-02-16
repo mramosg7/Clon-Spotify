@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { fetchIdUser, fetchGetUserToken } from "@spotify/authService.js"
+import { fetchIdUser, fetchGetUserToken, fetchRefresh} from "@spotify/authService.js"
 import { getCodeVerifier } from "@spotify/codeVerifier";
 import { clientId, redirectUri } from "../../variiables";
 
@@ -48,8 +48,11 @@ export const useAuthUser= ()=>{
         const data = await fetchGetUserToken(code,redirectUri,clientId,codeVerifier)        
 
         const access_token = localStorage.getItem('access_token');
-        if(data){
-            localStorage.setItem('access_token', data);
+        console.log(data)
+        if(!access_token){
+            localStorage.setItem('expirationAccessToken',Date.now() + data.expires_in * 1000)
+            localStorage.setItem('refreshToken', data.refresh_token)
+            localStorage.setItem('access_token', data.access_token);
             setLogged(true)
         }
     }
@@ -85,13 +88,25 @@ export const useAuthUser= ()=>{
         window.location.href = '/'
     }
 
+    const refresh = async()=>{
+        const token = localStorage.getItem('refreshToken')
+        if (!token){
+            return
+        }
+        const data = await fetchRefresh(token,clientId)
+        localStorage.setItem('expirationAccessToken',Date.now() + data.expires_in * 1000)
+        localStorage.setItem('refreshToken', data.refresh_token)
+      
+    }
+
     return{
         user,
         isLogged,
         getAccessToken,
         getUserId,
         login,
-        logout
+        logout,
+        refresh
     }
 
 

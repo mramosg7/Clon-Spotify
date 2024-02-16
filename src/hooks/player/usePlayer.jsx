@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { fetchGetContext, fetchTransferPlayback } from "../../services/spotify/playerService";
-
+import { useAuthUser } from "../auth/useAuthUser";
 
 
 
@@ -10,10 +10,10 @@ export const usePlayer = ()=>{
     const [player, setPlayer] = useState(null);
     const [position, setPosition] = useState(0);
     const [paused, setPaused] = useState(true);
-    const token = localStorage.getItem("access_token")
+    const {refresh} = useAuthUser() 
+    let token = localStorage.getItem("access_token")
 
    useEffect(()=>{
-    
     if(token){
         window.onSpotifyWebPlaybackSDKReady = () => {
             const player = new Spotify.Player({
@@ -66,7 +66,7 @@ export const usePlayer = ()=>{
     
    },[])
 
-    const getContextPlayer = ()=>{
+    const getContextPlayer = async()=>{
         try {
            
             if(!token){
@@ -74,13 +74,15 @@ export const usePlayer = ()=>{
                 miError.code = 403;
                 throw miError
             }
-            fetchGetContext(token).then((data)=>{
+            const data = await fetchGetContext(token)
+            
+            
                 if(data!== undefined){
                     localStorage.setItem("contextPlayer",JSON.stringify(data))
                     console.log(data)
                     setContextPlayer(data)
                 }
-            })
+            
             
                
             

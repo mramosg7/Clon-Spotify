@@ -4,6 +4,7 @@ import { Box, Button } from "@chakra-ui/react"
 import InfoPlayer from "../components/InfoPlayer"
 import ControllersPlayer from "./ControllersPlayer"
 import AdditionalsOptionsPlayer from "./AdditionalsOptionsPlayer"
+import { useAuthUser } from "../hooks/auth/useAuthUser"
 
 export default function Player(){
 
@@ -11,29 +12,39 @@ export default function Player(){
     const [errorNoLog, setErrorNoLog] = useState(false)
     const [Loading, setLoading] = useState(true)
     const token = localStorage.getItem("access_token")
-
+    const {refresh} = useAuthUser()
 
 
     useEffect(()=>{
-            
-            try{
-                getContextPlayer().then(()=>{
-                    setPosition(contextPlayer.progress_ms)
-                })
-                console.log(contextPlayer)
-            }catch(e){
-                if(e.code === 403){
-                    setErrorNoLog(true)
-                }
+        
+            const expiration = localStorage.getItem("expirationAccessToken")
+            if(expiration < Date.now()){
+                refresh().then(
+                    getContextPlayer().then(()=>{
+                        setPosition(contextPlayer.progress_ms)
+                    }) 
+                    .catch((e)=>{
+                        setErrorNoLog(true)
+                        console.log(e)
+                    })
+                    .finally(()=>{
+                        setLoading(false)
+                    })
+                )
                 
-                console.log(e.code)
-            }finally{
-            setLoading(false)
+            }else{
+                getContextPlayer().then(()=>{
+                    console.log(contextPlayer)
+                    setPosition(contextPlayer.progress_ms)
+                }) 
+                .catch((e)=>{
+                    setErrorNoLog(true)
+                    console.log(e)
+                })
+                .finally(()=>{
+                    setLoading(false)
+                })
             }
-        
-         
-        
-        
         
     },[])
 
