@@ -10,27 +10,15 @@ export default function Playlist(){
     const {id} = useParams()
     const [playlist, setPlaylist] = useState()
     const [isLoading, setLoading] = useState(true)
-    const {token, getToken} = useAuthAPI()
+    const {getToken} = useAuthAPI()
     
-    useEffect(()=>{
-        
-        const tokenExpiration = localStorage.getItem('tokenExpiration')
-        if(!token || Date.now() > tokenExpiration){
+    useEffect(()=>{    
             getToken().then((tk)=>{
                 fetchDetailsPlaylist(tk,id).then(data =>{
                     setPlaylist(data)
                 })
                 .finally(setLoading(false))
             })
-        }else{
-            fetchDetailsPlaylist(token,id).then(data =>{
-                setPlaylist(data)
-                
-            }).finally(setLoading(false))
-          
-        }
-        
-
     },[id])
 
     return(

@@ -9,7 +9,7 @@ import ArtistAlbums from "../../components/ArtistAlbums";
 import ArtistasSearch from "../../components/ArtistasSearch";
 
 export default function Search(){
-    const {token, getToken} = useAuthAPI()
+    const {getToken} = useAuthAPI()
     const [results, setResults] = useState(null)
     const {q} = useParams()
 
@@ -17,21 +17,12 @@ export default function Search(){
 
 
     useEffect(()=>{
-        const tokenExpiration = localStorage.getItem('tokenExpiration')
-        if(!token || Date.now() > tokenExpiration){
             getToken().then((tk)=>{
                 fetchSearch(q, tk)
                 .then((data)=>{
                     setResults(data)
                 })
             })
-
-        }else{
-            fetchSearch(q, token)
-                .then((data)=>{
-                    setResults(data)
-                })
-        }
     },[q])
 
 

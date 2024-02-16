@@ -59,6 +59,7 @@ export const fetchDetailsPlaylist = async (token, id) => {
 // Crear playlist
 export const fetchNewPlaylist = async (token, user_id) => {
     try {
+        console.log(token)
         const response = await fetch(`${BASE_URL}/users/${user_id}/playlists`, {
             method: 'POST',
             headers: {

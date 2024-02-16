@@ -2,7 +2,7 @@ import { Heading, Box, Image, Card, CardBody, CardHeader, Stack, Text } from "@c
 import { Link } from "react-router-dom";
 
 export default function ArtistAlbums({albums}){
-    console.log(albums)
+   
     return(
         <>
             
@@ -12,7 +12,7 @@ export default function ArtistAlbums({albums}){
                 gap='10px'
                 flexWrap='wrap'
             >
-                {albums.map((album) =>(
+                {albums && albums.map((album) =>(
                         
                         <Card 
                             width='200px' 

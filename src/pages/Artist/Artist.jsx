@@ -11,12 +11,9 @@ export default function Artist(){
     const [artist, setArtist] = useState(null)
     const [topTracks, setTopTracks] = useState(null)
     const [albums, setAlbums] = useState(null)
-    const {token, getToken} = useAuthAPI()
+    const {getToken} = useAuthAPI()
 
     useEffect(()=>{
-        const tokenExpiration = localStorage.getItem('tokenExpiration')
-      
-        if(!token || Date.now() > tokenExpiration){
             getToken().then((tk)=>{
                 fetchGetArtist(id,tk)
                 .then((data)=>{
@@ -28,29 +25,11 @@ export default function Artist(){
                 })
                 fetchGetArtistAlbums(id,tk)
                 .then((data)=>{
+                    console.log(data)
                     setAlbums(data.items)
+                    console.log(albums)
                 })
             })
-        }else{
-            fetchGetArtist(id,token).then((data)=>{
-                
-                setArtist(data)
-                
-            })
-            fetchGetTopTracks(id,token)
-            .then((data)=>{
-                setTopTracks(data)
-            })
-            fetchGetArtistAlbums(id,token)
-            .then((data)=>{
-                setAlbums(data)
-            
-            })
-           
-          
-        }
-        
-
     },[id])
 
 
@@ -84,7 +63,7 @@ export default function Artist(){
             >
                 {topTracks && <TopTracks tracks={topTracks.tracks}/>}
                 <Heading color="white" marginBottom='30px' marginTop="10px"> Discografía</Heading>
-                {albums && <ArtistAlbums albums={albums.items}/>}
+                {albums && <ArtistAlbums albums={albums}/>}
             </Box>
             
             

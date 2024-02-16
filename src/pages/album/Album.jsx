@@ -9,34 +9,25 @@ import ArtistAlbums from '../../components/ArtistAlbums'
 import { fetchGetArtistAlbums } from "../../services/spotify/artistService";
 
 export default function Album(){
+  
     const {id} = useParams()
     const [album, setAlbum] = useState(null)
     const [artistAlbums, setArtistAlbums] = useState(null)
-    const {token, getToken} = useAuthAPI()
+    const {getToken} = useAuthAPI()
     const [isLoading, setLoading] = useState(true)
 
     useEffect(()=>{
-        const tokenExpiration = localStorage.getItem('tokenExpiration')
-      
-        if(!token || Date.now() > tokenExpiration){
+        
             getToken().then((tk)=>{
                 fetchGetAlbum(id,tk).then((data)=>{
+                    console.log(data)
                     setAlbum(data)
                     fetchGetArtistAlbums(data.artists[0].id, tk).then((data)=>{
                         setArtistAlbums(data.items.slice(0,6))
                     })
                 }).finally(()=>setLoading(false))
             })
-        }else{
-            fetchGetAlbum(id,token).then((data)=>{
-                setAlbum(data)
-                console.log(data)
-                fetchGetArtistAlbums(data.artists[0].id, token).then((data)=>{
-                    
-                    setArtistAlbums(data.items.slice(0,6))
-                })
-            }).finally(()=>setLoading(false))
-        }
+       
     },[id])
 
     return(

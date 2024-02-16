@@ -6,6 +6,9 @@ import { clientId, redirectUri } from "../../variiables";
 export const useAuthUser= ()=>{
     const [user, setUser] = useState(localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null)
     const [isLogged, setLogged] = useState(Boolean(localStorage.getItem("user")))
+    const [accessToken, setAccessToken] = useState(localStorage.getItem('access_token'))
+    const [expiration, setExpiration] = useState(localStorage.getItem('expirationAccessToken'))
+
     const userLocal = localStorage.getItem("user")
 
     useEffect(() => {
@@ -38,31 +41,34 @@ export const useAuthUser= ()=>{
     }
   
     const getAccessToken = async()=>{
+
+        if(accessToken){
+            if(expiration < Date.now()){
+               const token = await refresh()
+               return token
+            }
+            return accessToken
+        }
+        console.log('hola')
         const urlParams = new URLSearchParams(window.location.search);
         const code = urlParams.get('code');
-        
-      
-
         const codeVerifier = localStorage.getItem('code_verifier');
-        
         const data = await fetchGetUserToken(code,redirectUri,clientId,codeVerifier)        
-
-        const access_token = localStorage.getItem('access_token');
-        console.log(data)
-        if(!access_token){
+        if(data.expires_in && data.access_token && data.refresh_token){
             localStorage.setItem('expirationAccessToken',Date.now() + data.expires_in * 1000)
+            setExpiration(Date.now() + data.expires_in * 1000)
             localStorage.setItem('refreshToken', data.refresh_token)
             localStorage.setItem('access_token', data.access_token);
             setLogged(true)
+            return data.access_token
         }
+        
+        
     }
     
-    const getUserId = ()=>{
-        const accessToken = localStorage.getItem('access_token');
-
-        // Verifica si el token de acceso existe
-        if (accessToken) {
-            fetchIdUser(accessToken)
+    const getUserId = (tk)=>{
+        if(tk){
+            fetchIdUser(tk)
             .then(data => {
                 localStorage.setItem('user', JSON.stringify(data))
                 setUser(data)
@@ -72,9 +78,8 @@ export const useAuthUser= ()=>{
                 console.error('Error al obtener información del usuario:', error)
                 setLogged(false)
             })
-        } else {
-          console.error('No se encontró un token de acceso en el localStorage.');
         }
+            
     }
     
 
@@ -87,6 +92,7 @@ export const useAuthUser= ()=>{
         setLogged(false)
         window.location.href = '/'
     }
+    
 
     const refresh = async()=>{
         const token = localStorage.getItem('refreshToken')
@@ -95,7 +101,12 @@ export const useAuthUser= ()=>{
         }
         const data = await fetchRefresh(token,clientId)
         localStorage.setItem('expirationAccessToken',Date.now() + data.expires_in * 1000)
+        setExpiration(Date.now() + data.expires_in * 1000)
+        localStorage.setItem('access_token', data.access_token)
+        setAccessToken(data.access_token)
         localStorage.setItem('refreshToken', data.refresh_token)
+
+        return data.access_token
       
     }
 

@@ -2,6 +2,7 @@ import { clientId } from "../../variiables";
 
 
 export const fetchIdUser = async(accessToken)=>{
+    console.log(accessToken)
     try{
         const response = await fetch('https://api.spotify.com/v1/me', {
                                 method: 'GET',
@@ -39,7 +40,7 @@ export const fetchGetUserToken = async(code, redirectUri, clientId, codeVerifier
           code_verifier: codeVerifier,
         }),
       }
-    
+      console.log(payload)
       const response = await fetch("https://accounts.spotify.com/api/token", payload);
       const data =await response.json();
       return data;

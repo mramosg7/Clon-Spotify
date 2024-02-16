@@ -9,31 +9,18 @@ export default function Home (){
 
     const [isLoading, setLoading] = useState(true)
     const [playlists, setPlaylists] = useState([])
-    const {token, getToken} = useAuthAPI()
+    const {getToken} = useAuthAPI()
     useEffect(()=>{
         setLoading(true)
-        const tokenExpiration = localStorage.getItem('tokenExpiration')
-        if(!token || Date.now() > tokenExpiration){
-            getToken().then((tk)=>{
-                fetchFeaturedPlaylists(tk).then(data =>{
-                    setPlaylists(data.playlists.items)
-                })
-                .finally(()=>{
-                   setLoading(false)
-                    
-                })
-            })
-        }else{
-            fetchFeaturedPlaylists(token).then(data =>{
+        getToken().then((tk)=>{
+            fetchFeaturedPlaylists(tk).then(data =>{
                 setPlaylists(data.playlists.items)
             })
             .finally(()=>{
                 setTimeout(()=>{setLoading(false)},500)
                 
             })
-        }
-        
-
+        })
     },[])
 
     return(

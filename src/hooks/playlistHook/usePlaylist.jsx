@@ -1,11 +1,10 @@
 import { useState } from "react"
 import { fetchNewPlaylist } from "@spotify/playlistsService.js"
 import { fetchUpdatePlaylist, fetchUpdateImage, fetchGetUserPlaylist, fetchAddTrackToPlaylist } from "../../services/spotify/playlistsService"
-
+import { useAuthUser } from "../auth/useAuthUser"
 export const usePlaylist = () => {
+  const {getAccessToken} = useAuthUser()
 
-  // Token de acceso del usuario
-  const access_token = localStorage.getItem("access_token")
   // Estados de carga
   const [isCreating, setCreating] = useState(false)
   const [refreshCounter, setRefreshCounter] = useState(0)
@@ -26,7 +25,9 @@ export const usePlaylist = () => {
       const userId = user.id
 
       // Fetch
-      const newPlaylist = await fetchNewPlaylist(access_token, userId)
+      //Obtener el access token
+      const accessToken = await getAccessToken()
+      const newPlaylist = await fetchNewPlaylist(accessToken, userId)
       if(newPlaylist) {
         handleGetUserPlaylists()
       }
@@ -43,8 +44,8 @@ export const usePlaylist = () => {
       const user = JSON.parse(userString)
       let userId = null
       if(user) userId = user.id
-
-      const playlists = await fetchGetUserPlaylist(access_token, userId)
+      const accessToken = await getAccessToken()
+      const playlists = await fetchGetUserPlaylist(accessToken, userId)
       if(playlists && playlists.items) {
         setUserPlaylists(playlists.items)
       }
@@ -60,10 +61,10 @@ export const usePlaylist = () => {
       const name = formData.get('name')
       const description = formData.get('description')
       const image = formData.get('image')
-
-      await fetchUpdatePlaylist(access_token, playlistId, name, description)
+      const accessToken = await getAccessToken()
+      await fetchUpdatePlaylist(accessToken, playlistId, name, description)
       if(image) {
-        await fetchUpdateImage(access_token, playlistId, image)
+        await fetchUpdateImage(accessToken, playlistId, image)
       }
 
       refreshPlaylists()
@@ -76,8 +77,8 @@ export const usePlaylist = () => {
   // Añadir cancion
   const handleAddTrack = async (playlistId, trackUri) => {
     try {
-
-      await fetchAddTrackToPlaylist(access_token, playlistId, trackUri)
+      const accessToken = await getAccessToken()
+      await fetchAddTrackToPlaylist(accessToken, playlistId, trackUri)
       
       refreshPlaylists()
 
