@@ -9,7 +9,10 @@ import {
   Image,
   Box,
   Text,
+  Button,
+  color,
 } from "@chakra-ui/react";
+import { FaPlay} from "react-icons/fa";
 import { MdOutlineAccessTime } from "react-icons/md";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { format } from "date-fns";
@@ -18,8 +21,12 @@ import { Link } from "react-router-dom";
 import { usePlaylist } from "../hooks/playlistHook/usePlaylist";
 import { useEffect, useRef, useState } from "react";
 
+import { useEffect, useState } from "react";
+import { fetchPlay } from "../services/spotify/playerService";
 
-export default function TableMusic({ tracks }) {
+import { useAuthUser } from "../hooks/auth/useAuthUser";
+import { usePlayerContext } from "../context/PlayerContext";
+import { IoIosStats } from "react-icons/io";
 
   const { handleAddTrack, userPlaylists, handleGetUserPlaylists } = usePlaylist()
   const [userOwnedPlaylists, setUserOwnedPlaylists] = useState([])
@@ -44,9 +51,19 @@ export default function TableMusic({ tracks }) {
 
 
 
+export default function TableMusic({ tracks , uri}) {
+  
+  const { handleAddTrack } = usePlaylist()
+  const { userPlaylists, handleGetUserPlaylists } = usePlaylist()
+  const [hoveredTd, setHoveredTd] = useState(null);
+  const {refresh} = useAuthUser
+  const {contextPlayer} = usePlayerContext()
+
   useEffect(() => {
     handleGetUserPlaylists()
+    
   }, [])
+  
 
   useEffect(() => {
     const ownedPlaylists = userPlaylists.filter(playlist => playlist.owner.id === userId)
@@ -88,6 +105,23 @@ export default function TableMusic({ tracks }) {
       },
       trackUri,
     })
+  }
+  const handleClick = (position)=>{
+      const device_id = localStorage.getItem('device_id')
+      if(device_id){
+        const expiration = localStorage.getItem('expirationAccessToken')
+        if(expiration < Date.now()){
+          refresh().then(()=>{
+            const accessToken = localStorage.getItem('access_token')
+            fetchPlay(accessToken,device_id,position,uri)
+          })
+        }else{
+          
+          const accessToken = localStorage.getItem('access_token')
+          console.log(position)
+          fetchPlay(accessToken,device_id,position,uri)
+        }
+      }
   }
 
   const handleSelectPlaylist = (playlistId) => {
@@ -183,9 +217,14 @@ export default function TableMusic({ tracks }) {
                   bg: "rgb(255, 255, 255, 0.2)",
                   color: "white",
                 }}
+                
+                onMouseEnter={()=>{setHoveredTd(track.track.id)}}
+                onMouseLeave={()=>{setHoveredTd(null)}}
               >
                 <Td borderTopLeftRadius="md" borderBottomLeftRadius="md">
-                  {index + 1}
+                  {contextPlayer && contextPlayer.item.id === track.track.id ? <IoIosStats style={{color:'green', fontSize:'20px'}}/> : 
+                  hoveredTd === track.track.id ? <FaPlay onClick={()=>{handleClick(index)}} style={{fontSize:'10px'}}/> : index + 1}
+                  
                 </Td>
                 <Td color="white" display="flex" gap="10px" alignItems="center">
                   <Image
@@ -194,7 +233,9 @@ export default function TableMusic({ tracks }) {
                     w="50px"
                   />
                   <div>
-                    <h4>{track.track.name}</h4>
+                  <h4 style={(contextPlayer && contextPlayer.item.id === track.track.id) ? {color:"green"}: null}>
+                    {track.track.name}
+                  </h4>
                     <Box display="flex">
                       {track.track.artists.map((a, index) => (
                         <Link to={`/artist/${a.id}`} key={a.id}>

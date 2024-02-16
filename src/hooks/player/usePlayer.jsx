@@ -13,58 +13,7 @@ export const usePlayer = ()=>{
     const {refresh} = useAuthUser() 
     let token = localStorage.getItem("access_token")
 
-   useEffect(()=>{
-    if(token){
-        window.onSpotifyWebPlaybackSDKReady = () => {
-            const player = new Spotify.Player({
-                name: 'sdk de prueba',
-                getOAuthToken: cb => { cb(token); },
-                volume: 0.2
-            });  
-           
-            player.addListener('ready', ({ device_id }) => {
-                fetchTransferPlayback(token, device_id)
-                
-            });
-    
-            
-            player.addListener('initialization_error', ({ message }) => {
-            console.error(message);
-            });
-    
-            player.addListener('authentication_error', ({ message }) => {
-                console.error(message);
-            });
-    
-            player.addListener('account_error', ({ message }) => {
-                console.error(message);
-            })
-            player.addListener('player_state_changed',(context) => {
-                    try{
-                        
-                        setPaused(context.paused)
-                        getContextPlayer()
-                        setPosition(context.position)
-                        console.log("changed",context.position)
-                        
-                    }catch(e){
-                        console.error(e)
-                    }
-            });
-            player.connect();
-            console.log(player)
-            setPlayer(player)
-
-            
-        }
-        return () => {
-            if (player) {
-                player.disconnect();
-            }
-        };
-    }
-    
-   },[])
+   
 
     const getContextPlayer = async()=>{
         try {
