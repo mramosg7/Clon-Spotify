@@ -19,12 +19,6 @@ import { Link } from 'react-router-dom';
 
 export default function TableMusicAlbum({tracks}){
 
-    const formatearFecha = (fecha)=>{
-        const date = new Date(fecha);
-        const fechaFormateada = format(date, "dd MMM yyyy", { locale: esLocale });
-        return fechaFormateada
-    }
-
     function convertirAMinutosYSegundos(tiempoTotal) {
         const tiempoTotalEnSegundos = tiempoTotal / 1000;
 

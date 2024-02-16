@@ -1,6 +1,7 @@
 
 
 export const fetchIdUser = async(accessToken)=>{
+    console.log("Token", accessToken)
     try{
         const response = await fetch('https://api.spotify.com/v1/me', {
                                 method: 'GET',
@@ -8,6 +9,7 @@ export const fetchIdUser = async(accessToken)=>{
                                 'Authorization': `Bearer ${accessToken}`,
                                 },
                             })
+        console.log(response)
         if (!response.ok) {
             // Intenta obtener más detalles del cuerpo de la respuesta
             const errorData = await response.json();
@@ -17,6 +19,7 @@ export const fetchIdUser = async(accessToken)=>{
         const data = await response.json()
         return data
     }catch(error){
+
         console.error(error)
     }
     
@@ -41,6 +44,7 @@ export const fetchGetUserToken = async(code, redirectUri, clientId, codeVerifier
     
       const response = await fetch("https://accounts.spotify.com/api/token", payload);
       const data =await response.json();
+      console.log(data)
       return data.access_token;
 }
 

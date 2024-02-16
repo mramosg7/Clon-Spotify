@@ -59,7 +59,7 @@ export const PlaylistGrid = ({ userPlaylists }) => {
     <>
       <Grid gap={2} templateColumns="repeat(3, 1fr)">
         {userPlaylists.map((playlist) => (
-          <React.Fragment key={playlist.id}>
+          <React.Fragment key={playlist.id} >
             <GridItem
               onContextMenu={(e) => onRightClickPlaylist(e, playlist.id)}
               w="100%"

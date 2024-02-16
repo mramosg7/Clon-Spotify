@@ -45,6 +45,7 @@ export const usePlaylist = () => {
       if(playlists && playlists.items) {
         setUserPlaylists(playlists.items)
       }
+
     } catch(error) {
       console.error("Error al obtener las playlists: ", error)
     }

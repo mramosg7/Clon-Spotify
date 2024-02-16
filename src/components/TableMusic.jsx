@@ -15,10 +15,54 @@ import { format } from "date-fns";
 import esLocale from "date-fns/locale/es";
 import { Link } from "react-router-dom";
 import { usePlaylist } from "../hooks/playlistHook/usePlaylist";
+import { useEffect, useState } from "react";
 
 export default function TableMusic({ tracks }) {
 
   const { handleAddTrack } = usePlaylist()
+  const { userPlaylists, handleGetUserPlaylists } = usePlaylist()
+
+  useEffect(() => {
+    handleGetUserPlaylists()
+  }, [])
+
+  const [contextMenu, setContextMenu] = useState({
+    isVisible: false,
+    position: {
+      x: 0,
+      y: 0,
+    },
+    trackId: null
+  })
+
+  const onRightClickTrack = (event, trackId) => {
+    // Eliminar que se pueda sacar el menu del click derecho por defecto
+    event.preventDefault()
+    setContextMenu({
+      isVisible: true,
+      position: {
+        x: event.pageX,
+        y: event.pageY,
+      },
+      trackId,
+    })
+  }
+
+  useEffect(() => {
+    const handleClick = () =>
+      setContextMenu({
+        isVisible: false,
+        position: {
+          x: 0,
+          y: 0,
+        },
+        trackId: null,
+      })
+    document.addEventListener("click", handleClick)
+
+    // Limpirar listener
+    return () => document.removeEventListener("click", handleClick)
+  }, [])
 
   const formatearFecha = (fecha) => {
     const date = new Date(fecha);
@@ -90,6 +134,7 @@ export default function TableMusic({ tracks }) {
           <Tbody color="#A9A9A9">
             {tracks.map((track, index) => (
               <Tr
+                onContextMenu={(e) => onRightClickTrack(e, track.track.id)}
                 key={track.track.id}
                 height="10px"
                 _hover={{
@@ -118,7 +163,7 @@ export default function TableMusic({ tracks }) {
                               textDecoration: "underline",
                             }}
                           >
-                            {index != 0 ? ", " : ""}
+                            {index !== 0 ? ", " : ""}
                             {a.name}
                           </Text>
                         </Link>
@@ -131,14 +176,34 @@ export default function TableMusic({ tracks }) {
                 <Td borderTopRightRadius="md" borderBottomRightRadius="md">
                   {convertirAMinutosYSegundos(track.track.duration_ms)}
                 </Td>
-                <Td cursor='pointer' onClick={() => handleAddTrack("1qvNUEiJfZtwEpwC5CBaFA", track.track.uri)}>
-                  +
-                </Td>
+                
               </Tr>
             ))}
           </Tbody>
         </Table>
       </TableContainer>
+      {contextMenu.isVisible && (
+        <select
+          style={{
+            position: "absolute",
+            top: contextMenu.position.y,
+            left: contextMenu.position.x,
+            zIndex: 10,
+            padding: "10px",
+            backgroundColor: "#292829",
+            boxShadow: "0px 0px 16px 5px rgba(0,0,0,0.4)",
+            color: "#e6e6e6",
+            display: "flex",
+            borderRadius: "3px",
+            alignItems: "center",
+            cursor: "pointer"
+          }}
+        >
+          {userPlaylists.map(playlist => (
+            <option>{playlist.name}</option>
+          ))}
+        </select>
+      )}
     </>
   );
 }

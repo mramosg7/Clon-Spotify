@@ -84,7 +84,9 @@ export const FormPlaylistDetails = () => {
                   onChange={onImageChange}
                   bg="#3e3e3e"
                   h="8.8em"
-                  style={{ zIndex: 1 }} // Asegura que el input esté en el mismo nivel que la imagen
+                  style={{ 
+                    zIndex: 1 
+                  }} // Asegura que el input esté en el mismo nivel que la imagen
                 />
                 <Box
                   position="absolute"

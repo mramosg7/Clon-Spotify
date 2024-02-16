@@ -5,6 +5,7 @@ import { fetchDetailsPlaylist } from '@spotify/playlistsService.js'
 import { Box, Image,Heading } from '@chakra-ui/react'
 import TableMusic from "../../components/TableMusic";
 import DefaultImage from '../../assets/PlaylistDefault.png'
+import { usePlaylist } from "../../hooks/playlistHook/usePlaylist";
 
 export default function Playlist(){
     const {id} = useParams()
@@ -69,10 +70,8 @@ export default function Playlist(){
                         </Box>
                     </header>
                     <section style={{padding: '20px'}}>
-                        <TableMusic tracks = {playlist.tracks.items}></TableMusic>
+                        <TableMusic tracks={playlist.tracks.items}></TableMusic>
                     </section>
-
-                    
                 </Box>
             )}
         </>
