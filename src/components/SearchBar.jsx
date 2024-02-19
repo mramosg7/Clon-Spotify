@@ -15,17 +15,32 @@ export default function SearchBar({search}){
         <>
                 <InputGroup 
                  size='sm' 
-                 width="30%"
+                 width="60%"
+                 h='75%'
                  bg='#242424'
                  display='flex'
                  alignItems='center'
                  overflow='hidden'
-                 borderRadius='100px'
+                 borderRadius='full'
+                 marginLeft='10px'
                 >
-                    <InputLeftAddon border='none' bg='transparent' paddingLeft='20px' paddingRight={0} color='#757574'>
-                        <IoSearch/>
+                    <InputLeftAddon border='none' bg='transparent' paddingLeft='10px' paddingRight={0} color='#757574'>
+                        <IoSearch style={{
+                            width: '25px',
+                            height: '25px',
+                            marginLeft: '5px',
+                            borderRadius: '100%',
+                            color: 'white'
+                        }}/>
                     </InputLeftAddon>
-                    <Input color='white' _focus={{outline: 'none'}} border='none' _placeholder={{color: '#757574'}} placeholder='¿Qué te apetece escuchar?' value={key} onChange={(e)=>{handleChange(e)}}/>
+                    <Input color='white' focusBorderColor="transparent"
+                    border='none' 
+                    _placeholder={{color: '#757574'}} 
+                    placeholder='¿Qué quieres reproducir?' 
+                    fontSize='1em' 
+                    value={key} 
+                    onChange={(e)=>{handleChange(e)}}
+                    />
                 </InputGroup>
         </>
     )

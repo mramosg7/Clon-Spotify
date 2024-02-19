@@ -28,7 +28,7 @@ export const HeaderBody = ({isLogged, user, logout}) => {
   return (
     <Box
         display='flex'
-        h='4em'
+        h='6em'
         width='100%'
         justifyContent='space-between'
         bg='#111111'
@@ -37,6 +37,7 @@ export const HeaderBody = ({isLogged, user, logout}) => {
         <Box 
             display='flex'
             alignItems='center'
+            w='50%'
         >
           <Link onClick={()=>{navegarHaciaAtras()}}>
             <IoIosArrowBack style={{padding: '5px', backgroundColor: '#000000', color: '#fff', width: '30px', height: '30px', marginRight: '10px', borderRadius: '100%'}}/>
@@ -44,16 +45,16 @@ export const HeaderBody = ({isLogged, user, logout}) => {
           <Link onClick={()=>{navegarHaciaAdelante()}}>
             <IoIosArrowForward style={{padding: '5px', backgroundColor: '#000000', color: '#fff', width: '30px', height: '30px', borderRadius: '100%'}}/>
           </Link>
+          {isSearchPage && <SearchBar search={search}/>}
         </Box>
-        {isSearchPage && <SearchBar search={search}/>}
-
-      {
+        
+        {
         !isLogged ? (
             <LoginButton/>
         ) : (
             user && <UserHeaderBody user={user} logout={logout}/>
         )
-      }
+        }
     </Box>
   )
 }
