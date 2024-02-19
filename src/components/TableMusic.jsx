@@ -183,9 +183,6 @@ export default function TableMusic({ tracks , uri}) {
               >
                 <MdOutlineAccessTime />
               </Th>
-              <Th>
-                Acciones
-              </Th>
             </Tr>
           </Thead>
 

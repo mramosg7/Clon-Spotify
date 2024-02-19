@@ -13,13 +13,13 @@ import { useEffect, useState } from "react"
 
 export const Biblioteca = () => {
 
-  const { handleGetUserPlaylists, handleCreatePlaylist, refreshCounter, isCreating, userPlaylists } = usePlaylist()
+  const { handleGetUserPlaylists, handleCreatePlaylist, isCreating, userPlaylists } = usePlaylist()
   const { isLogged } = useAuthUser()
-  const [refreshPlaylistGrid, setRefreshPlaylistGrid] = useState(false)
+  const [ refreshPlaylistGrid, setRefreshPlaylistGrid ] = useState(false) 
 
   useEffect(() => {
     if(isLogged)  handleGetUserPlaylists()
-  }, [isLogged, refreshCounter])
+  }, [isLogged])
 
   useEffect(() => {
     setRefreshPlaylistGrid(prev => !prev)

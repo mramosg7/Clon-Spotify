@@ -7,13 +7,8 @@ export const usePlaylist = () => {
 
   // Estados de carga
   const [isCreating, setCreating] = useState(false)
-  const [refreshCounter, setRefreshCounter] = useState(0)
   // Estado para las playlists del ususario
   const [userPlaylists, setUserPlaylists] = useState([])
-
-  const refreshPlaylists = () => {
-    setRefreshCounter(prevCounter => prevCounter + 1)
-  }
 
   // Crear playlist y obtener todas las del usuario
   const handleCreatePlaylist = async () => {
@@ -44,6 +39,7 @@ export const usePlaylist = () => {
       const user = JSON.parse(userString)
       let userId = null
       if(user) userId = user.id
+
       const accessToken = await getAccessToken()
       const playlists = await fetchGetUserPlaylist(accessToken, userId)
       if(playlists && playlists.items) {
@@ -91,7 +87,6 @@ export const usePlaylist = () => {
   return {
     isCreating,
     userPlaylists,
-    refreshCounter,
     handleAddTrack,
     handleCreatePlaylist,
     handleGetUserPlaylists,
