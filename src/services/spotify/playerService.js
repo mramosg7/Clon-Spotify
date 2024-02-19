@@ -118,3 +118,33 @@ export const fetchPlayTopTraks = async(token, device, position, uris)=>{
         console.error(e)
     }
 }
+
+export const fetchGetDevices = async(token)=>{
+    try{
+        const response = await fetch(`${urlBase}/devices`,{
+            headers:{
+                "Authorization":`Bearer ${token}`
+            }
+        })
+        if (!response.ok) throw new Error("Error al obtener los dispositivos")
+        const data = await response.json()
+        return data;
+    }catch(e){
+        console.error(e)
+    }
+}
+
+export const fetchToggleShuffle=async(tk, state, id)=>{
+    try{
+        const response = await fetch(`${urlBase}/shuffle?device_id=${id}&state=${state}`,{
+            method:'put',
+            headers:{
+                "Authorization":`Bearer ${tk}`
+            }
+        })
+        if(!response.ok) throw new Error('Error al poner en modo aleatorio')
+        return
+    }catch(e){
+        console.error(e)
+    }
+}

@@ -13,10 +13,11 @@ import { useEffect, useState, useRef } from "react";
 
 import { fetchSeek } from "../services/spotify/playerService";
 import { usePlayerContext } from "../context/PlayerContext";
+import { usePlayer } from "../hooks/player/usePlayer";
 
 export default function ControllersPlayer(){
     const { player, paused, position, contextPlayer } = usePlayerContext();
-   
+    const {toggleShuffle} = usePlayer()
     const [timePercentage, setTimePercentage] = useState(MillisecondsToPercentage(position, contextPlayer.item.duration_ms))
     
 
@@ -70,7 +71,7 @@ export default function ControllersPlayer(){
                 alignItems='center'
             >
                 
-                <FaRandom />
+                <FaRandom cursor='pointer' onClick={()=>{toggleShuffle()}}style={contextPlayer.shuffle_state ? {color: '#1ED760'}: null}/>
               
                 <Button onClick={()=>{handlePreviousTrack()}}>  <FaStepBackward /></Button>
                 <Button onClick={()=>{handleTogglePlay()}} >{paused ?  <FaPlay />:<FaPause />}</Button>
