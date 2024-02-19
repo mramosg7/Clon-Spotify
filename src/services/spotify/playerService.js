@@ -133,3 +133,18 @@ export const fetchGetDevices = async(token)=>{
         console.error(e)
     }
 }
+
+export const fetchToggleShuffle=async(tk, state, id)=>{
+    try{
+        const response = await fetch(`${urlBase}/shuffle?device_id=${id}&state=${state}`,{
+            method:'put',
+            headers:{
+                "Authorization":`Bearer ${tk}`
+            }
+        })
+        if(!response.ok) throw new Error('Error al poner en modo aleatorio')
+        return
+    }catch(e){
+        console.error(e)
+    }
+}

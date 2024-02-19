@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react"
-import { fetchGetContext, fetchTransferPlayback } from "../../services/spotify/playerService";
+import { fetchGetContext, fetchToggleShuffle, fetchTransferPlayback } from "../../services/spotify/playerService";
 import { useAuthUser } from "../auth/useAuthUser";
+import { usePlayerContext } from "../../context/PlayerContext";
 
 
 
 
 export const usePlayer = ()=>{
-    const [contextPlayer, setContextPlayer] = useState(localStorage.getItem("contextPlayer") ? JSON.parse(localStorage.getItem("contextPlayer")): null);
-    const [player, setPlayer] = useState(null);
-    const [position, setPosition] = useState(0);
-    const [paused, setPaused] = useState(true);
-    const {refresh} = useAuthUser() 
+    
+    const {getAccessToken} = useAuthUser()
+    const {contextPlayer} = usePlayerContext()
+    
     let token = localStorage.getItem("access_token")
 
    
@@ -24,29 +24,26 @@ export const usePlayer = ()=>{
                 throw miError
             }
             const data = await fetchGetContext(token)
-            
-            
                 if(data!== undefined){
                     localStorage.setItem("contextPlayer",JSON.stringify(data))
                     console.log(data)
                     setContextPlayer(data)
                 }
-            
-            
-               
-            
         } catch(e){
             throw e
         }
-        
     }
+
+    const toggleShuffle = ()=>{
+        getAccessToken().then((tk)=>{
+            fetchToggleShuffle(tk,!contextPlayer.shuffle_state,contextPlayer.device.id)
+        })
+    }
+
 
     return {
         contextPlayer,
         getContextPlayer,
-        player,
-        paused,
-        setPosition,
-        position
+        toggleShuffle
     }
 }
