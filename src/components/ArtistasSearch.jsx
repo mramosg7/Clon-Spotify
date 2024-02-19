@@ -1,6 +1,6 @@
 import { Heading, Box, Image, Card, CardBody, CardHeader, Stack, Text } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-
+import DefaultImage from '../assets/PlaylistDefault.png'
 export default function ArtistasSearch({artistas}){
 
     return(
@@ -25,7 +25,7 @@ export default function ArtistasSearch({artistas}){
                     <CardBody>
                         <Image
                             borderRadius='full'
-                            src={artista.images[0].url}  
+                            src={artista.images[0] ? artista.images[0].url : DefaultImage}  
                             
                         />
                         <Stack mt='6' spacing='3'>

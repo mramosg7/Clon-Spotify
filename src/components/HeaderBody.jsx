@@ -45,7 +45,7 @@ export const HeaderBody = ({isLogged, user, logout}) => {
             <IoIosArrowForward style={{padding: '5px', backgroundColor: '#000000', color: '#fff', width: '30px', height: '30px', borderRadius: '100%'}}/>
           </Link>
         </Box>
-        {isSearchPage && <SearchBar search={search}/>}
+        {isSearchPage && <SearchBar key="SearchBar"search={search}/>}
 
       {
         !isLogged ? (

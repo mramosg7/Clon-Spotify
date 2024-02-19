@@ -47,6 +47,9 @@ export function ProviderContextPlayer({ children }) {
                 
                     player.addListener('ready', ({ device_id }) => {
                         localStorage.setItem('device_id', device_id)
+                      
+                        getContextPlayer()
+                        
                         fetchTransferPlayback(token, device_id)
                         
                     });

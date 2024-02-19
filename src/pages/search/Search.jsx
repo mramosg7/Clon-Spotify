@@ -21,6 +21,7 @@ export default function Search(){
                 fetchSearch(q, tk)
                 .then((data)=>{
                     setResults(data)
+                    console.log(data)
                 })
             })
     },[q])
@@ -34,11 +35,16 @@ export default function Search(){
 
             {results && (
                 <>
-                    <SearchTrack tracks={results.tracks.items}/>
-                    <h1>Artistas</h1>
-                    <ArtistasSearch artistas={results.artists.items}/> 
-                    <h1>Albumns</h1>
-                    <ArtistAlbums albums={results.albums.items}/>
+                    {results.tracks && <SearchTrack tracks={results.tracks.items}/>}
+                    {results.artists && <>
+                        <h1>Artistas</h1>
+                        <ArtistasSearch artistas={results.artists.items}/>
+                    </> }
+                    {results.albums && <>
+                        <h1>Albumns</h1>
+                        <ArtistAlbums albums={results.albums.items}/>
+                    </>}
+                   
                 </>
             )}
         </Box>
