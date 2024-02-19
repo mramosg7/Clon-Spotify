@@ -118,3 +118,18 @@ export const fetchPlayTopTraks = async(token, device, position, uris)=>{
         console.error(e)
     }
 }
+
+export const fetchGetDevices = async(token)=>{
+    try{
+        const response = await fetch(`${urlBase}/devices`,{
+            headers:{
+                "Authorization":`Bearer ${token}`
+            }
+        })
+        if (!response.ok) throw new Error("Error al obtener los dispositivos")
+        const data = await response.json()
+        return data;
+    }catch(e){
+        console.error(e)
+    }
+}
