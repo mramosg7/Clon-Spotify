@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuthUser } from "../hooks/auth/useAuthUser";
 import { fetchPlay } from '../services/spotify/playerService';
-
+import DefaultImage from '../assets/PlaylistDefault.png'
 export default function ArtistAlbums({albums}){
 
     const [hoverCard, setHoverCard] = useState(null)
@@ -45,7 +45,7 @@ export default function ArtistAlbums({albums}){
                                 <CardBody>
                                     <Image
                                         borderRadius='5px'
-                                        src={album.images[0].url}    
+                                        src={album.images[0] ? album.images[0].url : DefaultImage}    
                                     />
                                     {hoverCard === album.id && <Button onClick={()=>{handleClick(album.uri)}}borderRadius='full' backgroundColor='#1FDF64' padding='5px'position='absolute' marginTop='-50px' marginLeft='110px'><FaPlay /></Button >}
                                     <Stack mt='6' spacing='3'>

@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import { Box, Image,Heading } from "@chakra-ui/react";
 import { TopTracks } from "../../components/TopTracks";
 import ArtistAlbums from "@/components/ArtistAlbums"
-
+import DefaultImage from '../../assets/PlaylistDefault.png'
 export default function Artist(){
     const {id} = useParams()
     const [artist, setArtist] = useState(null)
@@ -43,7 +43,7 @@ export default function Artist(){
                 justifyContent='start'
                 alignItems='end'
                 p='20px 40px'
-                bgImage={artist.images[0].url}
+                bgImage={artist.images[0] ? artist.images[0].url: DefaultImage}
                 bgPosition='center'
                 bgSize='cover'
                 bgAttachment='fixed'
