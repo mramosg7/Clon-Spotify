@@ -32,20 +32,36 @@ export default function Search(){
             overflow='auto'
             color="white"
         >
-
             {results && (
-                <>
+                <Box
+                    bg='#121212'
+                >
                     {results.tracks && <SearchTrack tracks={results.tracks.items}/>}
-                    {results.artists && <>
-                        <h1>Artistas</h1>
+                    {results.artists && (
+                    <Box
+                        w='100%'
+                        p='35px'
+                    >
+                        <h1 style={{
+                            fontWeight: 'bold',
+                            fontSize: '30px'
+                        }}>Artistas</h1>
                         <ArtistasSearch artistas={results.artists.items}/>
-                    </> }
-                    {results.albums && <>
-                        <h1>Albumns</h1>
+                    </Box>) }
+                    {results.albums && (
+                        <Box
+                            w='100%'
+                            p='35px'
+                        >
+                        <h1 style={{
+                            fontWeight: 'bold',
+                            fontSize: '30px'
+                        }}>Álbumes</h1>
                         <ArtistAlbums albums={results.albums.items}/>
-                    </>}
+                        </Box>
+                    )}
                    
-                </>
+                </Box>
             )}
         </Box>
     )
