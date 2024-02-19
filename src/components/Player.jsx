@@ -11,30 +11,13 @@ export default function Player(){
     
     const [errorNoLog, setErrorNoLog] = useState(false)
     const [Loading, setLoading] = useState(true)
-    const token = localStorage.getItem("access_token")
-    const {refresh} = useAuthUser()
+    const {getAccessToken} = useAuthUser()
     const { player, paused, position, contextPlayer, getContextPlayer, setPosition } = usePlayerContext();
 
     useEffect(()=>{
-        
-            const expiration = localStorage.getItem("expirationAccessToken")
-            if(expiration < Date.now()){
-                refresh().then(
-                    getContextPlayer().then(()=>{
-                        setPosition(contextPlayer.progress_ms)
-                    }) 
-                    .catch((e)=>{
-                        setErrorNoLog(true)
-                        console.log(e)
-                    })
-                    .finally(()=>{
-                        setLoading(false)
-                    })
-                )
-                
-            }else{
+            getAccessToken().then((tk)=>{
                 getContextPlayer().then(()=>{
-                    console.log(contextPlayer)
+                    
                     setPosition(contextPlayer.progress_ms)
                 }) 
                 .catch((e)=>{
@@ -44,8 +27,7 @@ export default function Player(){
                 .finally(()=>{
                     setLoading(false)
                 })
-            }
-        
+            })
     },[])
 
     return(
@@ -85,7 +67,7 @@ export default function Player(){
                >
    
                     <InfoPlayer info={contextPlayer.item}/>
-                    <ControllersPlayer paused={paused} player={player} contextPlayer={contextPlayer} position={position}/>
+                    <ControllersPlayer/>
                     <AdditionalsOptionsPlayer context={contextPlayer}/>
                
             </Box>

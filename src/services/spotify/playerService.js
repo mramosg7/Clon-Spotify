@@ -95,3 +95,26 @@ export const fetchPlay = async(token, device, position, uri)=>{
         console.error(e)
     }
 }
+export const fetchPlayTopTraks = async(token, device, position, uris)=>{
+    try{
+        const response = await fetch(`${urlBase}/play?device_id=${device}`, {
+            method:'PUT',
+            headers:{
+                "Authorization":`Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                "uris": uris,
+                "offset": {
+                    "position": position
+                },
+                "position_ms": 0
+            })
+        })
+
+        if(!response.ok)throw new Error("No se ha podido reproduccir")
+        
+    }catch(e){
+        console.error(e)
+    }
+}

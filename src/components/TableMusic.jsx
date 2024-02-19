@@ -31,7 +31,7 @@ export default function TableMusic({ tracks , uri}) {
 
   const { handleAddTrack, userPlaylists, handleGetUserPlaylists } = usePlaylist()
   const [hoveredTd, setHoveredTd] = useState(null);
-  const {getAccessToken} = useAuthUser
+  const {getAccessToken} = useAuthUser()
   const {contextPlayer} = usePlayerContext()
   const [userOwnedPlaylists, setUserOwnedPlaylists] = useState([])
   const [showOptions, setShowOptions] = useState(false)

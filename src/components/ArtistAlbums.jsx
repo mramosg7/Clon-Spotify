@@ -1,8 +1,22 @@
-import { Heading, Box, Image, Card, CardBody, CardHeader, Stack, Text } from "@chakra-ui/react";
+import { Heading, Box, Image, Card, CardBody, CardHeader, Stack, Text,Button } from "@chakra-ui/react";
+import { FaPlay } from "react-icons/fa";
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useAuthUser } from "../hooks/auth/useAuthUser";
+import { fetchPlay } from '../services/spotify/playerService';
 
 export default function ArtistAlbums({albums}){
-   
+
+    const [hoverCard, setHoverCard] = useState(null)
+    const {getAccessToken} = useAuthUser()
+    const handleClick = (uri)=>{
+        const device_id = localStorage.getItem('device_id')
+        if(device_id){
+          getAccessToken().then((tk)=>{
+            fetchPlay(tk,device_id,0,uri)
+          })
+        }
+    }
     return(
         <>
             
@@ -24,12 +38,16 @@ export default function ArtistAlbums({albums}){
                                 bg:'#292928'
                             }}
                         >
-                            <Link to={`/album/${album.id}`}>
+                            <Link to={`/album/${album.id}`}  
+                                onMouseEnter={()=>{setHoverCard(album.id)}}
+                                onMouseLeave={()=>{setHoverCard(null)}}
+                            >
                                 <CardBody>
                                     <Image
                                         borderRadius='5px'
                                         src={album.images[0].url}    
                                     />
+                                    {hoverCard === album.id && <Button onClick={()=>{handleClick(album.uri)}}borderRadius='full' backgroundColor='#1FDF64' padding='5px'position='absolute' marginTop='-50px' marginLeft='110px'><FaPlay /></Button >}
                                     <Stack mt='6' spacing='3'>
                                         <Heading textOverflow="ellipsis" whiteSpace="nowrap" overflow="hidden" color='white' size='sd'>{album.name}</Heading>
                                         <Text >

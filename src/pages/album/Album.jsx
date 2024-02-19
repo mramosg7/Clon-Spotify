@@ -82,7 +82,7 @@ export default function Album(){
                         </Box>
                     </header>
                     <section style={{padding: '20px'}}>
-                        <TableMusicAlbum  tracks = {album.tracks.items}></TableMusicAlbum>
+                        <TableMusicAlbum  tracks = {album.tracks.items} uri = {album.uri}></TableMusicAlbum>
                     </section>
                     <section style={{padding: '20px'}}>
                         <Heading color='white' marginBottom='20px'>Más de {album.artists[0].name}</Heading>

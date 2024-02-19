@@ -9,19 +9,19 @@ import { Box, Button, Slider,
     SliderMark,
     Text, } from "@chakra-ui/react";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 import { fetchSeek } from "../services/spotify/playerService";
+import { usePlayerContext } from "../context/PlayerContext";
 
-export default function ControllersPlayer({ player, paused, position, contextPlayer }){
+export default function ControllersPlayer(){
+    const { player, paused, position, contextPlayer, getContextPlayer, setPosition } = usePlayerContext();
    
-    
-    console.log(player)
     const [timePercentage, setTimePercentage] = useState(MillisecondsToPercentage(position, contextPlayer.item.duration_ms))
-    console.log("por", timePercentage)
+    const timePercentageRef = useRef(timePercentage);
 
    useEffect(()=>{
-    setTimePercentage(MillisecondsToPercentage(position, contextPlayer.item.duration_ms))
+    setTimePercentage(prevPercentage => MillisecondsToPercentage(position, contextPlayer.item.duration_ms))
     console.log("bucle",MillisecondsToPercentage(position, contextPlayer.item.duration_ms))
    },[position])
 
@@ -39,6 +39,9 @@ export default function ControllersPlayer({ player, paused, position, contextPla
         }
         return () => clearInterval(progressTimer);
 }, [paused]);
+useEffect(() => {
+    timePercentageRef.current = timePercentage;
+  }, [timePercentage]);
 
     const handleTogglePlay= ()=>{
         player.togglePlay()
@@ -79,8 +82,8 @@ export default function ControllersPlayer({ player, paused, position, contextPla
                 <ImLoop />
             </Box>
             <Box display='flex' gap='15px'>
-                <Text>{millisecodsToMinutes(percentageToMilliseconds(timePercentage,contextPlayer.item.duration_ms))}</Text>
-                <Slider aria-label='slider-ex-1' value={timePercentage} onChange={(value)=>{handleChange(value)}} onChangeEnd={()=>{handleMouseUp()}} >
+                <Text>{millisecodsToMinutes(percentageToMilliseconds(timePercentageRef.current,contextPlayer.item.duration_ms))}</Text>
+                <Slider aria-label='slider-ex-1' value={timePercentageRef.current} onChange={(value)=>{handleChange(value)}} onChangeEnd={()=>{handleMouseUp()}} >
                     <SliderTrack >
                         <SliderFilledTrack  />
                     </SliderTrack >

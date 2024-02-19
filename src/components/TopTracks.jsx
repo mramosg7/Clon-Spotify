@@ -14,11 +14,32 @@ import {
     Heading
   } from '@chakra-ui/react'
 import { useState } from 'react';
+import { usePlayerContext } from '../context/PlayerContext';
+import { IoIosStats } from "react-icons/io";
+import { fetchPlayTopTraks } from "../services/spotify/playerService";
+import { FaPlay} from "react-icons/fa";
+import { useAuthUser } from '../hooks/auth/useAuthUser';
 
 export function TopTracks({tracks}){
+    console.log(tracks)
+    const {getAccessToken} = useAuthUser()
+    const [hoveredTd, setHoveredTd] = useState(null);
     const [tracksSlice, setTracksSlice] = useState(tracks.slice(0,5))
     const [display1, setDisplay1] = useState('none')
     const [display2, setDisplay2] = useState('block')
+    const {contextPlayer} = usePlayerContext()
+
+
+    const handleClick = (position,uri)=>{
+        console.log(uri)
+        const device_id = localStorage.getItem('device_id')
+        const uris = tracks.map(track => track.uri)
+        if(device_id){
+          getAccessToken().then((tk)=>{
+            fetchPlayTopTraks(tk,device_id,position,uris)
+          })
+        }
+    }
 
     function convertirAMinutosYSegundos(tiempoTotal) {
         const tiempoTotalEnSegundos = tiempoTotal / 1000;
@@ -51,9 +72,15 @@ export function TopTracks({tracks}){
                                     bg:'rgb(255, 255, 255, 0.2)',
                                     color: 'white'
                                 }}
+                                onMouseEnter={()=>{setHoveredTd(track.id)}}
+                                onMouseLeave={()=>{setHoveredTd(null)}}
                                 
                             >
-                                <Td borderTopLeftRadius="md" borderBottomLeftRadius="md">{index + 1}</Td>
+                                <Td borderTopLeftRadius="md" borderBottomLeftRadius="md">
+                                {contextPlayer && contextPlayer.item.id === track.id ? <IoIosStats style={{color:'green', fontSize:'20px'}}/> : 
+                                hoveredTd === track.id ? <FaPlay onClick={()=>{handleClick(index, track.artists[0].uri)}} style={{fontSize:'10px'}}/> : index + 1}
+                                  
+                                </Td>
                                 <Td color='white' display='flex' gap='10px' alignItems='center'>
                                     <Image
                                         src={track.album.images[2].url}

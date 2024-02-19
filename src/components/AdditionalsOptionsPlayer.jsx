@@ -9,12 +9,23 @@ import {
     SliderFilledTrack,
     SliderThumb,
     SliderMark,
+    Popover,
+    PopoverTrigger,
+    PopoverContent,
+    PopoverHeader,
+    PopoverBody,
+    PopoverFooter,
+    PopoverArrow,
+    PopoverCloseButton,
+    PopoverAnchor,
+    Button,
+    Portal
   } from '@chakra-ui/react'
 import { useEffect, useState } from "react";
 import { fetchSetVolume } from "../services/spotify/playerService";
+import { usePlayerContext } from "../context/PlayerContext";
 
 export default function AdditionalsOptionsPlayer({context}){
-   
     const [volume, setVolume] = useState(context.device.volume_percent)
     const [levelVolume,setLevelVolume] = useState(2)
     const handleChangeEnd=()=>{
@@ -46,7 +57,22 @@ export default function AdditionalsOptionsPlayer({context}){
     return(
         <Box display='flex' gap='20px' width='200px' fontSize='30px' alignItems='center'>   
             <CgDetailsMore />
-            <MdComputer />
+            <Popover>
+                <PopoverTrigger>
+                    <Button background='none' color='white' padding='0px'
+                       _hover={{
+                        background:'none'
+                       }}
+                    ><MdComputer /></Button>
+                </PopoverTrigger>
+                <PopoverContent bg="#282828">
+                    <PopoverArrow />
+                    <PopoverCloseButton />
+                    <PopoverHeader>Dispositivo actual: </PopoverHeader>
+                    <PopoverBody>Are you sure you want to have that milkshake?</PopoverBody>
+                </PopoverContent>
+            </Popover>
+            
             <Box display='flex' width='100%' gap='10px'>
                 {levelVolume ===3 && <FaVolumeHigh onClick={()=>{handleMute()}}/>}
                 {levelVolume ===2 && <FaVolumeLow onClick={()=>{handleMute()}} style={{fontSize:'19px'}}/>}

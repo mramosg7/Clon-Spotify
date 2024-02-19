@@ -16,8 +16,19 @@ import { MdOutlineAccessTime } from "react-icons/md";
 import { format } from "date-fns";
 import esLocale from 'date-fns/locale/es';
 import { Link } from 'react-router-dom';
+import { FaPlay} from "react-icons/fa";
+import { fetchPlay } from "../services/spotify/playerService";
 
-export default function TableMusicAlbum({tracks}){
+import { useAuthUser } from "../hooks/auth/useAuthUser";
+import { usePlayerContext } from "../context/PlayerContext";
+import { IoIosStats } from "react-icons/io";
+import { useState } from 'react';
+
+
+export default function TableMusicAlbum({tracks, uri}){
+    const [hoveredTd, setHoveredTd] = useState(null);
+    const {getAccessToken} = useAuthUser()
+    const {contextPlayer} = usePlayerContext()
 
     function convertirAMinutosYSegundos(tiempoTotal) {
         const tiempoTotalEnSegundos = tiempoTotal / 1000;
@@ -32,6 +43,14 @@ export default function TableMusicAlbum({tracks}){
         return `${minutos}:${segundosFormateados}`;
       }
 
+    const handleClick = (position)=>{
+        const device_id = localStorage.getItem('device_id')
+        if(device_id){
+          getAccessToken().then((tk)=>{
+            fetchPlay(tk,device_id,position,uri)
+          })
+        }
+    }
     return(
         <TableContainer>
             <Table size='sm' variant='none'>
@@ -54,9 +73,13 @@ export default function TableMusicAlbum({tracks}){
                                 bg:'rgb(255, 255, 255, 0.2)',
                                 color: 'white'
                             }}
+                            onMouseEnter={()=>{setHoveredTd(track.id)}}
+                            onMouseLeave={()=>{setHoveredTd(null)}}
                             
                         >
-                            <Td borderTopLeftRadius="md" borderBottomLeftRadius="md">{index + 1}</Td>
+                            <Td borderTopLeftRadius="md" borderBottomLeftRadius="md">{contextPlayer && contextPlayer.item.id === track.id ? <IoIosStats style={{color:'green', fontSize:'20px'}}/> : 
+                  hoveredTd === track.id ? <FaPlay onClick={()=>{handleClick(index)}} style={{fontSize:'10px'}}/> : index + 1}
+                  </Td>
                             <Td color='white' display='flex' gap='10px' alignItems='center'>
                                 <div>
                                     <h4>{track.name}</h4>
