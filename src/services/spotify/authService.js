@@ -40,7 +40,7 @@ export const fetchGetUserToken = async(code, redirectUri, clientId, codeVerifier
           code_verifier: codeVerifier,
         }),
       }
-      console.log(payload)
+     
       const response = await fetch("https://accounts.spotify.com/api/token", payload);
       const data =await response.json();
       return data;
@@ -60,6 +60,7 @@ export const getApiToken = async(clientId, clientSecret)=>{
 }
 
 export const fetchRefresh = async(token, clientId)=>{
+    console.log(token)
     try{
         const url = "https://accounts.spotify.com/api/token";
         const payload = {
@@ -69,13 +70,13 @@ export const fetchRefresh = async(token, clientId)=>{
             },
             body: new URLSearchParams({
             grant_type: 'refresh_token',
-            refresh_token: refreshToken,
+            refresh_token: token,
             client_id: clientId
             }),
         }
         const response = await fetch(url, payload);
         if(!response) throw new Error("Error al refrescar el token")
-        const data= await body.json();
+        const data= await response.json();
 
         return data
     }catch(e){

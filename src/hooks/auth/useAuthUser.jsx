@@ -99,14 +99,16 @@ export const useAuthUser= ()=>{
         if (!token){
             return
         }
-        const data = await fetchRefresh(token,clientId)
-        localStorage.setItem('expirationAccessToken',Date.now() + data.expires_in * 1000)
-        setExpiration(Date.now() + data.expires_in * 1000)
-        localStorage.setItem('access_token', data.access_token)
-        setAccessToken(data.access_token)
-        localStorage.setItem('refreshToken', data.refresh_token)
+            const data = await fetchRefresh(token,clientId)
+            if(data.expires_in && data.access_token && data.refresh_token){
+            localStorage.setItem('expirationAccessToken',Date.now() + data.expires_in * 1000)
+            setExpiration(Date.now() + data.expires_in * 1000)
+            localStorage.setItem('access_token', data.access_token)
+            setAccessToken(data.access_token)
+            localStorage.setItem('refreshToken', data.refresh_token)
 
-        return data.access_token
+            return data.access_token
+        }
       
     }
 

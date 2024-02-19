@@ -31,7 +31,7 @@ export default function TableMusic({ tracks , uri}) {
 
   const { handleAddTrack, userPlaylists, handleGetUserPlaylists } = usePlaylist()
   const [hoveredTd, setHoveredTd] = useState(null);
-  const {refresh} = useAuthUser
+  const {getAccessToken} = useAuthUser
   const {contextPlayer} = usePlayerContext()
   const [userOwnedPlaylists, setUserOwnedPlaylists] = useState([])
   const [showOptions, setShowOptions] = useState(false)
@@ -100,18 +100,9 @@ export default function TableMusic({ tracks , uri}) {
   const handleClick = (position)=>{
       const device_id = localStorage.getItem('device_id')
       if(device_id){
-        const expiration = localStorage.getItem('expirationAccessToken')
-        if(expiration < Date.now()){
-          refresh().then(()=>{
-            const accessToken = localStorage.getItem('access_token')
-            fetchPlay(accessToken,device_id,position,uri)
-          })
-        }else{
-          
-          const accessToken = localStorage.getItem('access_token')
-          console.log(position)
-          fetchPlay(accessToken,device_id,position,uri)
-        }
+        getAccessToken().then((tk)=>{
+          fetchPlay(tk,device_id,position,uri)
+        })
       }
   }
 
