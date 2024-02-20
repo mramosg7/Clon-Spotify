@@ -66,9 +66,9 @@ export const useAuthUser= ()=>{
         
     }
     
-    const getUserId = (tk)=>{
+    const getUserId = async(tk)=>{
         if(tk){
-            fetchIdUser(tk)
+            return await fetchIdUser(tk)
             .then(data => {
                 localStorage.setItem('user', JSON.stringify(data))
                 setUser(data)

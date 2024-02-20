@@ -18,7 +18,12 @@ function App() {
     const codeV = localStorage.getItem('code_verifier')
     if(!user && codeV){
        getAccessToken().then((tk)=>{
-        getUserId(tk)
+        getUserId(tk).then(()=>{
+          window.location.reload();
+        })
+
+       
+        
       })
     }
   },[])
