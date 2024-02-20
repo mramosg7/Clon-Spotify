@@ -4,9 +4,12 @@ import { FaPlay } from "react-icons/fa";
 import { useState } from 'react';
 import { useAuthUser } from '../hooks/auth/useAuthUser';
 import { fetchPlay } from '../services/spotify/playerService';
+import { useHoverPlayer } from '../hooks/player/useHoverPlayer';
 
 export default function PlaylistBody({playlists, isLoaded}){
-    const [hoverCard, setHoverCard] = useState(null)
+
+    const { hoverCard, buttonAnimation, handleMouseEnter, handleMouseLeave } = useHoverPlayer()
+
     const {getAccessToken} = useAuthUser()
     const handleClick = (uri)=>{
         const device_id = localStorage.getItem('device_id')
@@ -39,8 +42,8 @@ export default function PlaylistBody({playlists, isLoaded}){
                             _hover={{
                                 bg:'#292928'
                             }}
-                            onMouseEnter={()=>{setHoverCard(playlist.id)}}
-                            onMouseLeave={()=>{setHoverCard(null)}}
+                            onMouseEnter={()=>{handleMouseEnter(playlist.id)}}
+                            onMouseLeave={()=>{handleMouseLeave(null)}}
                         >
                             <Link to={`/playlist/${playlist.id}`}>
                                 <CardBody position='relative'>
@@ -49,7 +52,19 @@ export default function PlaylistBody({playlists, isLoaded}){
                                             borderRadius='5px'
                                             src={playlist.images[0].url}    
                                         />
-                                        {hoverCard === playlist.id && <Button onClick={()=>{handleClick(playlist.uri)}}borderRadius='full' backgroundColor='#1FDF64' padding='5px'position='absolute' marginTop='-50px' marginLeft='110px'><FaPlay /></Button >}
+                                        {hoverCard === playlist.id && <Button 
+                                            onClick={()=>{handleClick(playlist.uri)}}
+                                            borderRadius='full' 
+                                            animation={buttonAnimation} 
+                                            w='50px' 
+                                            h='50px'  
+                                            backgroundColor='#1FDF64' 
+                                            padding='5px'
+                                            position='absolute' 
+                                            marginTop='-55px' 
+                                            marginLeft='100px'>
+                                                <FaPlay />
+                                            </Button >}
                                     </Skeleton>
                                     <Stack mt='6' spacing='3'>
                                         <Skeleton startColor='#626262' endColor='#414141' height='20px' isLoaded={isLoaded}>

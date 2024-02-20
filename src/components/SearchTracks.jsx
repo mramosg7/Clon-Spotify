@@ -1,8 +1,15 @@
-import { Box, Image, Table,Tbody, Td, Tr} from "@chakra-ui/react";
+import { Box, Button, Image, Table,Tbody, Td, Text, Tr} from "@chakra-ui/react";
 import DefaultImage from "../assets/playlistDefault.png"
+import { Link } from "react-router-dom";
+import { convertirAMinutosYSegundos } from "../functions/convertirTiempo";
+import { FaPlay } from "react-icons/fa";
+import { useHoverPlayer } from "../hooks/player/useHoverPlayer";
 
 
 export default function SearchTrack({tracks}){
+
+    const { hoverCard, buttonAnimation, handleMouseEnter, handleMouseLeave } = useHoverPlayer()
+
     return(
         <>
             {tracks &&
@@ -26,7 +33,14 @@ export default function SearchTrack({tracks}){
                             h='84%'
                             bg='#191918'
                             p='22px'
+                            cursor='pointer'
+                            _hover={{
+                                bg: '#282929'
+                            }}
+                            position='relative'
                             borderRadius='10px'
+                            onMouseEnter={() => handleMouseEnter(tracks.id)}
+                            onMouseLeave={() => handleMouseLeave(tracks.id)}
                         >
                             <Image 
                                 src={tracks[0].album.images[1] 
@@ -36,6 +50,21 @@ export default function SearchTrack({tracks}){
                                 w='120px'
                                 h='120px'
                             />
+                            {hoverCard === tracks.id && <Button
+                                        borderRadius='full' 
+                                        backgroundColor='#1FDF64' 
+                                        w='50px' 
+                                        h='50px' 
+                                        padding='5px'
+                                        position='absolute'
+                                        marginTop='45px' 
+                                        boxShadow='2xl'
+                                        left='85%' 
+                                        transform='translateX(-50%)'
+                                        animation={buttonAnimation}
+                                    >
+                                        <FaPlay />
+                            </Button >}
                             <h1 style={{
                                 fontWeight: 'bold',
                                 fontSize: '30px',
@@ -71,18 +100,42 @@ export default function SearchTrack({tracks}){
                                             borderRadius='5px'
                                             
                                         >
-                                            <Td>
+                                            <Td display="flex" gap="10px" alignItems="center">
                                                 <Image
                                                     borderRadius='5px'
                                                     boxSize='50px'
                                                     src={track.album.images[0].url}
                                                 />
+                                                <div>
+                                                    <h4 style={{
+                                                        fontWeight: '600',
+                                                        fontSize: '15px'
+                                                    }}>
+                                                        {track.name}
+                                                    </h4>
+                                                    <Box display="flex">
+                                                    {track.artists.map((a, index) => (
+                                                        <Link to={`/artist/${a.id}`} key={a.id}>
+                                                        <Text
+                                                            color="#A9A9A9"
+                                                            _hover={{
+                                                            color: "white",
+                                                            textDecoration: "underline",
+                                                            }}
+                                                        >
+                                                            {index !== 0 ? ", " : ""}
+                                                            {a.name}
+                                                        </Text>
+                                                        </Link>
+                                                    ))}
+                                                    </Box>
+                                                </div>
                                             </Td>
                                             <Td>
-                                                {track.name}
-                                            </Td>
-                                            <Td>
-                                                <p>{track.duration_ms}</p>
+                                                <p style={{
+                                                    color: 'gray',
+                                                    fontWeight: '600'
+                                                }}>{convertirAMinutosYSegundos(track.duration_ms)}</p>
                                             </Td>
                                         </Tr>
                                     ))}

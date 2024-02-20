@@ -16,7 +16,7 @@ export const Body = ({isLogged, user, logout}) => {
     <Box
       display='flex'
       flexDirection='column'
-      h='97.5vh'
+      h='88vh'
       w='100%'
       p='0px 0px'
       bg='#1E1E1E'

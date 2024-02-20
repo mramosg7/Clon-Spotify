@@ -6,35 +6,11 @@ import { useAuthUser } from "../hooks/auth/useAuthUser";
 import { fetchPlay } from '../services/spotify/playerService';
 import DefaultImage from '../assets/PlaylistDefault.png'
 import '../Styles/animacion.css'
+import { useHoverPlayer } from "../hooks/player/useHoverPlayer";
 export default function ArtistAlbums({albums}){
 
-    const [hoverCard, setHoverCard] = useState(null)
-    const [buttonAnimation, setButtonAnimation] = useState('')
+    const { hoverCard, buttonAnimation, handleMouseEnter, handleMouseLeave } = useHoverPlayer()
     const {getAccessToken} = useAuthUser()
-    const hoverTimeoutRef = useRef()
-
-    const handleMouseEnter = (id) => {
-
-        // Quitar timeouts pendientes al entrar a otra card
-        if (hoverTimeoutRef.current) {
-            clearTimeout(hoverTimeoutRef.current)
-        }
-
-        setHoverCard(id)
-        setButtonAnimation('fadeInUp 0.5s ease forwards')
-    }
-    
-    const handleMouseLeave = (id) => {
-        setButtonAnimation('fadeOutDown 0.5s ease forwards')
-      
-        hoverTimeoutRef.current = setTimeout(() => {
-            if (hoverCard === id) {
-                setHoverCard(null)
-            }
-        
-            hoverTimeoutRef.current = null
-        }, 500)
-    }
 
     const handleClick = (uri)=>{
         const device_id = localStorage.getItem('device_id')
@@ -56,8 +32,8 @@ export default function ArtistAlbums({albums}){
                 {albums && albums.map((album) =>(
                         
                         <Card 
-                            width='250px'
-                            h='350px'
+                            width='210px'
+                            h='280px'
                             key={album.id}
                             bg='#181919'
                             color='#9a9a9a'
@@ -74,20 +50,20 @@ export default function ArtistAlbums({albums}){
                                 <CardBody>
                                     <Image
                                         borderRadius='5px'
-                                        width='200px'
-                                        height='200px'
+                                        width='170px'
+                                        height='170px'
                                         src={album.images[0] ? album.images[0].url : DefaultImage}    
                                     />
                                     {hoverCard === album.id && <Button onClick={()=>{handleClick(album.uri)}}
                                         borderRadius='full' 
                                         backgroundColor='#1FDF64' 
-                                        w='60px' 
-                                        h='60px' 
+                                        w='50px' 
+                                        h='50px' 
                                         padding='5px'
                                         position='absolute' 
-                                        marginTop='-70px' 
+                                        marginTop='-60px' 
                                         boxShadow='2xl'
-                                        marginLeft='140px' 
+                                        marginLeft='110px' 
                                         animation={buttonAnimation}
                                     >
                                         <FaPlay />

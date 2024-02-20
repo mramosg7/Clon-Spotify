@@ -15,8 +15,6 @@ import {
 import { FaPlay} from "react-icons/fa";
 import { MdOutlineAccessTime } from "react-icons/md";
 import { MdKeyboardArrowRight } from "react-icons/md";
-import { format } from "date-fns";
-import esLocale from "date-fns/locale/es";
 import { Link } from "react-router-dom";
 import { usePlaylist } from "../hooks/playlistHook/usePlaylist";
 import { useEffect, useRef, useState } from "react";
@@ -26,6 +24,7 @@ import { fetchPlay } from "../services/spotify/playerService";
 import { useAuthUser } from "../hooks/auth/useAuthUser";
 import { usePlayerContext } from "../context/PlayerContext";
 import { IoIosStats } from "react-icons/io";
+import { convertirAMinutosYSegundos, formatearFecha } from "../functions/convertirTiempo";
 
 export default function TableMusic({ tracks , uri}) {
 
@@ -121,25 +120,6 @@ export default function TableMusic({ tracks , uri}) {
     setContextMenu({ ...contextMenu, isVisible: false })
   }
 
-
-  const formatearFecha = (fecha) => {
-    const date = new Date(fecha);
-    const fechaFormateada = format(date, "dd MMM yyyy", { locale: esLocale });
-    return fechaFormateada;
-  };
-
-  function convertirAMinutosYSegundos(tiempoTotal) {
-    const tiempoTotalEnSegundos = tiempoTotal / 1000;
-
-    const minutos = Math.floor(tiempoTotalEnSegundos / 60);
-    const segundos = Math.floor(tiempoTotalEnSegundos % 60);
-
-    // Formatea los minutos y segundos
-
-    const segundosFormateados = segundos < 10 ? `0${segundos}` : segundos;
-
-    return `${minutos}:${segundosFormateados}`;
-  }
 
   return (
     <>

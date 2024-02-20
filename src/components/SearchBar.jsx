@@ -18,7 +18,7 @@ export default function SearchBar({search}){
                 <InputGroup 
                  size='sm' 
                  width="60%"
-                 h='100%'
+                 h='70%'
                  bg='#242424'
                  display='flex'
                  alignItems='center'

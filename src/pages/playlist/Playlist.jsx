@@ -6,10 +6,6 @@ import { Box, Image,Heading, Button } from '@chakra-ui/react'
 import TableMusic from "../../components/TableMusic";
 import DefaultImage from '../../assets/PlaylistDefault.png'
 import { useAuthUser } from "../../hooks/auth/useAuthUser";
-import { FaPlay, FaRandom } from "react-icons/fa";
-import { HiOutlineDownload } from "react-icons/hi";
-import { FiUserPlus } from "react-icons/fi";
-import { IoIosMore } from "react-icons/io";
 import { fetchPlay } from "../../services/spotify/playerService";
 import { PlaylistPlayer } from "../../components/PlaylistPlayer";
 
