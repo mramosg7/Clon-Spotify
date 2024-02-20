@@ -20,10 +20,12 @@ export default function UserHeaderBody({user, logout}){
                 _hover={{
                     transform: "scale(1.02)"
                 }}
+                borderRadius='full'
             >Descubrir Premium</Button>
             <Button
                 bg="black"
                 color="white"
+                borderRadius='full'
                 _hover={{
                     transform: "scale(1.02)"
                 }}

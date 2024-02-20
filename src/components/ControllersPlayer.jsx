@@ -1,6 +1,7 @@
 import { FaRandom, FaStepBackward, FaPlay, FaPause } from "react-icons/fa";
-import { GiNextButton } from "react-icons/gi";
+import { BiSkipNext, BiSkipPrevious } from "react-icons/bi";
 import { ImLoop } from "react-icons/im";
+import { TiArrowLoop } from "react-icons/ti";
 import { MillisecondsToPercentage, percentageToMilliseconds, millisecodsToMinutes } from "../assets/songFormater";
 import { Box, Button, Slider,
     SliderTrack,
@@ -67,25 +68,25 @@ export default function ControllersPlayer(){
         <Box>
             <Box
                 display="flex"
-                gap="30px"
+                gap="10px"
                 alignItems='center'
             >
                 
                 <FaRandom cursor='pointer' onClick={()=>{toggleShuffle()}}style={contextPlayer.shuffle_state ? {color: '#1ED760'}: null}/>
               
-                <Button onClick={()=>{handlePreviousTrack()}}>  <FaStepBackward /></Button>
-                <Button onClick={()=>{handleTogglePlay()}} >{paused ?  <FaPlay />:<FaPause />}</Button>
-                <Button onClick={()=>{handleNextTrack()}}>  <GiNextButton /></Button>
+                <Button bg='transparent' p='0' fontSize='30px' color='#bfbfbf' _hover={{ bg: 'transparent', color: 'white' }} onClick={()=>{handlePreviousTrack()}}><BiSkipPrevious /></Button>
+                <Button borderRadius='full' w='45px' h='45px' onClick={()=>{handleTogglePlay()}} >{paused ?  <FaPlay />:<FaPause />}</Button>
+                <Button bg='transparent' p='0' fontSize='30px' color='#bfbfbf' _hover={{ bg: 'transparent', color: 'white' }} onClick={()=>{handleNextTrack()}}><BiSkipNext /></Button>
                 
-                <ImLoop />
+                <TiArrowLoop fontSize='25px'/>
             </Box>
             <Box display='flex' gap='15px'>
                 <Text>{millisecodsToMinutes(percentageToMilliseconds(timePercentage,contextPlayer.item.duration_ms))}</Text>
-                <Slider aria-label='slider-ex-1' value={timePercentage} onChange={(value)=>{handleChange(value)}} onChangeEnd={()=>{handleMouseUp()}} >
+                <Slider aria-label='slider-ex-1' focusThumbOnChange={false} _hover={{ colorScheme: '#1ED760' }} colorScheme="#1ED760" value={timePercentage} onChange={(value)=>{handleChange(value)}} onChangeEnd={()=>{handleMouseUp()}} >
                     <SliderTrack >
                         <SliderFilledTrack  />
                     </SliderTrack >
-                    <SliderThumb />
+                    <SliderThumb border='none'/>
                 </Slider>
                 <Text>{millisecodsToMinutes(contextPlayer.item.duration_ms)}</Text>
             </Box>
