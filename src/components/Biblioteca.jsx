@@ -32,7 +32,7 @@ export const Biblioteca = () => {
         p="15px 10px"
         bg="#131213"
         w="25em"
-        h="81vh"
+        h="79%"
         borderRadius="7px"
         marginTop="10px"
         boxSizing="border-box"
@@ -64,7 +64,7 @@ export const Biblioteca = () => {
           />
         </Flex>
         <Box 
-          h='100%'
+          h='95%'
           overflow='auto'
         >
         {(isLogged || refreshPlaylistGrid)? (

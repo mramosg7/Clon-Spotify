@@ -39,7 +39,7 @@ export default function Player(){
                     alignItems="center"
                     background="linear-gradient(90deg, rgba(255,196,247,1) 0%, rgba(138,235,255,1) 100%)"
 
-                    position="absolute"
+                
                     color="white"
                     display="flex"
                     justifyContent="space-between"

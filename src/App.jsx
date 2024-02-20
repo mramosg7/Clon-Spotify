@@ -30,7 +30,7 @@ function App() {
           p='10px'
           bg='#000'
           w='100%'
-          h='90vh'
+          maxH='90vh'
           overflow='hidden'
           display='flex'
         >
