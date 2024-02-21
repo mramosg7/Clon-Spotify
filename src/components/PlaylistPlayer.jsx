@@ -1,6 +1,5 @@
-import { Button, color } from "@chakra-ui/react"
-import { useAuthUser } from "../hooks/auth/useAuthUser"
-import { fetchPlay } from "../services/spotify/playerService"
+import { Button } from "@chakra-ui/react"
+
 import { FaPlay, FaRandom } from "react-icons/fa"
 import { HiOutlineDownload } from "react-icons/hi"
 import { FiUserPlus } from "react-icons/fi"
@@ -12,17 +11,14 @@ import { usePlayer } from "../hooks/player/usePlayer"
 
 export const PlaylistPlayer = ({ uri }) => {
 
-    const { getAccessToken } = useAuthUser()
     const {contextPlayer} = usePlayerContext()
     const {toggleShuffle} = usePlayer()
-
+    const {play} = usePlayer()
 
     const handleClick = (uri) => {
         const device_id = localStorage.getItem('device_id')
         if (device_id) {
-            getAccessToken().then((tk) => {
-                fetchPlay(tk, device_id, 0, uri)
-            })
+            play(uri)
         }
     }
 

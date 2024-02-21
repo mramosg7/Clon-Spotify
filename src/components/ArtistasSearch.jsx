@@ -1,21 +1,21 @@
-import { Heading, Box, Image, Card, CardBody, CardHeader, Stack, Text, Button } from "@chakra-ui/react";
+import { Heading, Box, Image, Card, CardBody, Stack, Text, Button } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import DefaultImage from '../assets/PlaylistDefault.png'
 import { useHoverPlayer } from "../hooks/player/useHoverPlayer";
 import { FaPlay } from "react-icons/fa";
-import { usePlayerContext } from "../context/PlayerContext";
-import { fetchPlayArtist } from "../services/spotify/playerService";
-import { useAuthUser } from "../hooks/auth/useAuthUser";
+import { usePlayer } from "../hooks/player/usePlayer";
 export default function ArtistasSearch({ artistas }) {
 
     const { hoverCard, buttonAnimation, handleMouseEnter, handleMouseLeave } = useHoverPlayer()
-    const {contextPlayer} = usePlayerContext()
-    const {getAccessToken} = useAuthUser()
+
+    const {playArtist} = usePlayer()
+ 
     const handleOnClick = (uri)=>{
-        getAccessToken().then((tk)=>{
-            fetchPlayArtist(tk, contextPlayer.device.id,uri)
-        })
-        
+        const device_id = localStorage.getItem('device_id')
+        if(device_id){
+            playArtist(uri)  
+        }
+         
     }
     return (
         <Box

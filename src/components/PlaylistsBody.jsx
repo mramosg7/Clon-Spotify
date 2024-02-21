@@ -1,23 +1,22 @@
 import { Card, CardBody, Image,Heading, Stack,Text, Box, Skeleton, Button } from '@chakra-ui/react'
 import { Link } from 'react-router-dom'
 import { FaPlay } from "react-icons/fa";
-import { useState } from 'react';
-import { useAuthUser } from '../hooks/auth/useAuthUser';
-import { fetchPlay } from '../services/spotify/playerService';
+
 import { useHoverPlayer } from '../hooks/player/useHoverPlayer';
+import { usePlayer } from '../hooks/player/usePlayer';
 
 export default function PlaylistBody({playlists, isLoaded}){
 
     const { hoverCard, buttonAnimation, handleMouseEnter, handleMouseLeave } = useHoverPlayer()
 
-    const {getAccessToken} = useAuthUser()
+    const {play} = usePlayer()
+
     const handleClick = (uri)=>{
         const device_id = localStorage.getItem('device_id')
         if(device_id){
-          getAccessToken().then((tk)=>{
-            fetchPlay(tk,device_id,0,uri)
-          })
+            play(uri)
         }
+       
     }
     return(
         <>

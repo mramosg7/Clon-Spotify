@@ -1,43 +1,41 @@
 import {
     Table,
-    Thead,
+
     Tbody,
-    Tfoot,
+
     Tr,
-    Th,
+
     Td,
-    TableCaption,
+
     TableContainer,
     Image,
-    Box,
+
     Text,
     Heading
   } from '@chakra-ui/react'
 import { useState } from 'react';
 import { usePlayerContext } from '../context/PlayerContext';
 import { IoIosStats } from "react-icons/io";
-import { fetchPlayTopTraks } from "../services/spotify/playerService";
+
 import { FaPlay} from "react-icons/fa";
-import { useAuthUser } from '../hooks/auth/useAuthUser';
+
+import { usePlayer } from '../hooks/player/usePlayer';
 
 export function TopTracks({tracks}){
     console.log(tracks)
-    const {getAccessToken} = useAuthUser()
     const [hoveredTd, setHoveredTd] = useState(null);
     const [tracksSlice, setTracksSlice] = useState(tracks.slice(0,5))
     const [display1, setDisplay1] = useState('none')
     const [display2, setDisplay2] = useState('block')
     const {contextPlayer} = usePlayerContext()
+    const {playCustom} = usePlayer()
 
 
-    const handleClick = (position,uri)=>{
-        console.log(uri)
+    const handleClick = (position)=>{
         const device_id = localStorage.getItem('device_id')
         const uris = tracks.map(track => track.uri)
         if(device_id){
-          getAccessToken().then((tk)=>{
-            fetchPlayTopTraks(tk,device_id,position,uris)
-          })
+          playCustom(uris,position)
         }
     }
 
@@ -78,7 +76,7 @@ export function TopTracks({tracks}){
                             >
                                 <Td borderTopLeftRadius="md" borderBottomLeftRadius="md">
                                 {contextPlayer && contextPlayer.item.id === track.id ? <IoIosStats style={{color:'green', fontSize:'20px'}}/> : 
-                                hoveredTd === track.id ? <FaPlay onClick={()=>{handleClick(index, track.artists[0].uri)}} style={{fontSize:'10px'}}/> : index + 1}
+                                hoveredTd === track.id ? <FaPlay onClick={()=>{handleClick(index)}} style={{fontSize:'10px'}}/> : index + 1}
                                   
                                 </Td>
                                 <Td color='white' display='flex' gap='10px' alignItems='center'>

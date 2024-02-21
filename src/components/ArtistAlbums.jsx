@@ -1,6 +1,6 @@
-import { Heading, Box, Image, Card, CardBody, CardHeader, Stack, Text,Button } from "@chakra-ui/react";
+import { Heading, Box, Image, Card, CardBody, Stack, Text,Button } from "@chakra-ui/react";
 import { FaPlay } from "react-icons/fa";
-import { useRef, useState } from "react";
+
 import { Link } from "react-router-dom";
 import { useAuthUser } from "../hooks/auth/useAuthUser";
 import { fetchPlay } from '../services/spotify/playerService';

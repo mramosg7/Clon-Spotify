@@ -4,11 +4,23 @@ import { Link } from "react-router-dom";
 import { convertirAMinutosYSegundos } from "../functions/convertirTiempo";
 import { FaPlay } from "react-icons/fa";
 import { useHoverPlayer } from "../hooks/player/useHoverPlayer";
+import { usePlayer } from "../hooks/player/usePlayer";
+import { usePlayerContext } from "../context/PlayerContext";
 
 
 export default function SearchTrack({tracks}){
 
     const { hoverCard, buttonAnimation, handleMouseEnter, handleMouseLeave } = useHoverPlayer()
+    const {playCustom} = usePlayer()
+    const {contextPlayer} = usePlayerContext()
+
+    const handleClick = (position)=>{
+        const uris = tracks.map(track => track.uri)
+        const device_id = localStorage.getItem('device_id')
+        if(device_id){
+            playCustom(uris, position)
+        }
+    }
 
     return(
         <>
@@ -39,8 +51,8 @@ export default function SearchTrack({tracks}){
                             }}
                             position='relative'
                             borderRadius='10px'
-                            onMouseEnter={() => handleMouseEnter(tracks.id)}
-                            onMouseLeave={() => handleMouseLeave(tracks.id)}
+                            onMouseEnter={() => handleMouseEnter(tracks[0].id)}
+                            onMouseLeave={() => handleMouseLeave(tracks[0].id)}
                         >
                             <Image 
                                 src={tracks[0].album.images[1] 
@@ -50,7 +62,7 @@ export default function SearchTrack({tracks}){
                                 w='120px'
                                 h='120px'
                             />
-                            {hoverCard === tracks.id && <Button
+                            {hoverCard === tracks[0].id && <Button
                                         borderRadius='full' 
                                         backgroundColor='#1FDF64' 
                                         w='50px' 
@@ -62,6 +74,7 @@ export default function SearchTrack({tracks}){
                                         left='85%' 
                                         transform='translateX(-50%)'
                                         animation={buttonAnimation}
+                                        onClick={()=>{handleClick(0)}}
                                     >
                                         <FaPlay />
                             </Button >}
@@ -71,7 +84,9 @@ export default function SearchTrack({tracks}){
                                 marginTop: '20px',
                                 textOverflow: "ellipsis", 
                                 whiteSpace: "nowrap", 
-                                overflow: "hidden"
+                                overflow: "hidden",
+                                color :contextPlayer.item.id === tracks[0].id ? '#1ED760' : 'white'
+                                
                             }}>{tracks[0].name}</h1>
                             <p style={{
                                 color: 'gray',
@@ -109,7 +124,8 @@ export default function SearchTrack({tracks}){
                                                 <div>
                                                     <h4 style={{
                                                         fontWeight: '600',
-                                                        fontSize: '15px'
+                                                        fontSize: '15px',
+                                                        color :contextPlayer.item.id === track.id ? '#1ED760' : 'white'
                                                     }}>
                                                         {track.name}
                                                     </h4>

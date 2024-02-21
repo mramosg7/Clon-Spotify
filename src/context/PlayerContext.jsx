@@ -21,9 +21,8 @@ export function ProviderContextPlayer({ children }) {
         token = await getAccessToken()
         const data = await fetchGetContext(token)
                 
-            if(data!== undefined){
+            if(data){
                 localStorage.setItem("contextPlayer",JSON.stringify(data))
-                console.log(data)
                 setContextPlayer(data)
             }
         
@@ -41,7 +40,7 @@ export function ProviderContextPlayer({ children }) {
                 window.onSpotifyWebPlaybackSDKReady = () => {
                     const player = new Spotify.Player({
                         name: 'sdk de prueba',
-                        getOAuthToken: cb => { cb(token); },
+                        getOAuthToken: cb => { cb(tk); },
                         volume: 0.2
                     });  
                 
@@ -79,7 +78,6 @@ export function ProviderContextPlayer({ children }) {
                             }
                     });
                     player.connect();
-                    console.log(player)
                     setPlayer(player)
     
                     

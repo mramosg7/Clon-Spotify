@@ -25,6 +25,7 @@ import { useAuthUser } from "../hooks/auth/useAuthUser";
 import { usePlayerContext } from "../context/PlayerContext";
 import { IoIosStats } from "react-icons/io";
 import { convertirAMinutosYSegundos, formatearFecha } from "../functions/convertirTiempo";
+import { usePlayer } from "../hooks/player/usePlayer";
 
 export default function TableMusic({ tracks , uri}) {
 
@@ -35,6 +36,7 @@ export default function TableMusic({ tracks , uri}) {
   const {contextPlayer} = usePlayerContext()
   const [userOwnedPlaylists, setUserOwnedPlaylists] = useState([])
   const [showOptions, setShowOptions] = useState(false)
+  const {play} = usePlayer()
   const [contextMenu, setContextMenu] = useState({
     isVisible: false, 
     position: {
@@ -50,6 +52,7 @@ export default function TableMusic({ tracks , uri}) {
   const user = JSON.parse(userString)
   let userId = null
   if(user) userId = user.id
+
 
   useEffect(() => {
     handleGetUserPlaylists()
@@ -101,9 +104,7 @@ export default function TableMusic({ tracks , uri}) {
   const handleClick = (position)=>{
       const device_id = localStorage.getItem('device_id')
       if(device_id){
-        getAccessToken().then((tk)=>{
-          fetchPlay(tk,device_id,position,uri)
-        })
+        play(uri, position)
       }
   }
 
