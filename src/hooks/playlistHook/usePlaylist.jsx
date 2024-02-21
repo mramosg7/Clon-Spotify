@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { fetchNewPlaylist } from "@spotify/playlistsService.js"
-import { fetchUpdatePlaylist, fetchUpdateImage, fetchGetUserPlaylist, fetchAddTrackToPlaylist } from "../../services/spotify/playlistsService"
+import { fetchUpdatePlaylist, fetchUpdateImage, fetchGetUserPlaylist, fetchAddTrackToPlaylist, fetchRemoveTrackToPlaylist } from "../../services/spotify/playlistsService"
 import { useAuthUser } from "../auth/useAuthUser"
 export const usePlaylist = () => {
   const {getAccessToken} = useAuthUser()
@@ -63,7 +63,7 @@ export const usePlaylist = () => {
         await fetchUpdateImage(accessToken, playlistId, image)
       }
 
-      refreshPlaylists()
+      await handleGetUserPlaylists()
       
     } catch(error) {
       console.error("Error al intentar actualizar la playlist (handleUpdatePlaylist): ", error)
@@ -76,11 +76,25 @@ export const usePlaylist = () => {
       const accessToken = await getAccessToken()
       await fetchAddTrackToPlaylist(accessToken, playlistId, trackUri)
       
-      refreshPlaylists()
+      await handleGetUserPlaylists()
 
     } catch(error) {
       console.error("Error al añadir la cancion a la playlist")
     } 
+  }
+
+  // Eliminar cancion
+  const handleRemoveTrack = async (playlistId, trackUri) => {
+    try {
+
+      const accessToken = await getAccessToken()
+      await fetchRemoveTrackToPlaylist(accessToken, playlistId, trackUri)
+
+      await handleGetUserPlaylists()
+
+    } catch(error) {
+      console.error("Error al eliminar cancion a la playlist")
+    }
   }
 
 
@@ -90,6 +104,7 @@ export const usePlaylist = () => {
     handleAddTrack,
     handleCreatePlaylist,
     handleGetUserPlaylists,
-    handleUpdatePlaylist
+    handleUpdatePlaylist,
+    handleRemoveTrack
   }
 }

@@ -15,12 +15,12 @@ import {
 import { FaPlay} from "react-icons/fa";
 import { MdOutlineAccessTime } from "react-icons/md";
 import { MdKeyboardArrowRight } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { usePlaylist } from "../hooks/playlistHook/usePlaylist";
 import { useEffect, useRef, useState } from "react";
-
+import { FaPlus } from "react-icons/fa6";
 import { fetchPlay } from "../services/spotify/playerService";
-
+import { HiOutlineTrash } from "react-icons/hi2";
 import { useAuthUser } from "../hooks/auth/useAuthUser";
 import { usePlayerContext } from "../context/PlayerContext";
 import { IoIosStats } from "react-icons/io";
@@ -28,7 +28,8 @@ import { convertirAMinutosYSegundos, formatearFecha } from "../functions/convert
 
 export default function TableMusic({ tracks , uri}) {
 
-  const { handleAddTrack, userPlaylists, handleGetUserPlaylists } = usePlaylist()
+  const { handleAddTrack, userPlaylists, handleGetUserPlaylists, handleRemoveTrack } = usePlaylist()
+  const {id} = useParams()
   const [hoveredTd, setHoveredTd] = useState(null);
   const {getAccessToken} = useAuthUser()
   const {contextPlayer} = usePlayerContext()
@@ -83,6 +84,7 @@ export default function TableMusic({ tracks , uri}) {
     setShowOptions(!showOptions)
   }
 
+  const isPlaylistOwned = userOwnedPlaylists.some(playlist => playlist.id === id)
 
   const onRightClickTrack = (event, trackUri) => {
     // Eliminar que se pueda sacar el menu del click derecho por defecto
@@ -108,6 +110,16 @@ export default function TableMusic({ tracks , uri}) {
   const handleSelectPlaylist = (playlistId) => {
     if(contextMenu.trackUri && playlistId) {
       handleAddTrack(playlistId, contextMenu.trackUri)
+      setContextMenu({
+        ...contextMenu,
+        isVisible: false
+      })
+    }
+  }
+
+  const handleDeleteTrack = (playlistId) => {
+    if(contextMenu.trackUri && playlistId) {
+      handleRemoveTrack(playlistId, contextMenu.trackUri)
       setContextMenu({
         ...contextMenu,
         isVisible: false
@@ -244,8 +256,19 @@ export default function TableMusic({ tracks , uri}) {
           display: 'flex',
           alignItems: 'center'
         }} onClick={handleToggleOptions}>
-          Añadir a lista <MdKeyboardArrowRight />
+          <FaPlus style={{marginRight: '10px', color: 'gray'}}/> Añadir a lista <MdKeyboardArrowRight />
         </div>
+        {isPlaylistOwned && (
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            marginTop: '20px'
+          }}
+          onClick={() => handleDeleteTrack(id)}
+          >
+            <HiOutlineTrash  style={{marginRight: '10px', color: 'gray'}}/> Quitar de esta lista 
+          </div>
+        )}
           {showOptions && (
             <div
               style={{

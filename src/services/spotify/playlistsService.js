@@ -159,7 +159,7 @@ export const fetchAddTrackToPlaylist = async (token, playlist_id, trackUri) => {
         const response = await fetch(`${BASE_URL}/playlists/${playlist_id}/tracks`, {
             method: 'POST',
             headers: {
-                'Authorization': `Bearer ${token}`,
+                'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify({
                 'uris': [
@@ -172,5 +172,32 @@ export const fetchAddTrackToPlaylist = async (token, playlist_id, trackUri) => {
         if(!response.ok) throw new Error('Error al añadir la cancion')
     } catch(error) {
         console.error('Error en fetchAddTrackToPlaylist: ', error)
+    }
+}
+
+// Eliminar cancion de playlist
+export const fetchRemoveTrackToPlaylist = async (token, playlist_id, trackUri) => {
+    try {
+        const response = await fetch(`${BASE_URL}/playlists/${playlist_id}/tracks`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({
+                "tracks":[
+                    {
+                        "uri": trackUri
+                    }
+                ]
+            })
+        })
+
+        if(!response.ok) {
+            throw new Error('Error al eliminar la cancion')
+        }
+
+
+    } catch(error) {
+        console.error('Error en fetchRemoveTrackToPlaylist: ', error)
     }
 }

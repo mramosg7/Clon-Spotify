@@ -86,7 +86,7 @@ export const FormPlaylistDetails = () => {
                   h="8.8em"
                   style={{ 
                     zIndex: 1 
-                  }} // Asegura que el input esté en el mismo nivel que la imagen
+                  }}
                 />
                 <Box
                   position="absolute"
