@@ -148,3 +148,18 @@ export const fetchToggleShuffle=async(tk, state, id)=>{
         console.error(e)
     }
 }
+
+
+export const fetchSetRepeatMode= async(tk, device, state)=>{
+    try{
+        const response = await fetch(`${urlBase}/repeat?state=${state}&device_id=${device}`,{
+            method:'put',
+            headers:{
+                "Authorization":`Bearer ${tk}`
+            }
+        })
+        if (!response.ok) throw new Error('Error al cambiar el modo de repeticion')
+    }catch(e){
+        console.log(e)
+    }
+}

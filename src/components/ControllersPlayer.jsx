@@ -18,7 +18,7 @@ import { usePlayer } from "../hooks/player/usePlayer";
 
 export default function ControllersPlayer(){
     const { player, paused, position, contextPlayer } = usePlayerContext();
-    const {toggleShuffle} = usePlayer()
+    const {toggleShuffle, setRepeatMode} = usePlayer()
     const [timePercentage, setTimePercentage] = useState(MillisecondsToPercentage(position, contextPlayer.item.duration_ms))
     
 
@@ -53,6 +53,15 @@ export default function ControllersPlayer(){
    
     }
 
+    const handleSetRepeat = ()=>{
+        let state = 'off'
+        if(contextPlayer.repeat_mode === 'off'){
+            state = 'Context'
+        }else if(contextPlayer.repeat_mode === 'Context'){
+            state = 'track'
+        }
+        setRepeatMode(state)
+    }
     const handleChange=(value)=>{
         setTimePercentage(value)
         console.log('change', value)
@@ -77,8 +86,11 @@ export default function ControllersPlayer(){
                 <Button bg='transparent' p='0' fontSize='30px' color='#bfbfbf' _hover={{ bg: 'transparent', color: 'white' }} onClick={()=>{handlePreviousTrack()}}><BiSkipPrevious /></Button>
                 <Button borderRadius='full' w='45px' h='45px' onClick={()=>{handleTogglePlay()}} >{paused ?  <FaPlay />:<FaPause />}</Button>
                 <Button bg='transparent' p='0' fontSize='30px' color='#bfbfbf' _hover={{ bg: 'transparent', color: 'white' }} onClick={()=>{handleNextTrack()}}><BiSkipNext /></Button>
+                <Button color='white'padding='0px' bg='none'position='relative' _hover={{ bg: 'transparent', color: 'white' }}>
+                    <span style={{ marginTop:'-10px',fontSize:'13px', background:'black',padding:'2px',position:'absolute'}}>1</span>
+                    <TiArrowLoop onClick={handleSetRepeat()}fontSize='25px'/>
+                </Button>
                 
-                <TiArrowLoop fontSize='25px'/>
             </Box>
             <Box display='flex' gap='15px'>
                 <Text>{millisecodsToMinutes(percentageToMilliseconds(timePercentage,contextPlayer.item.duration_ms))}</Text>

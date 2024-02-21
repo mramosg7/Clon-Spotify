@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react"
-import { fetchGetContext, fetchToggleShuffle, fetchTransferPlayback } from "../../services/spotify/playerService";
-import { useAuthUser } from "../auth/useAuthUser";
+
 import { usePlayerContext } from "../../context/PlayerContext";
+import {fetchToggleShuffle, fetchSetRepeatMode } from "../../services/spotify/playerService";
+import { useAuthUser } from "../auth/useAuthUser";
+
 
 
 
@@ -18,9 +19,16 @@ export const usePlayer = ()=>{
         })
     }
 
+    const setRepeatMode=(state)=>{
+        getAccessToken().then((tk)=>{
+            fetchSetRepeatMode(tk, contextPlayer.device.id, state)
+        })
+     
+    }
+
 
     return {
-        contextPlayer,
+        setRepeatMode,
         toggleShuffle
     }
 }
