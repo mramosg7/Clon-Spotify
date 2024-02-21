@@ -2,11 +2,12 @@ import { useEffect, useState } from "react";
 import { fetchGetAlbum } from "@/services/spotify/albumService";
 import DefaultImage from '../../assets/PlaylistDefault.png'
 import { useParams, Link } from "react-router-dom";
-import { Box, Image,Heading,Text } from "@chakra-ui/react";
+import { Box,Heading,Text } from "@chakra-ui/react";
 import {useAuthAPI} from "@/hooks/auth/useAuthAPI"
 import TableMusicAlbum from "../../components/TableMusicAlbum";
 import ArtistAlbums from '../../components/ArtistAlbums'
 import { fetchGetArtistAlbums } from "../../services/spotify/artistService";
+import { PlaylistPlayer } from "../../components/PlaylistPlayer";
 
 export default function Album(){
   
@@ -20,7 +21,7 @@ export default function Album(){
         
             getToken().then((tk)=>{
                 fetchGetAlbum(id,tk).then((data)=>{
-                    console.log(data)
+                   
                     setAlbum(data)
                     fetchGetArtistAlbums(data.artists[0].id, tk).then((data)=>{
                         setArtistAlbums(data.items.slice(0,6))
@@ -81,6 +82,7 @@ export default function Album(){
                             </div>
                         </Box>
                     </header>
+                    <PlaylistPlayer uri={album.uri}/>
                     <section style={{padding: '20px'}}>
                         <TableMusicAlbum  tracks = {album.tracks.items} uri = {album.uri}></TableMusicAlbum>
                     </section>

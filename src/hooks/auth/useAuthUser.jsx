@@ -49,7 +49,7 @@ export const useAuthUser= ()=>{
             }
             return accessToken
         }
-        console.log('hola')
+   
         const urlParams = new URLSearchParams(window.location.search);
         const code = urlParams.get('code');
         const codeVerifier = localStorage.getItem('code_verifier');
@@ -70,9 +70,12 @@ export const useAuthUser= ()=>{
         if(tk){
             return await fetchIdUser(tk)
             .then(data => {
-                localStorage.setItem('user', JSON.stringify(data))
-                setUser(data)
-                setLogged(true)
+                if(data){
+                    localStorage.setItem('user', JSON.stringify(data))
+                    setUser(data)
+                    setLogged(true)
+                }
+               
             })
             .catch(error => {
                 console.error('Error al obtener información del usuario:', error)
@@ -101,13 +104,13 @@ export const useAuthUser= ()=>{
         }
             const data = await fetchRefresh(token,clientId)
             if(data.expires_in && data.access_token && data.refresh_token){
-            localStorage.setItem('expirationAccessToken',Date.now() + data.expires_in * 1000)
-            setExpiration(Date.now() + data.expires_in * 1000)
-            localStorage.setItem('access_token', data.access_token)
-            setAccessToken(data.access_token)
-            localStorage.setItem('refreshToken', data.refresh_token)
+                localStorage.setItem('expirationAccessToken',Date.now() + data.expires_in * 1000)
+                setExpiration(Date.now() + data.expires_in * 1000)
+                localStorage.setItem('access_token', data.access_token)
+                setAccessToken(data.access_token)
+                localStorage.setItem('refreshToken', data.refresh_token)
 
-            return data.access_token
+                return data.access_token
         }
       
     }

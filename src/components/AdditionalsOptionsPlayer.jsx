@@ -136,11 +136,11 @@ export default function AdditionalsOptionsPlayer({context}){
                 {levelVolume ===2 && <FaVolumeLow onClick={()=>{handleMute()}} style={{fontSize:'19px'}}/>}
                 {levelVolume ===1 && <FaVolumeOff onClick={()=>{handleMute()}} style={{fontSize:'19px'}}/>}
                 {levelVolume ===0 && <FaVolumeXmark/>}
-                <Slider aria-label='slider-ex-1' focusThumbOnChange={false} colorScheme="green"  value={volume} onChange={(value)=>{handleChange(value)}} onChangeEnd={()=>{handleChangeEnd()}}>
+                <Slider aria-label='slider-ex-1' focusThumbOnChange={false}  colorScheme="green"  value={volume} onChange={(value)=>{handleChange(value)}} onChangeEnd={()=>{handleChangeEnd()}}>
                     <SliderTrack>
                         <SliderFilledTrack />
                     </SliderTrack>
-                    <SliderThumb />
+                    <SliderThumb boxSize={2.5} />
                 </Slider>
             </Box>
 

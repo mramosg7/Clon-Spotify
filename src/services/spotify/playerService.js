@@ -163,3 +163,24 @@ export const fetchSetRepeatMode= async(tk, device, state)=>{
         console.log(e)
     }
 }
+
+export const fetchPlayArtist = async(token, device, uri)=>{
+    try{
+        const response = await fetch(`${urlBase}/play?device_id=${device}`, {
+            method:'PUT',
+            headers:{
+                "Authorization":`Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                "context_uri": uri,
+                "position_ms": 0
+            })
+        })
+
+        if(!response.ok)throw new Error("No se ha podido reproduccir")
+        
+    }catch(e){
+        console.error(e)
+    }
+}

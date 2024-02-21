@@ -3,10 +3,20 @@ import { Link } from "react-router-dom";
 import DefaultImage from '../assets/PlaylistDefault.png'
 import { useHoverPlayer } from "../hooks/player/useHoverPlayer";
 import { FaPlay } from "react-icons/fa";
+import { usePlayerContext } from "../context/PlayerContext";
+import { fetchPlayArtist } from "../services/spotify/playerService";
+import { useAuthUser } from "../hooks/auth/useAuthUser";
 export default function ArtistasSearch({ artistas }) {
 
     const { hoverCard, buttonAnimation, handleMouseEnter, handleMouseLeave } = useHoverPlayer()
-
+    const {contextPlayer} = usePlayerContext()
+    const {getAccessToken} = useAuthUser()
+    const handleOnClick = (uri)=>{
+        getAccessToken().then((tk)=>{
+            fetchPlayArtist(tk, contextPlayer.device.id,uri)
+        })
+        
+    }
     return (
         <Box
             display='flex'
@@ -55,6 +65,7 @@ export default function ArtistasSearch({ artistas }) {
                                         boxShadow='2xl'
                                         marginLeft='110px' 
                                         animation={buttonAnimation}
+                                        onClick={()=>{handleOnClick(artista.uri)}}
                                     >
                                         <FaPlay />
                             </Button >}

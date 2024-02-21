@@ -56,9 +56,9 @@ export default function ControllersPlayer(){
 
     const handleSetRepeat = ()=>{
         let state = 'off'
-        if(contextPlayer.repeat_mode === 'off'){
-            state = 'Context'
-        }else if(contextPlayer.repeat_mode === 'Context'){
+        if(contextPlayer.repeat_state == 'off'){
+            state = 'context'
+        }else if(contextPlayer.repeat_state == 'context'){
             state = 'track'
         }
         setRepeatMode(state)
@@ -89,8 +89,8 @@ export default function ControllersPlayer(){
                 <Button borderRadius='full' p='8px' focusThumbOnChange={false} w='40px' h='40px' onClick={()=>{handleTogglePlay()}} >{paused ?  <IoPlaySharp style={{textAlign: 'center', fontSize: '20px'}} />:<FaPause style={{textAlign: 'center', fontSize: '20px'}} />}</Button>
                 <Button bg='transparent' p='0' fontSize='30px' color='#bfbfbf' _hover={{ bg: 'transparent', color: 'white' }} onClick={()=>{handleNextTrack()}}><BiSkipNext /></Button>
                 <Button color='white'padding='0px' bg='none'position='relative' _hover={{ bg: 'transparent', color: 'white' }}>
-                    <span style={{ marginTop:'-10px',fontSize:'13px', background:'black',padding:'2px',position:'absolute'}}>1</span>
-                    <TiArrowLoop onClick={handleSetRepeat()}fontSize='25px'/>
+                    {contextPlayer.repeat_state === 'track' && <span style={{ color: '#1ED760',marginTop:'-10px',fontSize:'13px', background:'black',padding:'2px',position:'absolute'}}>1</span>}
+                    <TiArrowLoop style={contextPlayer.repeat_state != 'off' ? {color:'#1ED760'}: null} onClick={()=>{handleSetRepeat()}}fontSize='25px'/>
                 </Button>
                 
             </Box>
