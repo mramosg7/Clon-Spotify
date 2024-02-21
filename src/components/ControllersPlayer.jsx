@@ -1,5 +1,6 @@
-import { FaRandom, FaStepBackward, FaPlay, FaPause } from "react-icons/fa";
+import { FaRandom, FaStepBackward, FaPause } from "react-icons/fa";
 import { BiSkipNext, BiSkipPrevious } from "react-icons/bi";
+import { IoPlaySharp } from "react-icons/io5";
 import { ImLoop } from "react-icons/im";
 import { TiArrowLoop } from "react-icons/ti";
 import { MillisecondsToPercentage, percentageToMilliseconds, millisecodsToMinutes } from "../assets/songFormater";
@@ -70,19 +71,20 @@ export default function ControllersPlayer(){
                 display="flex"
                 gap="10px"
                 alignItems='center'
+                justifyContent='center'
             >
                 
                 <FaRandom cursor='pointer' onClick={()=>{toggleShuffle()}}style={contextPlayer.shuffle_state ? {color: '#1ED760'}: null}/>
               
                 <Button bg='transparent' p='0' fontSize='30px' color='#bfbfbf' _hover={{ bg: 'transparent', color: 'white' }} onClick={()=>{handlePreviousTrack()}}><BiSkipPrevious /></Button>
-                <Button borderRadius='full' w='45px' h='45px' onClick={()=>{handleTogglePlay()}} >{paused ?  <FaPlay />:<FaPause />}</Button>
+                <Button borderRadius='full' p='8px' focusThumbOnChange={false} w='40px' h='40px' onClick={()=>{handleTogglePlay()}} >{paused ?  <IoPlaySharp style={{textAlign: 'center', fontSize: '20px'}} />:<FaPause style={{textAlign: 'center', fontSize: '20px'}} />}</Button>
                 <Button bg='transparent' p='0' fontSize='30px' color='#bfbfbf' _hover={{ bg: 'transparent', color: 'white' }} onClick={()=>{handleNextTrack()}}><BiSkipNext /></Button>
                 
                 <TiArrowLoop fontSize='25px'/>
             </Box>
             <Box display='flex' gap='15px'>
                 <Text>{millisecodsToMinutes(percentageToMilliseconds(timePercentage,contextPlayer.item.duration_ms))}</Text>
-                <Slider aria-label='slider-ex-1' focusThumbOnChange={false} _hover={{ colorScheme: '#1ED760' }} colorScheme="#1ED760" value={timePercentage} onChange={(value)=>{handleChange(value)}} onChangeEnd={()=>{handleMouseUp()}} >
+                <Slider aria-label='slider-ex-1' sx={{ width: "600px" }} focusThumbOnChange={false} colorScheme="green" value={timePercentage} onChange={(value)=>{handleChange(value)}} onChangeEnd={()=>{handleMouseUp()}} >
                     <SliderTrack >
                         <SliderFilledTrack  />
                     </SliderTrack >

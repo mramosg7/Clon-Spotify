@@ -61,6 +61,7 @@ export default function Player(){
                    color="white"
                    display="flex"
                    justifyContent="space-between"
+                   alignItems='center'
                    width="100%"
                    height="10vh"
                    padding="20px"
