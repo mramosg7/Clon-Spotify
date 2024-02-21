@@ -15,15 +15,10 @@ export const Biblioteca = () => {
 
   const { handleGetUserPlaylists, handleCreatePlaylist, isCreating, userPlaylists } = usePlaylist()
   const { isLogged } = useAuthUser()
-  const [ refreshPlaylistGrid, setRefreshPlaylistGrid ] = useState(false) 
 
   useEffect(() => {
     if(isLogged)  handleGetUserPlaylists()
   }, [isLogged])
-
-  useEffect(() => {
-    setRefreshPlaylistGrid(prev => !prev)
-  }, [userPlaylists])
 
 
   return (
@@ -67,7 +62,7 @@ export const Biblioteca = () => {
           h='95%'
           overflow='auto'
         >
-        {(isLogged || refreshPlaylistGrid)? (
+        {isLogged ? (
           userPlaylists.length > 0 ? (
           <PlaylistGrid 
             userPlaylists={userPlaylists}
