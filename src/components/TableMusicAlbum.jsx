@@ -82,7 +82,7 @@ export default function TableMusicAlbum({tracks, uri}){
                   </Td>
                             <Td color='white' display='flex' gap='10px' alignItems='center'>
                                 <div>
-                                    <h4>{track.name}</h4>
+                                    <h4 style={{ color :contextPlayer.item.id === track.id ? '#1ED760' : 'white'}}>{track.name}</h4>
                                     <Box
                                         display='flex'
                                     >

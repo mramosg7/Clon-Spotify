@@ -86,7 +86,7 @@ export function TopTracks({tracks}){
                                         w='50px'
                                     />
                                     <div>
-                                        <h4>{track.name}</h4>
+                                        <h4 style={{color :contextPlayer.item.id === track.id ? '#1ED760' : 'white'}}>{track.name}</h4>
                                     </div>  
                                 </Td>
                                 <Td>{track.duration_ms}</Td>
