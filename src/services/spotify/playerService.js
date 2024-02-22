@@ -9,6 +9,7 @@ export const fetchGetContext= async(token)=>{
         })
 
         if(!response.ok) throw Error("No se ha podido sacar el context")
+        console.log('response:',response)
         const data = await response.json()
         return data;
     }catch(error){
@@ -159,6 +160,7 @@ export const fetchSetRepeatMode= async(tk, device, state)=>{
             }
         })
         if (!response.ok) throw new Error('Error al cambiar el modo de repeticion')
+        return
     }catch(e){
         console.log(e)
     }

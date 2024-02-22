@@ -8,9 +8,7 @@ import {
   TableContainer,
   Image,
   Box,
-  Text,
-  Button,
-  color,
+  Text
 } from "@chakra-ui/react";
 import { FaPlay} from "react-icons/fa";
 import { MdOutlineAccessTime } from "react-icons/md";
@@ -19,7 +17,7 @@ import { Link, useParams } from "react-router-dom";
 import { usePlaylist } from "../hooks/playlistHook/usePlaylist";
 import { useEffect, useRef, useState } from "react";
 import { FaPlus } from "react-icons/fa6";
-import { fetchPlay } from "../services/spotify/playerService";
+
 import { HiOutlineTrash } from "react-icons/hi2";
 import { useAuthUser } from "../hooks/auth/useAuthUser";
 import { usePlayerContext } from "../context/PlayerContext";
@@ -32,7 +30,7 @@ export default function TableMusic({ tracks , uri}) {
   const { handleAddTrack, userPlaylists, handleGetUserPlaylists, handleRemoveTrack } = usePlaylist()
   const {id} = useParams()
   const [hoveredTd, setHoveredTd] = useState(null);
-  const {getAccessToken} = useAuthUser()
+
   const [trackss, setTrackss] = useState(tracks)
   const {contextPlayer} = usePlayerContext()
   const [userOwnedPlaylists, setUserOwnedPlaylists] = useState([])
@@ -200,7 +198,7 @@ export default function TableMusic({ tracks , uri}) {
                 onMouseLeave={()=>{setHoveredTd(null)}}
               >   
                 <Td borderTopLeftRadius="md" borderBottomLeftRadius="md">
-                  {contextPlayer && contextPlayer.item.id === track.track.id ? <IoIosStats style={{color:'green', fontSize:'20px'}}/> : 
+                  {contextPlayer && contextPlayer.item.id === track.track.id ? <IoIosStats style={{color:'#1ED760', fontSize:'20px'}}/> : 
                   hoveredTd === track.track.id ? <FaPlay onClick={()=>{handleClick(index)}} style={{fontSize:'10px'}}/> : index + 1}
                   
                 </Td>
@@ -211,7 +209,7 @@ export default function TableMusic({ tracks , uri}) {
                     w="50px"
                   />
                   <div>
-                  <h4 style={(contextPlayer && contextPlayer.item.id === track.track.id) ? {color:"green"}: null}>
+                  <h4 style={(contextPlayer && contextPlayer.item.id === track.track.id) ? {color:'#1ED760'}: null}>
                     {track.track.name}
                   </h4>
                     <Box display="flex">

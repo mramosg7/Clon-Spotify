@@ -22,7 +22,7 @@ export default function ControllersPlayer(){
     const {toggleShuffle, setRepeatMode} = usePlayer()
     const [timePercentage, setTimePercentage] = useState(MillisecondsToPercentage(position, contextPlayer.item.duration_ms))
     
-
+    console.log(contextPlayer)
    useEffect(()=>{
     setTimePercentage(prevPercentage => MillisecondsToPercentage(position, contextPlayer.item.duration_ms))
     
@@ -61,6 +61,7 @@ export default function ControllersPlayer(){
         }else if(contextPlayer.repeat_state == 'context'){
             state = 'track'
         }
+        console.log(state)
         setRepeatMode(state)
     }
     const handleChange=(value)=>{

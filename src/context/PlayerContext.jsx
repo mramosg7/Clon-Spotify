@@ -18,9 +18,9 @@ export function ProviderContextPlayer({ children }) {
             miError.code = 403;
             throw miError
         }
-        token = await getAccessToken()
-        const data = await fetchGetContext(token)
-                
+        const tk = await getAccessToken()
+        const data = await fetchGetContext(tk)
+        console.log(data)
             if(data){
                 localStorage.setItem("contextPlayer",JSON.stringify(data))
                 setContextPlayer(data)

@@ -21,6 +21,7 @@ export const usePlayer = ()=>{
 
     const setRepeatMode=(state)=>{
         getAccessToken().then((tk)=>{
+            console.log(state)
             fetchSetRepeatMode(tk, contextPlayer.device.id, state)
         })
      

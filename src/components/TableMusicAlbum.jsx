@@ -77,7 +77,7 @@ export default function TableMusicAlbum({tracks, uri}){
                             onMouseLeave={()=>{setHoveredTd(null)}}
                             
                         >
-                            <Td borderTopLeftRadius="md" borderBottomLeftRadius="md">{contextPlayer && contextPlayer.item.id === track.id ? <IoIosStats style={{color:'green', fontSize:'20px'}}/> : 
+                            <Td borderTopLeftRadius="md" borderBottomLeftRadius="md">{contextPlayer && contextPlayer.item.id === track.id ? <IoIosStats style={{color:'#1ED760', fontSize:'20px'}}/> : 
                   hoveredTd === track.id ? <FaPlay onClick={()=>{handleClick(index)}} style={{fontSize:'10px'}}/> : index + 1}
                   </Td>
                             <Td color='white' display='flex' gap='10px' alignItems='center'>
