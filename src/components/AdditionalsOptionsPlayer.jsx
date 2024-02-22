@@ -25,7 +25,7 @@ import {
     
   } from '@chakra-ui/react'
   import { LuLaptop2 } from "react-icons/lu";
-import { useEffect, useState } from "react";
+import React,{ useEffect, useState } from "react";
 import { fetchSetVolume, fetchGetDevices } from "../services/spotify/playerService";
 import { usePlayerContext } from "../context/PlayerContext";
 import { useAuthUser } from "../hooks/auth/useAuthUser";
@@ -105,7 +105,7 @@ export default function AdditionalsOptionsPlayer({context}){
                         <p style={{margin: '10px 0px'}}>Seleccionar otro dispositivo</p>
                        <Box display='flex' flexDirection='column' gap='20px'>
                             {devices.map((device=>(
-                                <>
+                                <React.Fragment key = {device.id}>
                                  {device.id != context.device.id && 
                                     <Box 
                                     onClick={()=>{
@@ -122,7 +122,7 @@ export default function AdditionalsOptionsPlayer({context}){
                                         <p>{device.name}</p>
                                     </Box>
                                 }
-                                </>
+                                </React.Fragment>
                                 
                                
                             )))}

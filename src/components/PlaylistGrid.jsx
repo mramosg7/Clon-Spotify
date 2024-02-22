@@ -66,7 +66,7 @@ export const PlaylistGrid = ({ userPlaylists }) => {
         
         justifyContent='center'>
         {userPlaylists.map((playlist) => (
-          <React.Fragment key={playlist.id} >
+         
             <GridItem
               onContextMenu={(e) => onRightClickPlaylist(e, playlist.id)}
               w="100%"
@@ -81,6 +81,7 @@ export const PlaylistGrid = ({ userPlaylists }) => {
               _hover={{
                 bg: "#1B1B1B",
               }}
+              key={playlist.id}
             >
               <Link to={`/playlist/${playlist.id}`}>
                 <img
@@ -107,7 +108,7 @@ export const PlaylistGrid = ({ userPlaylists }) => {
                 </Box>
               </Link>
             </GridItem>
-          </React.Fragment>
+         
         ))}
       </Grid>
       {contextMenu.isVisible && (
