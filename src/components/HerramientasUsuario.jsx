@@ -10,7 +10,7 @@ export const HerramientasUsuario = () => {
         <Box
             p='14px 8px'
             bg='#131213'
-            w='25em'
+            maxW='30em'
             minH='100px'
             borderRadius='7px'
             boxSizing="border-box"

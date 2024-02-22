@@ -160,7 +160,7 @@ export const fetchSetRepeatMode= async(tk, device, state)=>{
             }
         })
         if (!response.ok) throw new Error('Error al cambiar el modo de repeticion')
-        return
+        
     }catch(e){
         console.log(e)
     }

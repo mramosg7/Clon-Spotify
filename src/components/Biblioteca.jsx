@@ -26,7 +26,7 @@ export const Biblioteca = () => {
       <Box
         p="15px 10px"
         bg="#131213"
-        w="25em"
+        maxW="30em"
         h="79%"
         borderRadius="7px"
         marginTop="10px"

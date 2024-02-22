@@ -57,7 +57,14 @@ export const PlaylistGrid = ({ userPlaylists }) => {
 
   return (
     <>
-      <Grid gap={2} templateColumns="repeat(3, 1fr)">
+      <Grid gap={2} templateColumns={{
+        base: "repeat(1, 130px)",
+        sm: "repeat(1, 130px)",
+        md: "repeat(2, 130px)",
+        lg: "repeat(3, 130px)",
+        }}
+        
+        justifyContent='center'>
         {userPlaylists.map((playlist) => (
           <React.Fragment key={playlist.id} >
             <GridItem
