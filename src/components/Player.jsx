@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { usePlayer } from "../hooks/player/usePlayer"
+
 import { Box, Button } from "@chakra-ui/react"
 import InfoPlayer from "../components/InfoPlayer"
 import ControllersPlayer from "./ControllersPlayer"
@@ -12,7 +12,7 @@ export default function Player(){
     const [errorNoLog, setErrorNoLog] = useState(false)
     const [Loading, setLoading] = useState(true)
     const {getAccessToken} = useAuthUser()
-    const { player, paused, position, contextPlayer, getContextPlayer, setPosition } = usePlayerContext();
+    const { contextPlayer, getContextPlayer, setPosition } = usePlayerContext();
 
     useEffect(()=>{
             getAccessToken().then((tk)=>{
@@ -22,7 +22,7 @@ export default function Player(){
                 }) 
                 .catch((e)=>{
                     setErrorNoLog(true)
-                    console.log(e)
+                 
                 })
                 .finally(()=>{
                     setLoading(false)

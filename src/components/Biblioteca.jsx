@@ -8,7 +8,7 @@ import { usePlaylist } from "../hooks/playlistHook/usePlaylist"
 import { PlaylistGrid } from "./PlaylistGrid"
 import { FirstPlaylist } from "./FirstPlaylist"
 import { useAuthUser } from "../hooks/auth/useAuthUser"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 
 
 export const Biblioteca = () => {

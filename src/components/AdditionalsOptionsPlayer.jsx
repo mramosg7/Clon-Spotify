@@ -2,7 +2,7 @@
 import { CgDetailsMore } from "react-icons/cg";
 import { MdComputer } from "react-icons/md";
 import { BsSoundwave } from "react-icons/bs";
-import { FaVolumeHigh,FaVolumeLow, FaVolumeOff,FaVolumeXmark,FaComputer,FaMobileScreen } from "react-icons/fa6";
+import { FaVolumeHigh,FaVolumeLow, FaVolumeOff,FaVolumeXmark,FaMobileScreen } from "react-icons/fa6";
 import { fetchTransferPlayback } from "../services/spotify/playerService";
 import {
     Box,
@@ -10,24 +10,23 @@ import {
     SliderTrack,
     SliderFilledTrack,
     SliderThumb,
-    SliderMark,
+
     Popover,
     PopoverTrigger,
     PopoverContent,
     PopoverHeader,
     PopoverBody,
-    PopoverFooter,
+
     PopoverArrow,
-    PopoverCloseButton,
-    PopoverAnchor,
+
     Button,
-    Portal,
+
     
   } from '@chakra-ui/react'
   import { LuLaptop2 } from "react-icons/lu";
 import React,{ useEffect, useState } from "react";
 import { fetchSetVolume, fetchGetDevices } from "../services/spotify/playerService";
-import { usePlayerContext } from "../context/PlayerContext";
+
 import { useAuthUser } from "../hooks/auth/useAuthUser";
 
 export default function AdditionalsOptionsPlayer({context}){
@@ -36,7 +35,7 @@ export default function AdditionalsOptionsPlayer({context}){
     const [levelVolume,setLevelVolume] = useState(2)
     const [devices, setDevices] = useState([])
     const {getAccessToken} = useAuthUser()
-    console.log(devices)
+
 
     useEffect(()=>{
         getAccessToken().then((tk)=>{

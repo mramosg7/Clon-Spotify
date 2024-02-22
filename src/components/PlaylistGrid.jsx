@@ -36,7 +36,8 @@ export const PlaylistGrid = ({ userPlaylists }) => {
   }
 
   useEffect(() => {
-    const handleClick = () =>
+    if (contextMenu.isVisible){
+      const handleClick = () =>
       setContextMenu({
         isVisible: false,
         position: {
@@ -45,11 +46,13 @@ export const PlaylistGrid = ({ userPlaylists }) => {
         },
         playlistId: null,
       })
-    document.addEventListener("click", handleClick)
+      document.addEventListener("click", handleClick)
 
-    // Limpirar listener
-    return () => document.removeEventListener("click", handleClick)
-  }, [])
+      // Limpirar listener
+      return () => document.removeEventListener("click", handleClick)
+    }
+    
+  }, [contextMenu.isVisible])
 
   const editar = (id) => {
     navigate(`/playlist/editar/${id}`)
