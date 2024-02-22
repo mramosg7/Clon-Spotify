@@ -65,6 +65,9 @@ export default function TableMusic({ tracks , uri}) {
     setUserOwnedPlaylists(ownedPlaylists)
   }, [userPlaylists, userId])
 
+  useEffect(()=>{
+    setTrackss(tracks)
+  },[tracks])
   useEffect(() => {
 
     // Cerrar el menu al hacer clic fuera
