@@ -2,28 +2,20 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import{useAuthAPI} from '@/hooks/auth/useAuthAPI.jsx'
 import { fetchDetailsPlaylist } from '@spotify/playlistsService.js'
-import { Box, Image,Heading, Button } from '@chakra-ui/react'
+import { Box,Heading } from '@chakra-ui/react'
 import TableMusic from "../../components/TableMusic";
 import DefaultImage from '../../assets/PlaylistDefault.png'
-import { useAuthUser } from "../../hooks/auth/useAuthUser";
-import { fetchPlay } from "../../services/spotify/playerService";
+
 import { PlaylistPlayer } from "../../components/PlaylistPlayer";
 
 export default function Playlist(){
     const {id} = useParams()
     const [playlist, setPlaylist] = useState()
     const [isLoading, setLoading] = useState(true)
-    const { getAccessToken } = useAuthUser()
+
     const {getToken} = useAuthAPI()
 
-    const handleClick = (uri)=>{
-        const device_id = localStorage.getItem('device_id')
-        if(device_id){
-          getAccessToken().then((tk)=>{
-            fetchPlay(tk,device_id,0,uri)
-          })
-        }
-    }
+
     
     useEffect(()=>{    
             getToken().then((tk)=>{

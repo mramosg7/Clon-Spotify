@@ -33,6 +33,7 @@ export default function TableMusic({ tracks , uri}) {
   const {id} = useParams()
   const [hoveredTd, setHoveredTd] = useState(null);
   const {getAccessToken} = useAuthUser()
+  const [trackss, setTrackss] = useState(tracks)
   const {contextPlayer} = usePlayerContext()
   const [userOwnedPlaylists, setUserOwnedPlaylists] = useState([])
   const [showOptions, setShowOptions] = useState(false)
@@ -52,7 +53,7 @@ export default function TableMusic({ tracks , uri}) {
   const user = JSON.parse(userString)
   let userId = null
   if(user) userId = user.id
-
+  
 
   useEffect(() => {
     handleGetUserPlaylists()
@@ -121,6 +122,8 @@ export default function TableMusic({ tracks , uri}) {
   const handleDeleteTrack = (playlistId) => {
     if(contextMenu.trackUri && playlistId) {
       handleRemoveTrack(playlistId, contextMenu.trackUri)
+      setTrackss(prevTracks => prevTracks.filter(track => track.track.uri != contextMenu.trackUri))
+      
       setContextMenu({
         ...contextMenu,
         isVisible: false
@@ -180,7 +183,7 @@ export default function TableMusic({ tracks , uri}) {
           </Thead>
 
           <Tbody color="#A9A9A9">
-            {tracks.map((track, index) => (
+            {trackss.map((track, index) => (
               <Tr
                 onContextMenu={(e) => onRightClickTrack(e, track.track.uri)}
                 key={track.track.id}
@@ -192,7 +195,7 @@ export default function TableMusic({ tracks , uri}) {
                 
                 onMouseEnter={()=>{setHoveredTd(track.track.id)}}
                 onMouseLeave={()=>{setHoveredTd(null)}}
-              >
+              >   
                 <Td borderTopLeftRadius="md" borderBottomLeftRadius="md">
                   {contextPlayer && contextPlayer.item.id === track.track.id ? <IoIosStats style={{color:'green', fontSize:'20px'}}/> : 
                   hoveredTd === track.track.id ? <FaPlay onClick={()=>{handleClick(index)}} style={{fontSize:'10px'}}/> : index + 1}
