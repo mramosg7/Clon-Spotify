@@ -20,6 +20,7 @@ import { IoIosStats } from "react-icons/io";
 import { FaPlay} from "react-icons/fa";
 
 import { usePlayer } from '../hooks/player/usePlayer';
+import { convertirAMinutosYSegundos } from '../functions/convertirTiempo';
 
 export function TopTracks({tracks}){
     console.log(tracks)
@@ -39,18 +40,6 @@ export function TopTracks({tracks}){
         }
     }
 
-    function convertirAMinutosYSegundos(tiempoTotal) {
-        const tiempoTotalEnSegundos = tiempoTotal / 1000;
-
-        const minutos = Math.floor(tiempoTotalEnSegundos / 60);
-        const segundos = Math.floor(tiempoTotalEnSegundos % 60);
-
-        // Formatea los minutos y segundos
-       
-        const segundosFormateados = segundos < 10 ? `0${segundos}` : segundos;
-
-        return `${minutos}:${segundosFormateados}`;
-      }
 
    
     return(

@@ -1,7 +1,7 @@
 import { Box, Button, FormControl, FormLabel, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Textarea, useDisclosure } from "@chakra-ui/react"
 import { usePlaylist } from "../hooks/playlistHook/usePlaylist"
 import { useState } from "react"
-import { useNavigate, useParams } from "react-router-dom"
+import { useLocation, useNavigate, useParams } from "react-router-dom"
 import { IoClose } from "react-icons/io5";
 import DefaultImage from "../assets/PlaylistDefault.png";
 

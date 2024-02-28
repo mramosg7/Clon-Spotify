@@ -25,6 +25,7 @@ export const HeaderBody = ({isLogged, user, logout}) => {
   const search=(key)=>{
     navigate(`/search/${key}`);
   }
+  
   return (
     <Box
         display='flex'

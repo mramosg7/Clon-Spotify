@@ -66,6 +66,7 @@ export default function TableMusic({ tracks , uri}) {
   useEffect(()=>{
     setTrackss(tracks)
   },[tracks])
+  
   useEffect(() => {
 
     // Cerrar el menu al hacer clic fuera

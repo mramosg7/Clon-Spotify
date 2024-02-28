@@ -7,6 +7,7 @@ import { TopTracks } from "../../components/TopTracks";
 import ArtistAlbums from "@/components/ArtistAlbums"
 import DefaultImage from '../../assets/PlaylistDefault.png'
 export default function Artist(){
+    
     const {id} = useParams()
     const [artist, setArtist] = useState(null)
     const [topTracks, setTopTracks] = useState(null)

@@ -94,7 +94,7 @@ export default function TableMusicAlbum({tracks, uri}){
                                                         color:'white',
                                                         textDecoration:'underline'
                                                     }}
-                                                >{index != 0 ? ', ' : ''}{a.name}</Text>
+                                                >{index !== 0 ? ', ' : ''}{a.name}</Text>
                                             </Link>
                                         ))}
                                     </Box>

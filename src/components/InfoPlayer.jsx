@@ -29,7 +29,7 @@ export default function InfoPlayer({info}){
                             color:'white',
                             textDecoration:'underline'
                         }}
-                    > {index!=0 ? ", " : ""} <Link to={`/artist/${artist.id}`}>{artist.name}</Link></Text>
+                    > {index!==0 ? ", " : ""} <Link to={`/artist/${artist.id}`}>{artist.name}</Link></Text>
                 
                 ))}</Box>
             </div>

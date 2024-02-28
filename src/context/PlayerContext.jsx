@@ -92,6 +92,7 @@ export function ProviderContextPlayer({ children }) {
         }
         
     },[])
+    
   const value = {
     player,
     paused,

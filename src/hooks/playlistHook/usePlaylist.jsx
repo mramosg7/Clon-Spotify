@@ -63,7 +63,7 @@ export const usePlaylist = () => {
         await fetchUpdateImage(accessToken, playlistId, image)
       }
 
-      await handleGetUserPlaylists()
+      window.location.reload()
       
     } catch(error) {
       console.error("Error al intentar actualizar la playlist (handleUpdatePlaylist): ", error)
@@ -76,7 +76,7 @@ export const usePlaylist = () => {
       const accessToken = await getAccessToken()
       await fetchAddTrackToPlaylist(accessToken, playlistId, trackUri)
       
-      await handleGetUserPlaylists()
+      window.location.reload()
 
     } catch(error) {
       console.error("Error al añadir la cancion a la playlist")
@@ -90,7 +90,7 @@ export const usePlaylist = () => {
       const accessToken = await getAccessToken()
       await fetchRemoveTrackToPlaylist(accessToken, playlistId, trackUri)
 
-      await handleGetUserPlaylists()
+      window.location.reload()
 
     } catch(error) {
       console.error("Error al eliminar cancion a la playlist")

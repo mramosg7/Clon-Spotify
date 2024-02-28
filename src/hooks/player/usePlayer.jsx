@@ -5,9 +5,7 @@ import { useAuthUser } from "../auth/useAuthUser";
 
 
 
-
-
-export const usePlayer = ()=>{
+export const usePlayer = () => {
     
     const {getAccessToken} = useAuthUser()
     const {contextPlayer} = usePlayerContext()
